@@ -1,0 +1,170 @@
+
+#!/bin/bash
+
+#-------------------------------------------------------------------------------
+# ai-b-uefi
+# Appelé par ai-b-ic
+#
+# Script d'installation en mode UEFI
+# et ne fonctionne qu'avec la langue FR (fr_FR)
+#
+#-------------------------------------------------------------------------------
+
+    #INSTALL BOOTLOADER {{{
+    install_bootloader() {
+        print_title "PROCESSUS DE BOOT - https://wiki.archlinux.org/index.php/UEFI_Bootloaders"
+        print_info "Le chargeur de démarrage est responsable du chargement du noyau et du disque virtuel initial avant de lancer le processus de démarrage."
+        # Achitecture du PC
+        if [[ $ARCHI == i686 ]]; then
+            ARCHI_REFIND="ia32"
+        else
+            ARCHI_REFIND="x64"
+        fi
+        # Détermine le rep d'installation de arch
+        if [[ -d /boot/efi/EFI ]]; then
+            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | wc -l`)
+            if [[ $number_of_arch_first -eq 0 ]]; then
+                NAME_DIR_ARCHLINUX="arch"
+                IS_MULTI_BOOT_UEFI=0
+            else
+                digit_of_arch_after=$(( $number_of_arch_first + 1 ))
+                NAME_DIR_ARCHLINUX="arch_${digit_of_arch_after}"
+                IS_MULTI_BOOT_UEFI=1
+            fi
+        else
+            NAME_DIR_ARCHLINUX="arch"
+            IS_MULTI_BOOT_UEFI=0
+        fi
+        DIR_EFI_ARCHLINUX="/boot/efi/EFI/${NAME_DIR_ARCHLINUX}"
+        print_info_cyan "Le répertoire d'installation de Arch Linux sera ${DIR_EFI_ARCHLINUX}."
+        # INSCRIT NAME_DIR_ARCHLINUX DANS name_dir_archlinux.uefi
+        echo "name_dir_archlinux=${NAME_DIR_ARCHLINUX}" > /root/name_dir_archlinux.uefi
+        # Choix du Manager de Boot
+        manager_boot=("REFIND (refind_x64.efi)" "BOOT (bootx64.efi)" "MICROSOFT (bootmgfw.efi)");
+        PS3="$prompt1"
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            print_warning "\nDans VirtualBox : CHOISIR BOOT (bootx64.efi)."
+        fi
+        echo -e "\nSélectionner le Manager de Boot ( rEFInd, boot ou Microsoft ) :"
+        select OPT in "${manager_boot[@]}"; do
+            case "$REPLY" in
+                1)
+                    MGR_EFI="refind"
+                    NAME_DIR_EFI="/boot/efi/EFI/refind"
+                    NAME_DIR_MGR_EFI="/EFI/refind/refind_${ARCHI_REFIND}.efi"
+                    break
+                    ;;
+                2)
+                    MGR_EFI="boot"
+                    NAME_DIR_EFI="/boot/efi/EFI/BOOT"
+                    NAME_DIR_MGR_EFI="/EFI/BOOT/boot${ARCHI_REFIND}.efi"
+                    break
+                    ;;
+                3)
+                    MGR_EFI="microsoft"
+                    NAME_DIR_EFI="/boot/efi/EFI/Microsoft/Boot"
+                    NAME_DIR_MGR_EFI="/EFI/Microsoft/Boot/bootmgfw.efi"
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+        print_info_cyan "Le répertoire d'installation du Manager de Boot sera ${NAME_DIR_EFI}."
+        # INSCRIT CHOIX DANS name_dir_archlinux.uefi
+        echo "name_mgr_efi=${MGR_EFI}" >> /root/name_dir_archlinux.uefi
+        # Installation de rEFInd
+        print_info_cyan "Installation de rEFInd."
+        pacman -Syu refind-efi
+        # Kernels
+        echo -e "\n"
+        mkdir -p ${DIR_EFI_ARCHLINUX}
+        cp -v /boot/vmlinuz-linux ${DIR_EFI_ARCHLINUX}/vmlinuz-${NAME_DIR_ARCHLINUX}.efi
+        cp -v /boot/initramfs-linux.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}.img
+        cp -v /boot/initramfs-linux-fallback.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}-fallback.img
+        echo -e "\n"        
+        cp -v /usr/share/refind/refind_linux.conf-sample ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+        echo -e "\n"        
+        # rEFInd : si 1ere installation
+        if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+            mkdir -p ${NAME_DIR_EFI}
+            cp -v /usr/share/refind/refind_${ARCHI_REFIND}.efi /boot/efi${NAME_DIR_MGR_EFI}
+            cp -v /usr/share/refind/refind.conf-sample ${NAME_DIR_EFI}/refind.conf
+            cp -R /usr/share/refind/icons ${NAME_DIR_EFI}/icons
+        else
+            print_info_cyan "MULTI BOOT UEFI : Pas d'installation de Manager de Boot."
+            # Installe icone
+            cp -v ${NAME_DIR_EFI}/icons/os_arch.icns ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.icns
+        fi
+        pause_function
+    }
+    #}}}
+    #CONFIGURE BOOTLOADER {{{
+    configure_bootloader() {
+        print_title "rEFInd - https://wiki.archlinux.org/index.php/UEFI_Bootloaders#Using_rEFInd"
+        print_info "rEFInd, écrit par Rod Smith, prend en charge le démarrage des noyaux EFISTUB et contient certaines caractéristiques qui leur sont propres"
+        #
+        if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+            print_info_cyan "Configuration de refind.conf."
+            sed -i "/^timeout/c\timeout 3" ${NAME_DIR_EFI}/refind.conf
+            sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot" ${NAME_DIR_EFI}/refind.conf
+            sed -i "/^#dont_scan_files/c\dont_scan_files shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
+        else
+            print_info_cyan "MULTI BOOT UEFI : Pas de configuration de refind.conf."
+        fi
+        #
+        print_info_cyan "Configuration de refind_linux.conf."
+        partroot=(`echo $ROOT | sed 's/\/dev\///'`)
+        partuuid=(`ls -l /dev/disk/by-partuuid | awk '/'$partroot'/ {print $9}'`)
+        sed -i "/^\"Boot/d;/^$/d" ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+        # ROOT_FS_TYPE=ext4
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+        else
+            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+        fi
+        #
+        if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+            print_info_cyan "Configuration du manager de Boot."
+            numpartefi=(`echo $EFI_DEVICE | sed 's/\/dev\/sd[a-z]//'`)
+            # https://wiki.archlinux.org/index.php/Beginners%27_Guide#For_UEFI_motherboards 12/10/2013
+            # Si /sys/firmware/efi/efivars n'est pas déjà monté.
+            # Voir modifs  arch-install-scripts
+            if [[ ! -d "/sys/firmware/efi/efivars" ]]; then
+                mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+            fi
+            #
+            efibootmgr -c -d ${ROOT_DEVICE} -p ${numpartefi} -l ${NAME_DIR_MGR_EFI} -L "rEFInd ArchLinux"
+        else
+            print_info_cyan "MULTI BOOT UEFI : Pas de configuration du manager de Boot."
+        fi
+        #
+        print_info_cyan "Installation de efistub_update.service."
+        cp -v ai-fconfig/efi-services/efistub_update.path /etc/systemd/system/efistub_update.path
+        cp -v ai-fconfig/efi-services/efistub_update.service /etc/systemd/system/efistub_update.service
+        sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/efistub_update.service
+        echo -e "\n"
+        systemctl enable efistub_update.path
+        #
+        if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+            print_info_cyan "Installation d'un Shell UEFI et création du script utilisé par le Shell UEFI."
+            wget https://edk2.svn.sourceforge.net/svnroot/edk2/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi
+            # OU
+            # cp -v /run/archiso/bootmnt/EFI/shellx64_v2.efi /boot/efi/shellx64.efi
+            cp -v Shell.efi /boot/efi/shellx64.efi
+            echo "echo -on" > /boot/efi/archlinux.nsh
+            echo "\EFI\arch\vmlinuz-arch.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch/initramfs-arch.img" >> /boot/efi/archlinux.nsh
+            print_info_cyan "Contenu du script utilisé par le Shell UEFI :"
+            cat /boot/efi/archlinux.nsh
+        else
+            print_info_cyan "MULTI BOOT UEFI : Pas d'installation d'un Shell UEFI."
+        fi
+        pause_function
+    }
+    #}}}
+

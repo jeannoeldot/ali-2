@@ -1,0 +1,771 @@
+
+#!/bin/bash
+
+#-------------------------------------------------------------------------------
+# ai-ob
+# Appelé par ai-de
+#
+# Ce script installe OPENBOX
+# et ne fonctionne qu'avec la langue FR (fr_FR)
+#
+#-------------------------------------------------------------------------------
+
+#ARCHLINUX INSTALL
+    # 15 DESKTOP ENVIRONMENT {{{
+    install_desktop_environment() {
+        install_display_manager() { #{{{
+	    # SLIM
+	    package_install "slim"
+	    systemctl enable slim.service
+#	    pause_function
+        } #}}}
+        # OPENBOX {{{
+        print_title "OPENBOX - http://wiki.archlinux.org/index.php/Openbox"
+        print_info "Openbox est un gestionnaire de fenêtres très léger, simple et configurable."
+        package_install "openbox obconf obmenu menumaker openbox-themes xcursor-themes"
+        #
+        print_info_cyan "Installation de xdg-user-dirs."
+        package_install "xdg-user-dirs python2-xdg"
+        #
+        print_info_cyan "Installation de numlockx, idesk, nitrogen et feh."
+        package_install "numlockx idesk nitrogen feh"
+        #
+        print_info_cyan "Installation de lxappearance."
+        package_install "lxappearance lxappearance-obconf"
+        #
+        print_info_cyan "Installation de leafpad, epdfview et imagemagick."
+        package_install "leafpad epdfview imagemagick"
+        #
+        print_info_cyan "Installation de spacefm, fbpanel, lxterminal et terminator."
+        package_install "spacefm fbpanel lxterminal terminator perl-file-mimeinfo"
+        #
+        print_info_cyan "Installation de viewnior, gmrun et volwheel."
+        package_install "viewnior gmrun volwheel"
+	# Dépendances imagemagick
+        print_info_cyan "Installation des dépendances de imagemagick."
+        package_install "openexr libwmf librsvg libxml2 jasper libpng"
+	# Dépendances spacefm
+        print_info_cyan "Installation des dépendances de spacefm."
+        package_install "lsof eject wget gksu udevil udisks udisks2 gvfs-smb gvfs-afc"
+        # FONTS {{{
+        print_info_cyan "Installation de polices TTF."
+        package_install "ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family"
+        # LSB-RELEASE {{{
+        print_info_cyan "Installation de lsb-release"
+        package_install "lsb-release"
+        #
+        print_info_cyan "Configuration par défaut de l'utilisateur $USERNAME."
+        mkdir -p /home/$USERNAME/.config/openbox
+	cp -v /etc/xdg/openbox/{rc.xml,menu.xml,autostart,environment} /home/$USERNAME/.config/openbox/
+        chown -R $USERNAME:users /home/$USERNAME/.config
+        mkdir -p /home/$USERNAME/.local/share
+        chown -R $USERNAME:users /home/$USERNAME/.local
+	#create a xinitrc file in home user directory
+	cp -f /etc/skel/.xinitrc /home/$USERNAME/
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            echo -e "/usr/bin/VBoxClient-all &" >> /home/$USERNAME/.xinitrc
+        fi
+	echo -e "exec openbox-session" >> /home/$USERNAME/.xinitrc
+	chmod +x /home/$USERNAME/.xinitrc
+	chown -R $USERNAME:users /home/$USERNAME/.xinitrc
+        #}}}
+##
+# TODO
+##
+# A SUPPRIMER QUAND systemctl enable vboxservice.service NE PROVOQUERA PLUS DE KERNEL PANIC A L'ARRET
+        # VBOX SHARED FOLDER AUTO {{{
+        # SI INSTALLATION DANS VIRTUALBOX
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            print_info_cyan "Montage Automatique de VBox Shared Folder pour JND."
+            read_input_text "Monter automatiquement VBox Shared Folder pour JND ?"
+            if [[ $OPTION == o ]]; then
+                mkdir -p /home/$USERNAME/vbox-shared-folder
+                chown -R $USERNAME:users /home/$USERNAME/vbox-shared-folder
+                user_uid=`id -u $USERNAME`
+                user_gid=`id -g $USERNAME`
+                echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
+                echo -e '90-Partage     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
+                pause_function
+            fi
+        fi
+        #}}}
+        # OPENBOX CUSTOMIZATION AUTO {{{
+        print_info "\nCustomisation Personnelle Automatique pour JND."
+        read_input_text "Customiser OpenBox pour JND ?"
+        if [[ $OPTION == o ]]; then
+            # system grub si existe
+            if is_package_installed "grub-bios" ; then
+                echo -e '\n# Customization for JND' >> /etc/default/grub
+                echo -e 'GRUB_COLOR_NORMAL="white/black"' >> /etc/default/grub
+                echo -e 'GRUB_COLOR_HIGHLIGHT="black/light-gray"' >> /etc/default/grub
+                echo -e 'GRUB_BACKGROUND="/boot/grub/arch-wallpaper-grub.jpg"' >> /etc/default/grub
+                cp -v ai-fconfig/arch-wallpaper-grub.jpg /boot/grub/
+                grub-mkconfig -o /boot/grub/grub.cfg
+                echo ""
+            fi
+            read_input_text "Autologin pour JND sans Slim ?"
+            if [[ $OPTION == o ]]; then
+              # Autologin sans Slim
+              echo -e '\n# Autologin for JND' >> /home/$USERNAME/.bash_profile
+              echo -e '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx' >> /home/$USERNAME/.bash_profile
+              cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
+              sed -i 's/--noclear/--noclear -a '$USERNAME'/' /etc/systemd/system/autologin@.service
+              systemctl disable getty@tty1
+              systemctl enable autologin@tty1
+            else
+              #install_display_manager SLIM
+              print_info_cyan "Installation de Slim."
+              install_display_manager
+              # system slim
+              cp -R ai-fconfig/ob-usr-share-slim-themes-archlinux-jnd /usr/share/slim/themes/archlinux-jnd
+              cp -v ai-fconfig/ob-etc-slim.conf /etc/slim.conf
+            fi
+            # system sudoers
+            echo -e '\n## My Cmnd alias' >> /etc/sudoers
+            echo -e 'Cmnd_Alias SHUTDOWN_CMDS = /sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/poweroff' >> /etc/sudoers
+            echo -e 'Cmnd_Alias PACMAN_CMDS = /usr/bin/pacman' >> /etc/sudoers
+            echo -e 'Cmnd_Alias HDDTEMP_CMDS = /usr/bin/hddtemp' >> /etc/sudoers
+            echo -e '\n## My User alias' >> /etc/sudoers
+            echo -e 'User_Alias ADMINS = '"$USERNAME" >> /etc/sudoers
+            echo -e '\n## User specification' >> /etc/sudoers
+            echo -e 'ADMINS ALL=(ALL) NOPASSWD: SHUTDOWN_CMDS' >> /etc/sudoers
+            echo -e 'ADMINS ALL=(ALL) NOPASSWD: PACMAN_CMDS' >> /etc/sudoers
+            echo -e 'ADMINS ALL=(ALL) NOPASSWD: HDDTEMP_CMDS' >> /etc/sudoers
+            # system openbox theme
+            cp -R ai-fconfig/ob-usr-share-themes-BlueSmoke /usr/share/themes/BlueSmoke
+            # system icon
+            cp -v ai-fconfig/accessories-calculator.png /usr/share/icons/hicolor/48x48/apps/
+            cp -v ai-fconfig/xterm.png /usr/share/icons/hicolor/48x48/apps/
+            # user wallpaper
+            mkdir -p /home/$USERNAME/09-Configurations/OO-Images-bureau
+            cp -v ai-fconfig/ob-user-skyzl1-1920x1080.jpg /home/$USERNAME/09-Configurations/OO-Images-bureau/skyzl1-1920x1080.jpg
+            # user logo fbpanel
+            mkdir -p /home/$USERNAME/09-Configurations/OO-Logo-fbpanel
+            cp -v ai-fconfig/ob-user-fbpanel-archlinux-logo.png /home/$USERNAME/09-Configurations/OO-Logo-fbpanel/archlinux-logo.png
+            cp -v ai-fconfig/ob-user-fbpanel-installation-archlinux-logo.png.TXT /home/$USERNAME/09-Configurations/OO-Logo-fbpanel/installation-archlinux-logo.png.TXT
+            chown -R $USERNAME:users /home/$USERNAME/09-Configurations
+            mkdir -p /home/$USERNAME/.config/nitrogen
+            cp -v ai-fconfig/ob-user-.config-nitrogen-bg-saved.cfg /home/$USERNAME/.config/nitrogen/bg-saved.cfg
+            cp -v ai-fconfig/ob-user-.config-nitrogen-nitrogen.cfg /home/$USERNAME/.config/nitrogen/nitrogen.cfg
+            # user fbpanel
+            mkdir -p /home/$USERNAME/.config/fbpanel
+            cp -v ai-fconfig/ob-user-.config-fbpanel-default /home/$USERNAME/.config/fbpanel/default
+#            local id_net_name=(`ip link show | awk '/2: / {print $2}' | sed -e "s/://"`)
+            local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
+            sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/$USERNAME/.config/fbpanel/default
+            # user terminator
+            mkdir -p /home/$USERNAME/.config/terminator
+            cp -v ai-fconfig/ob-user-.config-terminator-config /home/$USERNAME/.config/terminator/config
+            # user lxterminal
+            mkdir -p /home/$USERNAME/.config/lxterminal
+            cp -v ai-fconfig/ob-user-.config-lxterminal-lxterminal.conf /home/$USERNAME/.config/lxterminal/lxterminal.conf
+            # user gtk-3.0
+            mkdir -p /home/$USERNAME/.config/gtk-3.0
+            cp -v ai-fconfig/ob-user-.config-gtk-3.0-settings.ini /home/$USERNAME/.config/gtk-3.0/settings.ini
+            # user openbox
+#           mkdir -p /home/$USERNAME/.config/openbox
+            if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                cp -v ai-fconfig/ob-user-.config-openbox-autostart-vbox /home/$USERNAME/.config/openbox/autostart
+            else
+                cp -v ai-fconfig/ob-user-.config-openbox-autostart-reel /home/$USERNAME/.config/openbox/autostart
+            fi
+            cp -v ai-fconfig/ob-user-.config-openbox-environment /home/$USERNAME/.config/openbox/environment
+            cp -v ai-fconfig/ob-user-.config-openbox-rc.xml /home/$USERNAME/.config/openbox/rc.xml
+            cp -v ai-fconfig/ob-user-.config-openbox-menu.xml /home/$USERNAME/.config/openbox/menu.xml
+            chown -R $USERNAME:users /home/$USERNAME/.config
+            # user bin
+#           mkdir -p /home/$USERNAME/bin
+            print_info_cyan "Installation des dépendances de openbox-logout."
+            package_install "python2-pillow"
+            cp -R ai-fconfig/ob-user-bin-openbox-logout /home/$USERNAME/bin/openbox-logout
+            cp -v ai-fconfig/ob-user-bin-ob-quitter.sh /home/$USERNAME/bin/ob-quitter.sh
+            chmod +x /home/$USERNAME/bin/openbox-logout/ob_logout.py
+            chmod +x /home/$USERNAME/bin/ob-quitter.sh
+            cp -v ai-fconfig/ob-user-bin-ob-terminator.sh /home/$USERNAME/bin/ob-terminator.sh
+            chmod +x /home/$USERNAME/bin/ob-terminator.sh
+            cp -v ai-fconfig/ob-user-bin-ob-lxterminal.sh /home/$USERNAME/bin/ob-lxterminal.sh
+            chmod +x /home/$USERNAME/bin/ob-lxterminal.sh
+            chown -R $USERNAME:users /home/$USERNAME/bin
+            # user gtkrc-2.0
+            cp -v ai-fconfig/ob-user-.gtkrc-2.0 /home/$USERNAME/.gtkrc-2.0
+            chown -R $USERNAME:users /home/$USERNAME/.gtkrc-2.0
+            # user feh
+            cp -v ai-fconfig/ob-user-.fehbg /home/$USERNAME/.fehbg
+            chown -R $USERNAME:users /home/$USERNAME/.fehbg
+            #
+            chown -R $USERNAME:users /home/$USERNAME
+            print_info_cyan "Installation des thèmes GTK 3/2 et Icones."
+            package_install "gtk-update-icon-cache"
+            aur_package_install "zukitwo-themes"
+            aur_package_install "awoken-icons"
+#            gtk-update-icon-cache -f /usr/share/icons/Ghnomix
+            pause_function
+        fi
+	#}}}
+        # OPENBOX CUSTOMIZATION {{{
+        install_icon_theme() { #{{{
+            package_install "faenza-icon-theme faience-icon-theme"
+#             gtk-update-icon-cache -f /usr/share/icons/Faience
+#             gtk-update-icon-cache -f /usr/share/icons/Faience-Azur
+#             gtk-update-icon-cache -f /usr/share/icons/Faience-Claire
+#             gtk-update-icon-cache -f /usr/share/icons/Faience-Ocre
+        } #}}}
+        install_gtk_theme() { #{{{
+            aur_package_install "adwaita-x-dark-and-light-theme"
+         } #}}}
+        while true
+        do
+            print_title "PERSONNALISATION DE OPENBOX"
+            echo " 1) $(menu_item "adwaita-x-dark-and-light-theme" "GTK Themes") $AUR"
+            echo " 2) $(menu_item "faenza-icon-theme" "Icones Themes")"
+            echo " 3) $(menu_item "xcompmgr")"
+            echo " 4) $(menu_item "scrot")"
+            echo " 5) $(menu_item "xfburn")"
+            echo " 6) $(menu_item "xarchiver-xz") $AUR"
+	    echo " 7) $(menu_item "xorg-xcalc")"
+            echo " 8) $(menu_item "pcmanfm" "PCManFM")"
+            echo " 9) $(menu_item "rxvt-unicode")"
+            echo "10) $(menu_item "thunar")"
+            echo "11) $(menu_item "tint2-svn") $AUR"
+            echo ""
+            echo " f) FINI"
+            echo ""
+            AWESOMEOB_OPTIONS+=" f"
+            read_input_options "$AWESOMEOB_OPTIONS"
+            for OPT in ${OPTIONS[@]}; do
+                case "$OPT" in
+                    1)
+                        install_gtk_theme
+                        OPT=1
+                        ;;
+                    2)
+                        install_icon_theme
+                        OPT=2
+                        ;;
+                    3)
+                        package_install "xcompmgr transset-df"
+                        ;;
+                    4)
+                        package_install "scrot"
+                        ;;
+                    5)
+                        package_install "xfburn"
+                        ;;
+                    6)
+                        aur_package_install "xarchiver-xz"
+                        ;;
+		    7)
+			package_install "xorg-xcalc"
+			;;
+                    8)
+                        package_install "pcmanfm polkit-gnome gvfs"
+                        ;;
+                    9)
+                        package_install "rxvt-unicode"
+                        ;;
+                    10)
+                        package_install "thunar tumbler polkit-gnome gvfs"
+                        ;;
+                    11)
+                        aur_package_install "tint2-svn"
+                        package_install "orage"
+                        ;;
+                    "f")
+                        break
+                        ;;
+                    *)
+                        invalid_option
+                        ;;
+                esac
+            done
+        elihw
+        done
+        #}}}
+	echo "LANG=$LANGUAGE.utf8" >> /etc/environment
+        #Abstraction for enumerating power devices, listening to device events and querying history and statistics
+        systemctl enable upower.service
+        OPENBOX=1
+        pause_function
+    }
+    #}}}
+    # 16 CONNMAN/NETWORKMANAGER/WICD {{{
+    install_nm_wicd() {
+        print_title "GESTIONNAIRE DE RÉSEAU"
+        echo " 1) networkmanager"
+        echo " 2) wicd"
+        echo " 3) ConnMan"
+        echo ""
+        echo " a) AUCUN"
+        echo ""
+        read_input $NETWORKMANAGER
+        case "$OPTION" in
+            1)
+                print_title "NETWORKMANAGER - https://wiki.archlinux.org/index.php/Networkmanager"
+                print_info "NetworkManager est un outil de gestion du réseau. Il est aussi utile pour les liaisons filaires que sans fils, il supporte les modems et certains type de VPN."
+                package_install "networkmanager network-manager-applet"
+                is_package_installed "ntp" && package_install "networkmanager-dispatcher-ntpd"
+#                groupadd networkmanager
+#                gpasswd -a $USERNAME networkmanager
+                #Network Management daemon
+		systemctl disable dhcpcd.service
+                systemctl disable network_ip_statique.service
+                systemctl disable netcfg
+                systemctl enable NetworkManager.service
+                pause_function
+                ;;
+            2)
+                print_title "WICD - https://wiki.archlinux.org/index.php/Wicd"
+                print_info "Wicd est un gestionnaire de connexions réseau (sans fil et filaire) similaire à NetworkManager."
+                package_install "wicd wicd-gtk"
+##
+# A REVOIR ~/.config/openbox/autostart
+# TODO
+##
+                #Network Management daemon
+		systemctl disable dhcpcd.service
+                systemctl disable network_ip_statique.service
+                systemctl disable netcfg
+                systemctl enable wicd.service
+                pause_function
+                ;;
+            3)
+                print_title "CONNMAN - https://wiki.archlinux.org/index.php/Connman"
+                print_info "ConnMan est une alternative à NetworkManager et Wicd. Il a été créé par Intel et le projet Moblin."
+                package_install "connman "
+                #ConnMan daemon
+                systemctl disable dhcpcd.service
+                systemctl disable network_ip_statique.service
+                systemctl disable netcfg
+                systemctl enable connman.service
+                pause_function
+              ;;
+        esac
+    }
+    #}}}
+    # 17 ACCESSORIES {{{
+    install_accessories_apps() {
+    while true
+    do
+        print_title "APPLICATIONS ACCESSOIRES"
+        echo " 1) $(menu_item "conky" "Conky")"
+        echo " 2) $(menu_item "docky" "Docky-Dock")"
+        echo " 3) $(menu_item "wbar" "Wbar-Dock")"
+        echo " 4) $(menu_item "plank-bzr" "Plank-Dock") $AUR"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        ACCESSORIES_OPTIONS+=" f"
+        read_input_options "$ACCESSORIES_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "conky"
+##
+# A REVOIR ~/Conky
+# TODO
+##
+                    ;;
+                2)
+                    package_install "docky"
+                    ;;
+                3)
+                    package_install "wbar"
+                    ;;
+                4)
+                    aur_package_install "plank-bzr"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 17 SYSTEM TOOLS {{{
+    install_system_apps() {
+    while true
+    do
+        print_title "OUTILS SYSTÈME"
+        echo " 1) $(menu_item "gparted")"
+        echo " 2) $(menu_item "grsync")"
+        echo " 3) $(menu_item "htop lshw hwinfo dmidecode ncdu dfc expac pkgfile")"
+        echo " 4) $(menu_item "lm_sensors")"
+        echo " 5) $(menu_item "hddtemp gnu-netcat")"
+        echo " 6) $(menu_item "gsmartcontrol" "S.M.A.R.T.")"
+        echo " 7) $(menu_item "hdparm bonnie++")"
+        echo " 8) $(menu_item "cpupower")"
+        echo " 9) $(menu_item "pacnew_scripts")"
+        echo "10) $(menu_item "mesa-demos")"
+        echo "11) $(menu_item "syslog-ng")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        SYSTEMTOOLS_OPTIONS+=" f"
+        read_input_options "$SYSTEMTOOLS_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "gparted gptfdisk"
+                    ;;
+                2)
+                    package_install "grsync"
+                    ;;
+                3)
+                    package_install "htop lshw hwinfo dmidecode dfc expac pkgfile"
+                    package_install "lsof strace"
+                    ;;
+                4)
+                    package_install "lm_sensors rrdtool"
+		    print_info_cyan "LM_SENSORS - sensors-detect : détections des capteurs."
+		    pause_function
+		    sensors-detect
+		    systemctl enable lm_sensors.service
+                    ;;
+                5)
+                    package_install "hddtemp gnu-netcat"
+		    systemctl enable hddtemp.service
+                    ;;
+                6)
+                    package_install "gsmartcontrol"
+                    ;;
+                7)
+                    package_install "hdparm bonnie++"
+                    ;;
+                8)
+                    package_install "cpupower"
+                    ;;
+                9)
+                    package_install "pacnew_scripts"
+                    ;;
+                10)
+                    package_install "mesa-demos"
+                    ;;
+                11)
+                    package_install "syslog-ng"
+                    systemctl enable syslog-ng.service
+                    gpasswd -a $USERNAME log
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 18 DEVELOPEMENT {{{
+    install_development_apps() {
+    while true
+    do
+        print_title "APPLICATIONS DE DÉVELOPPEMENT"
+        echo " 1) $(menu_item "devtools")"
+        echo " 2) $(menu_item "gdb" "Debugger Tools")"
+        echo " 3) $(menu_item "git subversion")"
+        echo " 4) $(menu_item "cmake")"
+        echo " 5) $(menu_item "geany")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        DEVELOPMENT_OPTIONS+=" f"
+        read_input_options "$DEVELOPMENT_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "devtools"
+                    ;;
+                2)
+                    package_install "valgrind gdb splint tidyhtml"
+                    ;;
+                3)
+                    package_install "git subversion"
+                    ;;
+                4)
+                    package_install "cmake"
+                    ;;
+                5)
+                    package_install "geany"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 19 OFFICE {{{
+    install_office_apps() {
+    while true
+    do
+        print_title "APPLICATIONS DE BUREAUTIQUE"
+        echo " 1) $(menu_item "libreoffice-common" "LibreOffice")"
+        echo " 2) $(menu_item "goffice" "Abiword + Gnumeric")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        OFFICE_OPTIONS+=" f"
+        read_input_options "$OFFICE_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    print_title "LIBREOFFICE - https://wiki.archlinux.org/index.php/LibreOffice"
+                    package_install "libreoffice-$LANGUAGE_LO libreoffice-common libreoffice-base libreoffice-calc libreoffice-draw libreoffice-impress libreoffice-math libreoffice-writer"
+                    package_install "libreoffice-gnome libwpg"
+                    package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
+		    cp -i ai-fconfig/etc-profile.d-openoffice.sh /etc/profile.d/openoffice.sh
+		    chmod a+x /etc/profile.d/openoffice.sh
+                    ;;
+                2)
+                    package_install "gnumeric abiword abiword-plugins"
+                    package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 20 GRAPHICS {{{
+    install_graphics_apps() {
+    while true
+    do
+        print_title "APPLICATIONS GRAPHIQUES"
+        echo " 1) $(menu_item "blender")"
+        echo " 2) $(menu_item "gimp")"
+        echo " 3) $(menu_item "inkscape")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        GRAPHICS_OPTIONS+=" f"
+        read_input_options "$GRAPHICS_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "blender"
+                    if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+                        is_package_installed "nvidia" && package_install "cuda opencl-nvidia"
+                    fi
+                    ;;
+                2)
+                    package_install "gimp"
+                    package_install "potrace gimp-ufraw gimp-plugin-fblur gimp-plugin-gmic gimp-plugin-lqr gimp-plugin-mathmap gimp-plugin-wavelet-decompose gimp-plugin-wavelet-denoise gimp-refocus"
+                    ;;
+                3)
+                    package_install "inkscape python2-numpy python-lxml"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 21 INTERNET {{{
+    install_internet_apps() {
+    while true
+    do
+        print_title "BROWSER - DOWNLOAD/FILESHARE - EMAIL - INSTANT MESSAGING - IRC"
+        echo " 1) $(menu_item "chromium")"
+        echo " 2) $(menu_item "midori")"
+        echo " 3) $(menu_item "firefox")"
+        echo " 4) $(menu_item "opera")"
+        echo " 5) $(menu_item "transmission-gtk")"
+        echo " 6) $(menu_item "dropbox") $AUR"
+        echo " 7) $(menu_item "thunderbird")"
+        echo " 8) $(menu_item "liferea")"
+        echo " 9) $(menu_item "emesene")"
+        echo "10) $(menu_item "xchat")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        BROWSERS_OPTIONS+=" f"
+        read_input_options "$BROWSERS_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "chromium icedtea-web-java7"
+                    aur_package_install "chromium-pepper-flash chromium-libpdf"
+                    ;;
+                2)
+                    package_install "midori icedtea-web-java7"
+                    sed -i "s/chromium/midori/g" /home/$USERNAME/.config/fbpanel/default
+                    ;;
+                3)
+                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web-java7"
+                    aur_package_install "firefox-extension-https-everywhere"
+                    sed -i "s/chromium/firefox/g" /home/$USERNAME/.config/fbpanel/default
+                    ;;
+                4)
+                    package_install "opera flashplugin icedtea-web-java7"
+                    sed -i "s/chromium.png/opera-browser.png/" /home/$USERNAME/.config/fbpanel/default
+                    sed -i "s/chromium/opera/" /home/$USERNAME/.config/fbpanel/default
+                    ;;
+                5)
+                    package_install "transmission-gtk"
+                    ;;
+                6)
+                    aur_package_install "dropbox"
+                    aur_package_install "dropbox-cli"
+                    aur_package_install "systemd-dropbox-daemon"
+                    systemctl enable dropboxd.service
+                    ;;
+                7)
+                    package_install "thunderbird thunderbird-i18n-$LANGUAGE_FF"
+                    ;;
+                8)
+                    package_install "liferea"
+                    ;;
+                9)
+                    package_install "emesene"
+                    ;;
+                10)
+                    package_install "xchat"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 22 AUDIO {{{
+    install_audio_apps() {
+    while true
+    do
+        print_title "APPLICATIONS AUDIO"
+        echo " 1) $(menu_item "clementine")"
+        echo " 2) $(menu_item "soundconverter")"
+        echo " 3) $(menu_item "audacity")"
+        echo " 4) $(menu_item "gst-plugins-base" "Gstreamer")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        AUDIO_OPTIONS+=" f"
+        read_input_options "$AUDIO_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "clementine"
+                    ;;
+                2)
+                    package_install "soundconverter"
+                    ;;
+                3)
+                    package_install "audacity"
+                    ;;
+                4)
+                    package_install "gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav mpg123 flac"
+                    if is_package_installed "amarok banshee clementine exaile rhythmbox xfburn" ; then
+                        package_install "gstreamer0.10 gstreamer0.10-plugins"
+                    fi
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 23 VIDEO {{{
+    install_video_apps() {
+    while true
+    do
+        print_title "APPLICATIONS VIDEO"
+        echo " 1) $(menu_item "vlc")"
+        echo " 2) $(menu_item "openshot")"
+        echo " 3) $(menu_item "libbluray libquicktime libdvdread libdvdnav libdvdcss cdrdao" "DVD Libs")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        VIDEO_OPTIONS+=" f"
+        read_input_options "$VIDEO_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "vlc libdvdcss libva-vdpau-driver opus"
+                    ;;
+                2)
+                    package_install "openshot"
+                    ;;
+                3)
+                    package_install "libbluray libquicktime libdvdread libdvdnav libdvdcss cdrdao"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+    # 24 GAMES {{{
+    install_games() {
+##
+# A REVOIR jndqrami sur un repo perso
+# TODO
+##
+    while true
+    do
+        print_title "JEUX"
+        echo " 1) $(menu_item "pokerth" "Poker TH")"
+        echo ""
+        echo " f) FINI"
+        echo ""
+        GAME_OPTIONS+=" f"
+        read_input_options "$GAME_OPTIONS"
+        for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+                1)
+                    package_install "pokerth"
+                    ;;
+                "f")
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
+    elihw
+    done
+    }
+    #}}}
+#}}}}

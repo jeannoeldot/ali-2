@@ -1,0 +1,19 @@
+[Desktop Entry]
+Categories=GNOME;System;Filesystem;
+Comment=Crée, réorganise et supprime des partitions
+Exec=kdesu gparted
+GenericName[fr]=Éditeur de partitions
+GenericName=Partition Editor
+Icon=gparted
+Name[fr]=GParted
+Name=GParted
+NoDisplay=false
+Path[$e]=
+StartupNotify=true
+Terminal=0
+TerminalOptions=
+Type=Application
+X-GNOME-FullName[fr]=Éditeur de partitions GParted
+X-GNOME-FullName=GParted Partition Editor
+X-KDE-SubstituteUID=false
+X-KDE-Username=

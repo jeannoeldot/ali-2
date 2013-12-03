@@ -1,0 +1,784 @@
+
+#!/bin/bash
+#-------------------------------------------------------------------------------
+# ai-de
+#
+#-------------------------------------------------------------------------------
+#Created by me for me
+#
+#Thanks helmuthdu mailto: helmuthdu[at]gmail[dot]com
+#https://github.com/helmuthdu/aui
+#Created by helmuthdu mailto: helmuthdu[at]gmail[dot]com
+#-------------------------------------------------------------------------------
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+# Run this script after your first boot with archlinux (as root)
+
+source `pwd`/ai-commons
+
+    # 0 WELCOME {{{
+    welcome() {
+        clear
+        echo -e "${BWhite}Bienvenue dans le script d'Installation"
+        echo -e "de l'environnement de bureau ou du gestionnaire de fenêtres pour Archlinux"
+        echo -e "Merci à helmuthdu. http://www.github.com/helmuthdu/aui${White}"
+        print_line
+        echo "Requis:"
+        echo "-> Installation de Base de Archlinux"
+        echo "-> Lancer le script en ROOT"
+        echo "-> Une connexion Internet fonctionnelle"
+        echo "-> Ne pas avoir été déjà lancé"
+        print_line
+        echo "Le script peut être stoppé à tout moment avec CTRL+C"
+        print_line
+        echo -e "Ce script installe ${BWhite}KDE ou OPENBOX${White}"
+        echo -e "Ce script ne fonctionne qu'avec la langue ${BWhite}FR (fr_FR)${White}"
+        print_line
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            echo -e "Installation dans ${BWhite}Oracle VM VirtualBox${White}."
+        else
+            echo -e "Installation ${BWhite}réelle${White}."
+        fi
+        print_line
+        if [[ $IS_MULTI_BOOT_UEFI -eq 1 ]]; then
+            echo -e "Installation en ${BWhite}Multi Boot UEFI ( ${NAME_DIR_ARCHLINUX} )${White}."
+        fi
+        pause_function
+    }
+    #}}}
+    # 1 CHECK ROOT {{{
+    check_root() {
+        if [[ "$(id -u)" != "0" ]]; then
+            echo -e "${BRed}ERREUR :${White} L'utilisateur n'est pas 'root'. ARRET immédiat."
+            pause_function
+            exit 1
+        fi
+    }
+    #}}}
+    # 2 CHECK NETWORK {{{
+    check_network() {
+        check_ping_ok() {
+            ping -c 1 www.google.com &>/dev/null
+            if [[ $? -ne 0 ]]; then
+                return 9
+            fi
+        }
+        check_ping_ok
+        if [[ $? -ne 0 ]]; then
+            print_title "RÉSEAU - Mise en fonction du réseau."
+            type_ip_networks=("IP-Dynamique" "IP-Statique");
+            PS3="$prompt1"
+            echo -e "Indiquer la configuration du réseau ( IP Dynamique ou IP Statique ):"
+            select OPT in "${type_ip_networks[@]}"; do
+                case "$REPLY" in
+                    1)
+                        CURRENT_TYPE_IP="dhcpcd"
+                        break
+                        ;;
+                    2)
+                        CURRENT_TYPE_IP="network_ip_statique"
+                        break
+                        ;;
+                    *)
+                        invalid_option
+                        ;;
+                esac
+            done
+            ret_ping=9
+            until [[ $ret_ping -eq 0 ]];
+                do
+                    systemctl start $CURRENT_TYPE_IP.service
+                    check_ping_ok
+                    ret_ping=$?
+            done
+            echo -e "\n${BGreen}Connexion à Internet réalisée avec succès${White}"
+            pause_function
+        else
+            print_info_cyan "Connexion à Internet réalisée avec succès"
+            pause_function
+        fi
+    }
+    #}}}
+    # 2 CHECK DEJA LANCE {{{
+    check_already_launched() {
+        if [[ -f /root/ai-de.launched ]]; then
+            echo -e "${BRed}ERREUR :${White} Le script 'ai-de' a déjà été lancé. ARRET immédiat."
+            pause_function
+            exit 1
+        fi
+    }
+    #}}}
+    # 2 AI-DE LANCE 1 FOIS {{{
+    set_launched() {
+        echo "ai-de_launched=1" > /root/ai-de.launched
+    }
+    #}}}
+    # 3 CUSTOM REPOSITORIES {{{
+    add_custom_repositories() {
+        # ENABLE MULTILIB REPOSITORY {{{
+        print_title "REPOS PERSONNELS - Ajout de multilib ( si en x86_64 ), archlinuxfr et Xyne."
+        # this option will avoid any problem with packages install
+        if [[ $ARCHI == x86_64 ]]; then
+            multilib=`grep -n "\[multilib\]" /etc/pacman.conf | cut -f1 -d:`
+            if $multilib &> /dev/null; then
+                echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+                echo -e '\nMultilib repository added into pacman.conf file'
+            else
+                sed -i "${multilib}s/^#//" /etc/pacman.conf
+                multilib=$(( $multilib + 1 ))
+                sed -i "${multilib}s/^#//" /etc/pacman.conf
+                multilib=$(( $multilib + 1 ))
+                sed -i "${multilib}s/^#//" /etc/pacman.conf
+            fi
+            echo -e "\n${BGreen}Ajout de Multilib.${White}"
+        fi
+        # archlinuxf
+        echo -e '\n[archlinuxfr]' >> /etc/pacman.conf
+        echo -e 'SigLevel = Never' >> /etc/pacman.conf
+        echo -e 'Server = http://repo.archlinux.fr/$arch' >> /etc/pacman.conf
+        echo -e "\n${BGreen}Ajout de archlinuxfr.${White}"
+        # Xyne : http://xyne.archlinux.ca/projects/
+        if [[ $ARCHI == x86_64 ]]; then
+            echo -e '\n[xyne-x86_64]' >> /etc/pacman.conf
+            echo -e 'SigLevel = Required' >> /etc/pacman.conf
+            echo -e 'Server = http://xyne.archlinux.ca/repos/xyne' >> /etc/pacman.conf
+        else
+            echo -e '\n[xyne-i686]' >> /etc/pacman.conf
+            echo -e 'SigLevel = Required' >> /etc/pacman.conf
+            echo -e 'Server = http://xyne.archlinux.ca/repos/xyne' >> /etc/pacman.conf
+        fi
+        echo -e "\n${BGreen}Ajout de Xyne.${White}"
+        #
+        echo -e "\n${BGreen}Repos personnels ajoutés.${White}"
+        pause_function
+    }
+    #}}}
+    # 4 REFLECTOR {{{
+    sorting_mirror_by_speed() {
+        print_title "MIRROIRS - https://wiki.archlinux.org/index.php/Mirrors#Sorting_mirrors"
+        print_info "Filtre les miroirs les plus à jour, les trie par vitesse et configure le fichier /etc/pacman.d/mirrorlist."
+        read_input_text "Filtrer les mirroirs (dure une dizaine de minutes) ?"
+        if [[ $OPTION == o ]]; then
+            # Récupération du fichier mirrorlist de pacman-mirrorlist-*-any.pkg.tar.xz
+            mkdir /tmp/mirrorlist
+            cp -v /var/cache/pacman/pkg/pacman-mirrorlist-*-any.pkg.tar.xz /tmp/mirrorlist/
+            tar -xJf /tmp/mirrorlist/pacman-mirrorlist-*-any.pkg.tar.xz -C /tmp/mirrorlist/
+            cp -v /tmp/mirrorlist/etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.pacnew
+            # Sauvegarde des fichiers existants
+            cp -v /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup.`date +%Y-%m-%d`
+            cp -v /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist.pacnew.backup.`date +%Y-%m-%d`
+            #
+            echo -e "\n${BGreen}Filtre des miroirs en cours ...${White}"
+            # Calcule Numéros des lignes ds mirrorlist.pacnew
+            num_ligne_belgique=$(grep -n "## Belgium" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
+            num_ligne_france=$(grep -n "## France" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
+            num_ligne_germany=$(grep -n "## Germany" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
+            num_ligne_luxembourg=$(grep -n "## Luxembourg" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
+            # Modifications fichier mirrorlist.pacnew
+            # Belgium
+            numLigneEnCours=0
+            incNumeroLigne=1
+            while true; do
+                numLigneEnCours=$(( $num_ligne_belgique + $incNumeroLigne ))
+                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
+                if [[ "${nomServer}" == "#Server" ]]; then
+                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
+                else
+                    break
+                fi
+                incNumeroLigne=$(( $incNumeroLigne + 1 ))
+            done
+            # France
+            numLigneEnCours=0
+            incNumeroLigne=1
+            while true; do
+                numLigneEnCours=$(( $num_ligne_france + $incNumeroLigne ))
+                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
+                if [[ "${nomServer}" == "#Server" ]]; then
+                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
+                else
+                    break
+                fi
+                incNumeroLigne=$(( $incNumeroLigne + 1 ))
+            done
+            # Germany
+            numLigneEnCours=0
+            incNumeroLigne=1
+            while true; do
+                numLigneEnCours=$(( $num_ligne_germany + $incNumeroLigne ))
+                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
+                if [[ "${nomServer}" == "#Server" ]]; then
+                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
+                else
+                    break
+                fi
+                incNumeroLigne=$(( $incNumeroLigne + 1 ))
+            done
+            # Luxembourg
+            numLigneEnCours=0
+            incNumeroLigne=1
+            while true; do
+                numLigneEnCours=$(( $num_ligne_luxembourg + $incNumeroLigne ))
+                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
+                if [[ "${nomServer}" == "#Server" ]]; then
+                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
+                else
+                    break
+                fi
+                incNumeroLigne=$(( $incNumeroLigne + 1 ))
+            done
+            # Filtre les miroirs les plus à jour, les trie par vitesse et configure le fichier /etc/pacman.d/mirrorlist.
+            rankmirrors -n 9 /etc/pacman.d/mirrorlist.pacnew > /etc/pacman.d/mirrorlist
+            sed '/^##/d' -i /etc/pacman.d/mirrorlist
+            sed '/^#Server/d' -i /etc/pacman.d/mirrorlist
+            rm -rf /tmp/mirrorlist
+            #
+            echo -e "\n${BGreen}Synchronisation ...${White}"
+            pacman -Syyu
+            pause_function
+        fi
+    }
+    #}}}
+    # 6 SYSTEM UPDATE {{{
+    system_upgrade() {
+        print_title "MISE A JOUR DU SYSTEME"
+        pacman -Syyu
+        pause_function
+    }
+    #}}}
+    # 7 LANGUAGE SELECTOR {{{
+    language_selector() {
+        #AUTOMATICALLY DETECTS THE SYSTEM LANGUAGE {{{
+        #automatically detects the system language based on your locale
+        LANGUAGE=fr_FR
+        #KDE #{{{
+        LANGUAGE_KDE=fr
+        #}}}
+        #FIREFOX #{{{
+        LANGUAGE_FF=fr
+        #}}}
+        #HUNSPELL #{{{
+        LANGUAGE_HS=fr
+        #}}}
+        #ASPELL #{{{
+        LANGUAGE_AS=fr
+        #}}}
+        #LIBREOFFICE #{{{
+        LANGUAGE_LO=fr
+        #}}}
+        #}}}
+        print_title "LANGUE - https://wiki.archlinux.org/index.php/Locale"
+        print_info "\n La langue par défaut est : \"$LANGUAGE\""
+        pause_function
+    }
+    #}}}
+    # 8 CONFIGURE SUDO {{{
+    configure_sudo() {
+        print_title "SUDO - https://wiki.archlinux.org/index.php/Sudo"
+        if ! is_package_installed "sudo" ; then
+            package_install "sudo"
+        fi
+        ## Uncomment to allow members of group wheel to execute any command
+        sed -i '/%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers
+        ## Same thing without a password (not secure)
+        #sed -i '/%wheel ALL=(ALL) NOPASSWD: ALL/s/^#//' /etc/sudoers
+        pause_function
+    }
+    #}}}
+    # 9 SELECT/CREATE USER {{{
+    select_user() {
+        #CREATE NEW USER {{{
+        create_new_user() {
+            read -p "Utilisateur : " USERNAME
+#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network -s /bin/bash $USERNAME
+#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network,log -s /bin/bash $USERNAME
+#            useradd -m -g users -G wheel -s /bin/bash $USERNAME
+            useradd -m -g users -G wheel,sys -s /bin/bash $USERNAME
+            passwd $USERNAME
+            configure_user_account
+        } #}}}
+        #CONFIGURE USER ACCOUNT {{{
+        configure_user_account() {
+#            cp /etc/skel/.* /home/$USERNAME/
+            print_title "BASHRC - https://wiki.archlinux.org/index.php/Bashrc"
+            print_info_cyan "Copie des fichiers de configuration dans le répertoire /home de $USERNAME."
+            cp -v ai-fconfig/user-.bash_profile /home/$USERNAME/.bash_profile
+            cp -v ai-fconfig/user-.bashrc /home/$USERNAME/.bashrc
+            echo -e "\n"
+            #
+            mkdir -p /home/$USERNAME/.config/fontconfig
+            cp -v ai-fconfig/user-.config-fontconfig-fonts.conf /home/$USERNAME/.config/fontconfig/fonts.conf
+            echo -e "\n"
+            #
+            mkdir -p /home/$USERNAME/bin
+            # SI en UEFI : copie fichiers conf de refind
+            if [[ $IS_UEFI -eq 1 ]]; then
+                mkdir -p /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf
+                if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+                    cp -v /boot/efi/EFI/refind/refind.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
+                else
+                    cp -v /boot/efi/EFI/boot/refind.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
+                fi
+                cp -v /boot/efi/EFI/${NAME_DIR_ARCHLINUX}/refind_linux.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind_linux.conf
+                echo -e "\n"
+            fi
+            cp -v ai-fconfig/00-Cmd-Customize-Arch.TXT /home/$USERNAME/00-Cmd-Customize-Arch.TXT
+            echo -e "\n"
+            chown -R $USERNAME:users /home/$USERNAME
+        } #}}}
+        print_title "SÉLECTION/CRÉATION DU COMPTE UTILISATEUR - https://wiki.archlinux.org/index.php/Users_and_Groups"
+        users_list=(`cat /etc/passwd | grep "/home" | cut -d: -f1`);
+        PS3="$prompt1"
+        echo "Utilisateurs disponibles:"
+        if [[ $(( ${#users_list[@]} )) -gt 0 ]]; then
+            print_warning "AVERTISSEMENT: L'utilisateur sélectionné doit avoir les privilèges sudo"
+        else
+            echo ""
+        fi
+        select OPT in "${users_list[@]}" "Créer nouvel utilisateur"; do
+            if [[ $OPT == "Créer nouvel utilisateur" ]]; then
+                create_new_user
+                break
+            elif contains_element "$OPT" "${users_list[@]}"; then
+                USERNAME=$OPT
+                break
+            else
+                invalid_option
+            fi
+        done
+        [[ ! -f /home/$USERNAME/.bashrc ]] && configure_user_account;
+        pause_function
+    }
+    #}}}
+    # 10 AUR HELPER {{{
+    choose_aurhelper() {
+        print_title "YAOURT - https://wiki.archlinux.org/index.php/Yaourt"
+        print_info "Yaourt (Yet AnOther User Repository Tool) est un programme en ligne de commande qui interface les fonctions de pacman et makepkg pour la gestion des paquets sous Arch Linux."
+        print_warning "\tYaourt n'est pas officiellement supporté par les développeurs d'Arch."
+        if ! is_package_installed "yaourt" ; then
+        package_install "base-devel namcap yaourt"
+        if ! is_package_installed "yaourt" ; then
+            echo -e "${BRed}ERREUR :${White} Yaourt non installé. ARRET immédiat."
+            pause_function
+            exit 1
+            fi
+        fi
+        # Modif /etc/yaourtrc si taille /tmp < 2000M
+        taille_tmp_en_ram=(`df -h -BM | grep -E "/tmp" | awk '{print $2}' | sed -e "s/M//"`)
+        if [[ $taille_tmp_en_ram -lt 2000 ]]; then
+            mkdir -p /home/$USERNAME/yaourt_tmp
+            chown -R $USERNAME:users /home/$USERNAME/yaourt_tmp
+            sed -i "/^#TMPDIR=/c\TMPDIR=\"/home/$USERNAME/yaourt_tmp\"" /etc/yaourtrc
+        fi
+        # Modif /etc/yaourtrc : EDITOR="nano" par défaut
+        sed -i "/^#EDITOR=/c\EDITOR=\"nano\"" /etc/yaourtrc
+        print_info_cyan "YAOURT - Edition du fichier de configuration de yaourt."
+        read_input_text "Editer le fichier de configuration de yaourt ?"
+        if [[ $OPTION == o ]]; then
+            nano -w /etc/yaourtrc
+        fi
+        AUR_HELPER="yaourt"
+        pause_function
+    }
+    #}}}
+    # 11 BASIC SETUP {{{
+    install_basic_setup() {
+        print_title "SYSTEMD - https://wiki.archlinux.org/index.php/Systemd"
+#        print_info "systemd est un système d'initialisation qui remplace sysvinit. Il permet entre autre un démarrage en parallèle, à la demande, par activation D-Bus ou socket, un suivi des services, etc..."
+#        package_install "systemd systemd-sysvcompat"
+        print_info "Installation des dépendances optionnelles de systemd."
+        package_install "python2-cairo python2-gobject"
+        pacman -D --asdeps python2-cairo python2-gobject
+        # Modifs conf
+        print_info_cyan "Ajout de $USERNAME au groupe systemd-journal."
+        gpasswd -a $USERNAME systemd-journal
+        print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
+        sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
+        sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
+        #
+        print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
+        #RuntimeWatchdogSec=20
+        sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
+        #
+        print_info_cyan "Mise en service de cronie."
+        systemctl enable cronie.service
+        # Masque les services non utilisés
+        print_info_cyan "Masque les services non utilisés."
+        systemctl mask auditd.service plymouth-start.service plymouth-quit-wait.service syslog.service
+        # SI en UEFI : installe refind_update.path et refind_update.service
+        if [[ $IS_UEFI -eq 1 ]]; then
+            if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+                if [[ $MGR_EFI != "" ]]; then
+                    print_info_cyan "UEFI : Mise en service de refind_update."
+                    cp -v ai-fconfig/efi-services/refind_update.path /etc/systemd/system/refind_update.path
+                    sed -i "s/USERNAME/$USERNAME/g" /etc/systemd/system/refind_update.path
+                    if [[ $MGR_EFI == "refind" ]]; then
+                        cp -v ai-fconfig/efi-services/ESP-refind-refind_update.service /etc/systemd/system/refind_update.service
+                    elif [[ $MGR_EFI == "boot" ]]; then
+                        cp -v ai-fconfig/efi-services/ESP-boot-refind_update.service /etc/systemd/system/refind_update.service
+                    else
+                        cp -v ai-fconfig/efi-services/ESP-microsoft-refind_update.service /etc/systemd/system/refind_update.service
+                    fi
+                    sed -i "s/USERNAME/$USERNAME/g" /etc/systemd/system/refind_update.service
+                    sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/refind_update.service
+                    systemctl enable refind_update.path
+                fi
+            fi
+        fi
+        pause_function
+        print_title "OUTILS BASH - https://wiki.archlinux.org/index.php/Bash"
+        package_install "bc mlocate rsync bash-completion wget net-tools tree atool mc"
+        pause_function
+        if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+            print_title "NTP - https://wiki.archlinux.org/index.php/NTP"
+            print_info "NTP permet de synchroniser son horloge avec une référence."
+            read_input_text "Installer ntp et activer ntpd ?"
+            if [[ $OPTION == o ]]; then
+                package_install "ntp libedit"
+                pacman -D --asdeps libedit
+                sed -i "s/\([0-9]\).pool.ntp.org/\1.fr.pool.ntp.org iburst/g" /etc/ntp.conf
+                sed -i "/^server 2.fr.pool.ntp.org iburst/a\server 3.fr.pool.ntp.org iburst" /etc/ntp.conf
+                systemctl enable ntpd.service
+            fi
+            pause_function
+##
+# TODO
+##
+# Fonctionne, mais provoque un Kernel Panic à l'arrêt
+#        else
+#            print_title "Virtualbox - https://wiki.archlinux.org/index.php/Virtualbox#Synchronise_guest_date_with_host"
+#            print_info "vboxservice permet de synchroniser la date et l'heure avec le système hôte."
+#            package_install "virtualbox-guest-utils"
+#            systemctl enable vboxservice.service
+#            pause_function
+        fi
+        print_title "DBUS - https://wiki.archlinux.org/index.php/D-Bus"
+        print_info "D-Bus fournit un moyen aisé pour la communication inter-processus."
+        package_install "dbus python2-dbus"
+        pacman -D --asdeps python2-dbus
+        pause_function
+        print_title "OUTILS DE (DE)COMPRESSION - https://wiki.archlinux.org/index.php/P7zip"
+        package_install "zip unzip unrar p7zip"
+#        aur_package_install "rar"
+        pause_function
+        print_title "AVAHI - https://wiki.archlinux.org/index.php/Avahi"
+        print_info "Avahi est une mise en oeuvre des protocoles Zeroconf."
+        package_install "avahi nss-mdns"
+        print_info_cyan "AVAHI : Activation de avahi ( Recommandé pour CUPS )."
+        read_input_text "Activer avahi ( Recommandé pour CUPS ) ?"
+        if [[ $OPTION == o ]]; then
+            is_package_installed "avahi" && systemctl enable avahi-daemon.service
+            is_package_installed "avahi" && systemctl enable avahi-dnsconfd.service
+        fi
+        pause_function
+        print_title "ACPI - https://wiki.archlinux.org/index.php/ACPI_modules"
+        print_info "Acpid est un démon flexible et extensible pour délivrer des évènements ACPI.\n"
+        read_input_text "Installer acpi et acpid et activer acpid ( Recommandé pour Portable ) ?"
+        if [[ $OPTION == o ]]; then
+            package_install "acpi acpid"
+            is_package_installed "acpid" && systemctl enable acpid.service
+        fi
+        pause_function
+        print_title "ALSA - https://wiki.archlinux.org/index.php/Alsa"
+        print_info "ALSA (Advanced Linux Sound Architecture) est un composant du noyau Linux qui gère le support des cartes son."
+        package_install "alsa-utils"
+        print_info_cyan "ALSA : Activation des canaux et test du son."
+        read_input_text "Activer les canaux et tester le son ?"
+        if [[ $OPTION == o ]]; then
+            print_info_cyan "ALSA - alsamixer : activer les canaux PCM, Master et Front ( MM -> M ) et régler le volume."
+            pause_function
+            alsamixer
+            print_info_cyan "ALSA - speaker-test : test du son."
+            pause_function
+            speaker-test -c 2 -l 2
+            alsactl store
+        fi
+        pause_function
+        print_title "NTFS/FAT/exFAT - https://wiki.archlinux.org/index.php/File_Systems"
+        print_info "Un système de fichiers est un moyen d'organiser les données devant être conservées, ainsi que de gérer l'espace disponible sur le(s) périphérique(s) qui les contient."
+        package_install "ntfs-3g dosfstools exfat-utils fuse fuse-exfat"
+#        is_package_installed "fuse" && add_module "fuse"
+        pause_function
+        #}}}
+    }
+    #}}}
+    # 12 READAHEAD {{{
+    enable_readahead() {
+        print_title "READAHEAD - https://wiki.archlinux.org/index.php/Improve_Boot_Performance"
+        print_info "Systemd comes with its own readahead implementation, this should in principle improve boot time. However, depending on your kernel version and the type of your hard drive, your mileage may vary (i.e. it might be slower)."
+        read_input_text "Activer Readahead" $READAHEAD
+        if [[ $OPTION == o ]]; then
+            systemctl enable systemd-readahead-collect.service
+            systemctl enable systemd-readahead-replay.service
+            pause_function
+        fi
+    }
+    #}}}
+    # 13 XORG {{{
+    install_xorg() {
+        print_title "XORG - https://wiki.archlinux.org/index.php/Xorg"
+        print_info "Xorg est l'implémentation officielle du système graphique X Window System version 11."
+        echo "Installion de X-Server (requis pour Environement de Bureau, Pilotes GPU, Agencement Clavier, ...)"
+        package_install "xorg-server xorg-server-utils xorg-xinit xorg-utils xorg-twm xorg-xclock xterm"
+#        package_install "xf86-input-synaptics xf86-input-mouse xf86-input-keyboard"
+        package_install "mesa gamin"
+        #CONFIGURE AZERTY KEYBOARD IN XORG {{{
+        print_info_cyan "Mise en place de la disposition du clavier en FR."
+        cp -v ai-fconfig/10-keyboard-layout.conf /etc/X11/xorg.conf.d/10-keyboard-layout.conf
+        pause_function
+    }
+    #}}}
+    # FONT CONFIGURATION PRESETS {{{
+    configure_font_presets() {
+        print_title "FONT CONFIGURATION - https://wiki.archlinux.org/index.php/Font_Configuration"
+        print_info "Fontconfig est une bibliothèque conçue pour fournir une liste des polices disponibles aux applications, et aussi pour configurer la façon dont les polices seront rendues."
+        package_install "cairo fontconfig freetype2 libxft"
+        pause_function
+    }
+    #}}}
+    # 14 VIDEO CARDS {{{
+    install_video_cards() {
+        print_title "CARTE VIDEO"
+        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+            print_info_cyan "Installation dans Oracle VM Virtualbox."
+            package_install "mesa-libgl virtualbox-guest-utils"
+            echo "# Load vbox modules guest at boot" > /etc/modules-load.d/vbox_modules_guest.conf
+            echo "vboxguest" >> /etc/modules-load.d/vbox_modules_guest.conf
+            echo "vboxsf" >> /etc/modules-load.d/vbox_modules_guest.conf
+            echo "vboxvideo" >> /etc/modules-load.d/vbox_modules_guest.conf
+            start_module "vboxguest"
+            start_module "vboxsf"
+            start_module "vboxvideo"
+            echo -e "\n"
+            groupadd vboxsf
+            echo -e "\n"
+            gpasswd -a $USERNAME vboxsf
+        else
+            # test si nvidia
+            if [[ -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
+                print_info_cyan "Carte NVIDIA détectée.\n"
+                read_input_text  "Installer le pilote vidéo propriétaire nVidia ?"
+                if [[ $OPTION == o ]]; then
+                    local video_installed=`pacman -Qe | grep xf86-video | awk '{print $1}'`
+                    if [[ -n $(echo ${video_installed}) ]]; then
+                        package_remove "$(pacman -Qe | grep xf86-video | awk '{print $1}')"
+                    fi
+                    package_install "nvidia nvidia-utils nvidia-libgl pangox-compat libva-vdpau-driver"
+                    #CONFIGURE NVIDIA IN XORG {{{
+                    print_info_cyan "Mise en place des réglages de nVidia."
+                    cp -v ai-fconfig/20-nvidia.conf /etc/X11/xorg.conf.d/20-nvidia.conf
+                    #}}}
+                else
+                    package_install "mesa-libgl xf86-video-nouveau nouveau-dri"
+                    add_module "nouveau"
+                fi
+            # test si intel
+            elif [[ -f /sys/kernel/debug/dri/0/i915_capabilities ]]; then
+                print_info_cyan "Carte INTEL détectée.\n"
+                package_install "mesa-libgl xf86-video-intel intel-dri libva-intel-driver"
+            # test si ATI/AMD
+            elif [[ -f /sys/kernel/debug/dri/0/radeon_pm_info || -f /sys/kernel/debug/dri/0/radeon_sa_info ]]; then
+                print_info_cyan "Carte ATI détectée.\n"
+                package_install "mesa-libgl xf86-video-ati ati-dri"
+                add_module "radeon"
+            # VESA PAR DEFAUT
+            else
+                print_info_cyan "Installe le pilote Vesa par défaut.\n"
+                package_install "mesa-libgl xf86-video-vesa"
+            fi
+        fi
+        pause_function
+    }
+    #}}}
+    #CUPS {{{
+    install_cups() {
+      print_title "CUPS - https://wiki.archlinux.org/index.php/Cups"
+      print_info "CUPS est le système d'impression opensource basé sur des normes et développé par Apple Inc pour OS®X et autres systèmes d'exploitation UNIX®-like."
+      read_input_text "Installer CUPS ( Common Unix Printing System ) ?"
+      if [[ $OPTION == o ]]; then
+          package_install "cups cups-filters ghostscript gsfonts"
+          package_install "gutenprint foomatic-db foomatic-db-engine foomatic-db-nonfree foomatic-filters hplip splix cups-pdf"
+          systemctl enable cups.service
+          pause_function
+      fi
+    }
+    #}}}
+
+#
+# Install DE OU WM
+#
+
+    # 25 FONTS {{{
+    install_fonts() {
+      while true
+      do
+          print_title "FONTS - https://wiki.archlinux.org/index.php/Fonts"
+          echo " 1) $(menu_item "ttf-google-fonts-git") $AUR"
+          echo " 2) $(menu_item "ttf-inconsolata")"
+          echo ""
+          echo " f) FINI"
+          echo ""
+          FONTS_OPTIONS+=" f"
+          read_input_options "$FONTS_OPTIONS"
+          for OPT in ${OPTIONS[@]}; do
+            case "$OPT" in
+              1)
+                aur_package_install "ttf-google-fonts-git"
+                ;;
+              2)
+                package_install "ttf-inconsolata"
+                ;;
+              "f")
+                break
+                ;;
+              *)
+                invalid_option
+                ;;
+            esac
+          done
+          elihw
+        done
+    }
+    #}}}
+    # 96 CLEAN ORPHAN PACKAGES {{{
+    clean_orphan_packages() {
+        print_title "NETTOYAGE PAQUETS ORPHELINS"
+        pacman -Rsc $(pacman -Qqdt)
+        pacman -Sc
+        pacman-optimize
+    }
+    #}}}
+    # 97 MAJ MANDB {{{
+    update_mandb() {
+        print_title "MANDB - https://wiki.archlinux.org/index.php/Man_Page"
+        print_info "Génération ou mise à jour du cache de man."
+        read_input_text "Générer ou mettre à jour le cache de man (prend qque minutes) ?"
+        if [[ $OPTION == o ]]; then
+            /usr/bin/mandb --quiet
+            pause_function
+        fi
+    }
+    #}}}
+    # 98 CLEAN CACHE PACMAN {{{
+    clean_cache_pacman() {
+        print_title "NETTOYAGE DU CACHE DE PACMAN"
+        pacman -Sc
+        pacman-optimize
+        #ADD VERBOSE TO PACMAN.CONF
+        print_info_cyan "Ajoute l'option Verbose à pacman.conf."
+        sed -i "/^#VerbosePkgLists/c\VerbosePkgLists" /etc/pacman.conf
+        if is_package_installed "pkgfile" ; then
+            print_info_cyan "Génération ou mise à jour du cache de pkgfile."
+            pkgfile --update
+        fi
+        pause_function
+    }
+    #}}}
+    # 99 FINISH {{{
+    finish() {
+        print_title "ATTENTION: PAQUETS INSTALLÉS DEPUIS AUR"
+        print_warning "Liste des paquets non officiellement supportés:"
+        pacman -Qm | awk '{print $1}' > aur_pkglist.txt
+#        less aur_pkglist.txt
+        cat aur_pkglist.txt
+        pause_function
+        print_title "INSTALLATION TERMINÉE"
+        echo -e "Merci d'avoir utilisé les scripts d'installation de Archlinux."
+        chown -R $USERNAME:users /home/$USERNAME
+        #REBOOT
+        read -p "Rebooter le système [O/N] ? : " OPTION
+        [[ $OPTION == o ]] && reboot
+        exit 0
+    }
+    #}}}
+
+    # Début Install
+    # Sets the interval of inactivity et fonts
+    setterm -blank 0
+    setfont Lat2-Terminus16
+    #
+    read_name_dir_archlinux
+    read_name_mgr_efi
+    check_is_uefi_or_bios
+    check_is_in_virtualbox
+#     check_is_cm_asus_z87c
+    welcome
+    check_root
+    check_network
+    check_already_launched
+    add_custom_repositories
+    set_launched
+#    sorting_mirror_by_speed
+    system_upgrade
+    language_selector
+    configure_sudo
+    select_user
+    choose_aurhelper
+    install_basic_setup
+#    install_preload
+    enable_readahead
+    install_xorg
+    configure_font_presets
+    install_video_cards
+    install_cups
+
+# Début install DE OU WM {{{
+        print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
+        DES_KDE_OB=("KDE" "OPENBOX");
+        PS3="$prompt1"
+        echo -e "${BWhite}"
+        echo -e "Sélectionner l'environnement de bureau ou le gestionnaire de fenêtres :"
+        select OPT in "${DES_KDE_OB[@]}"; do
+            case "$REPLY" in
+                1)
+                    source `pwd`/ai-kde
+                    break
+                    ;;
+                2)
+                    source `pwd`/ai-ob
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    echo -e "${BWhite}"
+                    echo -e "Sélectionner l'environnement de bureau ou le gestionnaire de fenêtres :"
+                    ;;
+            esac
+        done
+        echo -e "${White}"
+        #}}}
+
+    install_desktop_environment
+    install_nm_wicd
+    install_accessories_apps
+    install_system_apps
+    install_development_apps
+    install_office_apps
+    install_graphics_apps
+    install_internet_apps
+    install_audio_apps
+    install_video_apps
+    # SI KDE=1
+    if [[ ${KDE} -eq 1 ]]; then
+        install_audio_video_apps
+    fi
+    #
+    install_games
+#}}} FIN install DE OU WM
+
+    install_fonts
+#    clean_orphan_packages
+    update_mandb
+    clean_cache_pacman
+    finish
