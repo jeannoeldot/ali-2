@@ -118,6 +118,12 @@ source `pwd`/ai-commons
             fi
         fi
         #
+        if [[ $IS_UEFI -eq 1 ]]; then
+            if [[ ${IS_HDD_OR_SSD} == "SSD" ]]; then
+                print_info_cyan "UEFI et SSD : Options pour vfat : rajouter discard."
+            fi
+        fi
+        #
         echo -e "\nVérification du fichier /etc/fstab avec $EDITOR"
         pause_function
         $EDITOR ${MOUNTPOINT}/etc/fstab
