@@ -20,6 +20,10 @@ $ systemctl list-units
 efistub_update.path                                       loaded active waiting   Check update EFISTUB Kernel
 refind_update.path                                        loaded active waiting   Check update rEFInd
 
+SI DANS ARCH_2 :
+================
+efistub_update.path                                       loaded active waiting   Check update EFISTUB Kernel
+
 
  A)) ROOT
 ========================
@@ -874,7 +878,7 @@ Onglet Général : Dossier par défaut des machines :
 Menu Outils -> Modules Complémentaires
 Onglet Catalogue
 ( A Droite ) En progression    Voir tous
-Rechercher : dictionnaires
+Rechercher : dictionnaires français
 
 https://addons.mozilla.org/fr/firefox/addon/dictionnaires-fran%C3%A7ais/?src=ss
 
@@ -907,6 +911,79 @@ Marque-pages -> Importation et sauvegarde -> Importer HTML
 !!! VOIR : /home/jnd/09-Documentation/20-Wine-Civ4/0-INSTALL/02-Installation-Civ4-Complete.txt
 
 
+
+DANS OPEN-BOX / CK
+===================
+SI 05-builds N'EXISTE PAS
+==============================
+$ cd && mkdir ~/05-builds && mkdir ~/05-builds/0-chroot
+
+$ yaourt -Syua i7z-git
+!!! TEST EN ROOT : i7z
+
+$ yaourt -Syua turbostat
+!!! => ERREUR
+
+https://wiki.archlinux.org/index.php/Profile-sync-daemon
+$ yaourt -Syua profile-sync-daemon
+$ sudo nano -w /etc/psd.conf
+$ profile-sync-daemon parse
+$ cat ~/.mozilla/firefox/profiles.ini
+$ sudo systemctl start psd.service psd-resync.service
+$ sudo systemctl enable psd.service psd-resync.service
+$ sudo systemctl status psd.service psd-resync.service
+
+$ yaourt -Syua profile-cleaner
+$ profile-cleaner f
+
+$ yaourt -Syua libicns
+
+$ yaourt -Syua sysbench
+
+SI 00-repolocal N'EXISTE PAS
+==============================
+$ mkdir /home/jnd/00-repolocal
+
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /home/jnd/00-repolocal/
+
+$ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
+
+LM_SENSORS-SVN
+===============
+
+1) COMPILER lm_sensors-svn
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/lm_sensors-svn.tar.xz /home/jnd/05-builds/
+$ tar -xJf /home/jnd/05-builds/lm_sensors-svn.tar.xz -C /home/jnd/05-builds/
+$ rm -f /home/jnd/05-builds/lm_sensors-svn.tar.xz
+
+# systemctl stop lm_sensors.service
+# systemctl disable lm_sensors.service
+# pacman -U /home/jnd/00-repolocal/lm_sensors-svn-3.34.6207-1-x86_64.pkg.tar.xz
+# sensors-detect
+# systemctl start lm_sensors.service
+# systemctl enable lm_sensors.service
+# systemctl status lm_sensors.service
+!!! TEST EN USER : sensors
+
+INSTALLATION DE CONKY
+=================================
+
+$ cd
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/00-Conky.tar.xz /home/jnd/
+$ tar -xJf 00-Conky.tar.xz
+$ rm -f 00-Conky.tar.xz
+
+!!! VOIR : /home/jnd/00-Conky/Install-Conky.TXT
+!!! VOIR : /home/jnd/00-Conky/0-COMMANDES TEST CONKY.TXT
+
+
+INSTALLATION DE LINUX-CK
+=================================
+!!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
+
+==========================================================
+ANCIEN
+======
 
 ==========================================================
 TEST

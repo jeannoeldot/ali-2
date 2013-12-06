@@ -1,0 +1,158 @@
+INSTALLATION DE LINUX-CK
+==============================
+
+https://wiki.archlinux.org/index.php/Linux-ck
+
+https://wiki.archlinux.org/index.php/Repo-ck
+
+https://aur.archlinux.org/packages/linux-ck/
+
+
+$ sudo nano /etc/pacman.conf
+
+Ajouter au-début AVANT [core] :
+
+[repo-ck]
+Server = http://repo-ck.com/$arch
+
+[root@arch2obck ~]# pacman-key -r 5EE46C4C
+[root@arch2obck ~]# pacman-key --lsign-key 5EE46C4C
+
+[root@arch2obck ~]# pacman -Syy
+
+[root@arch2obck ~]# pacman -Sl repo-ck
+
+repo-ck linux-ck-haswell 3.12.3-1
+repo-ck linux-ck-haswell-headers 3.12.3-1
+
+repo-ck nvidia-ck-haswell 331.20-13
+
+repo-ck virtualbox-ck-guest-modules-haswell 4.3.4-2
+repo-ck virtualbox-ck-host-modules-haswell 4.3.4-2
+
+[root@arch2obck ~]# pacman -Syu
+
+[root@arch2obck ~]# pacman -S ck-haswell
+:: Il y a 7 membres dans le groupe ck-haswell :
+:: Dépôt repo-ck
+   1) broadcom-wl-ck-haswell  2) linux-ck-haswell  3) linux-ck-haswell-headers  4) nvidia-304xx-ck-haswell
+   5) nvidia-ck-haswell  6) virtualbox-ck-guest-modules-haswell  7) virtualbox-ck-host-modules-haswell
+
+Entrez une sélection (par défaut, tout est sélectionné): 
+
+[root@arch2obck ~]# pacman -S linux-ck-haswell linux-ck-haswell-headers nvidia-ck-haswell
+
+
+INSTALLATION DE EFISTUB
+=========================
+
+# ls /boot
+initramfs-linux-ck.img
+initramfs-linux-ck-fallback.img
+vmlinuz-linux-ck
+
+# ls /boot/efi/EFI/arch_2
+initramfs-arch_2-fallback.img  initramfs-arch_2.img  refind_linux.conf  vmlinuz-arch_2.efi
+
+# mkdir -p /boot/efi/EFI/arch_2_ck
+# cp -v /boot/efi/EFI/arch_2/refind_linux.conf /boot/efi/EFI/arch_2_ck/
+# cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
+# cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
+# cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
+
+# ls /boot/efi/EFI/arch_2_ck
+initramfs-arch_2_ck-fallback.img  initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
+
+
+ICONES
+========
+!!! Installées par mon script ai-b
+
+
+SERVICE EFISTUB_UPDATE
+=========================
+
+# ls /etc/systemd/system | grep efistub
+efistub_update.path
+efistub_update.service
+
+# cp -v /etc/systemd/system/efistub_update.path /etc/systemd/system/efistub_ck_update.path
+# cp -v /etc/systemd/system/efistub_update.service /etc/systemd/system/efistub_ck_update.service
+
+# ls /etc/systemd/system | grep efistub
+efistub_ck_update.path
+efistub_ck_update.service
+efistub_update.path
+efistub_update.service
+
+Modfifications de efistub_ck_update.path et de efistub_ck_update.service
+=========================================================================
+
+# nano -w /etc/systemd/system/efistub_ck_update.path
+
+[Unit]
+Description=Check update EFISTUB Linux-CK
+
+[Path]
+##PathChanged=/boot/vmlinuz-linux-ck
+##PathChanged=/boot/initramfs-linux-ck.img
+PathChanged=/boot/initramfs-linux-ck-fallback.img
+
+Unit=efistub_ck_update.service
+
+[Install]
+WantedBy=multi-user.target
+
+
+# nano -w /etc/systemd/system/efistub_ck_update.service
+
+[Unit]
+Description=Copy EFISTUB Linux-CK to UEFISYS Partition
+# Requires=boot-efi.mount
+
+[Service]
+Type=oneshot
+
+ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
+
+
+# systemctl enable efistub_ck_update.path
+
+# systemctl status efistub_ck_update.path
+
+
+REBOOTER
+=========
+
+# systemctl list-units | grep efistub
+efistub_ck_update.path                                                                    loaded active waiting
+   Check update EFISTUB Linux-CK
+efistub_update.path                                                                       loaded active waiting
+   Check update EFISTUB Kernel
+
+
+
+======================================================================================
+ANCIEN
+=======
+
+Monter partition Boot de Arch Principale
+-----------------------------------------
+==> /media/d089443d-0458-4ce1-9288-b6a0f9b85b61/grub/
+
+[jnd@arch64 ~]$ cd /media/d089443d-0458-4ce1-9288-b6a0f9b85b61/grub/
+
+[jnd@arch64 grub]$ ls
+
+[jnd@arch64 grub]$ kdesu kwrite menu.lst
+
+Ajouter :
+
+# (2) Arch Linux Test (Linux-ck Wine)
+title Arch Linux Test Linux-ck Wine
+root   (hd0,12)
+kernel /vmlinuz-linux-ck root=/dev/disk/by-uuid/9634ad70-986c-40cb-a007-f9c694b635e6 ro vga=773 elevator=bfq quiet
+initrd /initramfs-linux-ck.img
+

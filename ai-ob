@@ -53,6 +53,9 @@
         # LSB-RELEASE {{{
         print_info_cyan "Installation de lsb-release"
         package_install "lsb-release"
+        # UPOWER
+        print_info_cyan "Installation de upower"
+        package_install "upower"
         #
         print_info_cyan "Configuration par défaut de l'utilisateur $USERNAME."
         mkdir -p /home/$USERNAME/.config/openbox

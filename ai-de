@@ -334,6 +334,7 @@ source `pwd`/ai-commons
                 echo -e "\n"
             fi
             cp -v ai-fconfig/00-Cmd-Customize-Arch.TXT /home/$USERNAME/00-Cmd-Customize-Arch.TXT
+            cp -v ai-fconfig/00-Cmd-INSTALLATION DE LINUX-CK.TXT /home/$USERNAME/00-Cmd-INSTALLATION DE LINUX-CK.TXT
             echo -e "\n"
             chown -R $USERNAME:users /home/$USERNAME
         } #}}}
