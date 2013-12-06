@@ -136,8 +136,8 @@
         # Enable kdm.service
         systemctl enable kdm.service
         echo -e "\n"
-        # Application development toolkit for controlling system-wide privileges
-	systemctl enable polkit.service
+#        # Application development toolkit for controlling system-wide privileges
+#	systemctl enable polkit.service
         echo -e "\n"
         # Abstraction for enumerating power devices, listening to device events and querying history and statistics
         systemctl enable upower.service

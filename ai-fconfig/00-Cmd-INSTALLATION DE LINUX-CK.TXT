@@ -126,12 +126,17 @@ ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arc
 REBOOTER
 =========
 
+VÉRIFICATIONS
+=============
 # systemctl list-units | grep efistub
 efistub_ck_update.path                                                                    loaded active waiting
    Check update EFISTUB Linux-CK
 efistub_update.path                                                                       loaded active waiting
    Check update EFISTUB Kernel
 
+PKGFILE
+========
+# pkgfile --update
 
 
 ======================================================================================
