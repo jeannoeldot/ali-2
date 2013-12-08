@@ -14,7 +14,7 @@
     install_bootloader() {
         print_title "PROCESSUS DE BOOT - https://wiki.archlinux.org/index.php/Bootloader"
         print_info "Le chargeur de démarrage est responsable du chargement du noyau et du disque virtuel initial avant de lancer le processus de démarrage."
-        bootloader=("Grub2" "Syslinux" "Passer")
+        bootloader=("Grub" "Syslinux" "Passer")
         PS3="$prompt1"
         echo -e "Installation du Chargeur de démarrage :\n"
         select BOOTLOADER in "${bootloader[@]}"; do
@@ -45,9 +45,9 @@
     #CONFIGURE BOOTLOADER {{{
     configure_bootloader() {
         case $BOOTLOADER in
-            Grub2)
-                print_title "GRUB2 - https://wiki.archlinux.org/index.php/GRUB2"
-                print_info "GRUB2 est la génération suivante de GRUB (GRand Unified Bootloader).\nBrièvement, le bootloader est le premier logiciel qui s'exécute lorsque l'ordinateur démarre. Il est responsable du chargement et du transfert de contrôle au noyau. Ce dernier initialise le reste du système d'exploitation."
+            Grub)
+                print_title "GRUB - https://wiki.archlinux.org/index.php/GRUB"
+                print_info "GRUB, (GRand Unified Bootloader).\nBrièvement, le bootloader est le premier logiciel qui s'exécute lorsque l'ordinateur démarre. Il est responsable du chargement et du transfert de contrôle au noyau. Ce dernier initialise le reste du système d'exploitation."
                 # Ne semble plus nécessaire
                 # modprobe dm-mod
                 grub-install --target=i386-pc --recheck ${ROOT_DEVICE}
@@ -55,6 +55,9 @@
                 print_info_cyan "GRUB_TIMEOUT=3 et GRUB_GFXMODE=1024x768"
                 sed -i "/^GRUB_TIMEOUT=/c\GRUB_TIMEOUT=3" /etc/default/grub
                 sed -i "/^GRUB_GFXMODE=/c\GRUB_GFXMODE=1024x768" /etc/default/grub
+                # BUGS FS#38041 FS#37904
+                echo -e "\nGRUB_DISABLE_SUBMENU=y" >> /etc/default/grub
+
                 #
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
