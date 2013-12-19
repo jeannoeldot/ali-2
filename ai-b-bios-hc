@@ -154,6 +154,7 @@
                 fi
                 mkfs.$TYPE $1
                 fsck $1
+                tune2fs -c 30 $1
                 mkdir -p $2
                 mount -t $TYPE $1 $2
                 remove_partition "$1"
