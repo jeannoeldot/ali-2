@@ -113,7 +113,12 @@
             print_info_cyan "Configuration de refind.conf."
             sed -i "/^timeout/c\timeout 3" ${NAME_DIR_EFI}/refind.conf
             sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot" ${NAME_DIR_EFI}/refind.conf
-            sed -i "/^#dont_scan_files/c\dont_scan_files shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
+            if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                sed -i "/^#dont_scan_files/c\dont_scan_files fallback.efi,shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
+            else
+                sed -i "/^#dont_scan_files/c\dont_scan_files BOOTX64.EFI,fallback.efi,shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
+                sed -i "/^#resolution 1024 768/c\resolution 1024 768" ${NAME_DIR_EFI}/refind.conf
+            fi
         else
             print_info_cyan "MULTI BOOT UEFI : Pas de configuration de refind.conf."
         fi
