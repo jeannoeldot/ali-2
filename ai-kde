@@ -36,7 +36,7 @@
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE GRAPHICS {{{
         print_info_cyan "Installation de KDE Graphiques"
-	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers"
+	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
 	package_install "kipi-plugins"
         # KDE NETWORK {{{
         print_info_cyan "Installation de KDE Réseau"
@@ -92,9 +92,9 @@
         } #}}}
         install_kdeartwork() { #{{{
             print_info_cyan "Installation de KDE ARTWORK (partie 1)"
-            package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes kdeartwork-iconthemes"
+            package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes"
             print_info_cyan "Installation de KDE ARTWORK (partie 2)"
-            package_install "kdeartwork-sounds kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
+            package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
             # KDE 4.12 : kdeartwork-sounds has been removed from the KDE SC.
             #package_install "kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
         } #}}}
