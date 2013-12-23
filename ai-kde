@@ -32,7 +32,7 @@
 	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
         # KDE MULTIMEDIA {{{
         print_info_cyan "Installation de KDE Multimedia"
-	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio"
+	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp"
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE GRAPHICS {{{
         print_info_cyan "Installation de KDE Graphiques"
@@ -94,9 +94,8 @@
             print_info_cyan "Installation de KDE ARTWORK (partie 1)"
             package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes"
             print_info_cyan "Installation de KDE ARTWORK (partie 2)"
-            package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
             # KDE 4.12 : kdeartwork-sounds has been removed from the KDE SC.
-            #package_install "kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
+            package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
         } #}}}
         while true
         do
