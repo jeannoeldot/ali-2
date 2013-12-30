@@ -529,7 +529,21 @@ $ cat /sys/block/sda/queue/scheduler   #where X is the device in question
 [noop] deadline cfq 
 
 
-21) INSTALLATION DE ABS
+25) MODIFICATION DE /etc/X11/xorg.conf.d/20-nvidia.conf
+========================================================
+!!! SI GeForce GTX 650 TI
+-------------------------
+
+Section "Device"
+   Identifier   "GeForce GTX 650 TI"
+   Driver       "nvidia"
+   Option       "NoLogo"        "True"
+   Option       "CoolBits"      "1"
+   Option       "TripleBuffer"  "True"
+EndSection
+
+
+30) INSTALLATION DE ABS
 ========================
 
 https://wiki.archlinux.org/index.php/VCS_PKGBUILD_Guidelines#Subversion
