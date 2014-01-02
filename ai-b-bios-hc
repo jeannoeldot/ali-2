@@ -131,9 +131,9 @@
         }
         umount_partition() {
             #check if swap is on and umount
-            swapon -s|grep $1 && swapoff $1
+            swapon -s | grep $1 && swapoff $1
             #check if partition is mounted and umount
-            mount|grep $1 && umount $1
+            mount | grep $1 && umount $1
         }
         remove_partition() {
             #remove the selected partition from list
@@ -176,7 +176,7 @@
             fi
         }
         function check_mountpoint() {
-            if mount|grep $2; then
+            if mount | grep $2; then
                 echo -e "${BWhite}Partition montée avec succès${White}"
                 remove_partition "$1"
             else
