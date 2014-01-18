@@ -19,14 +19,14 @@
 ### Mes réglages Installation Réelle
 ####################################
 #
-## Fond d'écran
-sh ~/.fehbg &
-#
-
-## COMPOSITING
+## Compositing
 #xcompmgr -c &
 #xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
 xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
+#
+
+## Fond d'écran
+sh ~/.fehbg &
 #
 
 ## Barre des taches et Tray

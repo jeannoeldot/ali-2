@@ -581,7 +581,7 @@
         print_title "APPLICATIONS VIDEO"
         echo " 1) $(menu_item "vlc")"
         echo " 2) $(menu_item "kdenlive")"
-        echo " 3) $(menu_item "libbluray libquicktime libdvdread libdvdnav libdvdcss cdrdao" "DVD Libs")"
+        echo " 3) $(menu_item "libbluray libquicktime libdvdread libdvdnav libdvdcss libaacs cdrdao" "DVD Libs")"
         echo ""
         echo " f) FINI"
         echo ""
@@ -596,7 +596,7 @@
                     package_install "kdenlive"
                     ;;
                 3)
-                    package_install "libbluray libquicktime libdvdread libdvdnav libdvdcss cdrdao"
+                    package_install "libbluray libquicktime libdvdread libdvdnav libdvdcss libaacs cdrdao"
                     ;;
                 "f")
                     break

@@ -279,6 +279,65 @@
   </item>
 </menu>
 
+<menu id="apps-games-menu" label="Games">
+  <item label="Poker T H" icon="/usr/share/pixmaps/pokerth.png">
+    <action name="Execute">
+      <command>pokerth</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Rami" icon="/usr/share/pixmaps/jndqrami.png">
+    <action name="Execute">
+      <command>jndqrami</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Aligne5" icon="/usr/share/pixmaps/jndqaligne5.png">
+    <action name="Execute">
+      <command>jndqrami</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Civilization 4" icon="/home/jnd/.local/share/icons/hicolor/48x48/apps/65DD_Civilization4.0.png">
+    <action name="Execute">
+      <command>ob-launcher_civ4 civ4</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Civilization 4 - Beyond the Sword" icon="/home/jnd/.local/share/icons/hicolor/48x48/apps/44E2_Civ4BeyondSword.0.png">
+    <action name="Execute">
+      <command>ob-launcher_civ4 civ4_bts</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Civilization 4 - Warlords" icon="/home/jnd/.local/share/icons/hicolor/32x32/apps/0A98_Civ4Warlords.0.png">
+    <action name="Execute">
+      <command>ob-launcher_civ4 civ4_w</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Civilization 4 Colonization" icon="/home/jnd/.local/share/icons/hicolor/32x32/apps/2298_Colonization.0.png">
+    <action name="Execute">
+      <command>ob-launcher_civ4 civ4_c</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+</menu>
+
 <menu id="root-menu" label="Openbox 3">
   <separator label="Applications" />
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-accessories.png" id="apps-accessories-menu"/>
@@ -287,6 +346,7 @@
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-internet.png" id="apps-net-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-office.png" id="apps-office-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-multimedia.png" id="apps-multimedia-menu"/>
+  <menu icon="/usr/share/icons/Faenza/categories/96/applications-games.png" id="apps-games-menu"/>
   <menu icon="/usr/share/icons/Faenza/apps/96/utilities-terminal.png" id="apps-term-menu"/>
   <menu icon="/usr/share/icons/Faenza/places/96/folder.png" id="apps-fileman-menu"/>
   <separator label="Configuration" />
