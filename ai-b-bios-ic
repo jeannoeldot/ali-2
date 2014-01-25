@@ -40,6 +40,7 @@
                     ;;
             esac
         done
+        pause_function
     }
     #}}}
     #CONFIGURE BOOTLOADER {{{
@@ -57,8 +58,14 @@
                 sed -i "/^GRUB_GFXMODE=/c\GRUB_GFXMODE=1024x768" /etc/default/grub
                 # BUGS FS#38041 FS#37904
                 echo -e "\nGRUB_DISABLE_SUBMENU=y" >> /etc/default/grub
+                # Enlève entrées 10_linux car présence de 10_archlinux
+                chmod -x /etc/grub.d/10_linux
                 #
                 grub-mkconfig -o /boot/grub/grub.cfg
+                #
+                echo -e "\nVérification du fichier grub.cfg avec $EDITOR"
+                pause_function
+                $EDITOR /boot/grub/grub.cfg
                 ;;
             Syslinux)
                 print_title "SYSLINUX - https://wiki.archlinux.org/index.php/Syslinux"
@@ -71,7 +78,11 @@
                 cp -v ai-fconfig/boot-syslinux-splash.png /boot/syslinux/splash.png
                 partroot=(`echo $ROOT | sed 's/\/dev\///'`)
                 partuuid=(`ls -l /dev/disk/by-uuid | awk '/'$partroot'/ {print $9}'`)
-                sed -i "s/root=PART_ROOT/root=UUID=$partuuid/g" boot/syslinux/syslinux.cfg
+                sed -i "s/root=PART_ROOT/root=UUID=$partuuid/g" /boot/syslinux/syslinux.cfg
+                #
+                echo -e "\nVérification du fichier syslinux.cfg avec $EDITOR"
+                pause_function
+                $EDITOR /boot/syslinux/syslinux.cfg
                 ;;
         esac
         pause_function
