@@ -165,7 +165,7 @@
                 remove_partition "$1"
             fi
         }
-        function check_mountpoint() {
+        check_mountpoint() {
             if mount | grep $2; then
                 echo -e "${BWhite}Partition montée avec succès${White}"
                 remove_partition "$1"

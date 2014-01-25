@@ -56,6 +56,9 @@
         # UPOWER
         print_info_cyan "Installation de upower"
         package_install "upower"
+        # POLKIT-GNOME
+        print_info_cyan "Installation de polkit-gnome"
+        package_install "polkit-gnome"
         #
         print_info_cyan "Configuration par défaut de l'utilisateur $USERNAME."
         mkdir -p /home/$USERNAME/.config/openbox

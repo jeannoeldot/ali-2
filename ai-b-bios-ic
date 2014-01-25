@@ -57,7 +57,6 @@
                 sed -i "/^GRUB_GFXMODE=/c\GRUB_GFXMODE=1024x768" /etc/default/grub
                 # BUGS FS#38041 FS#37904
                 echo -e "\nGRUB_DISABLE_SUBMENU=y" >> /etc/default/grub
-
                 #
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
