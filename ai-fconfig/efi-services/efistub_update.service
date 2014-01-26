@@ -1,5 +1,5 @@
 [Unit]
-Description=Copy EFISTUB Kernel to UEFISYS Partition
+Description=Copy EFISTUB Linux-ARCH to UEFISYS Partition
 # Requires=boot-efi.mount
 
 [Service]

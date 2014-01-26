@@ -835,6 +835,7 @@ BROWSERS="firefox"
 
 !!! VOIR
 # pacman -Syu ttf-oxygen ttf-win7-fonts
+!!!
 # pacman -S bluegriffon
 
 !!! INUTILE : PLUS UTILISE
@@ -873,7 +874,8 @@ Onglet Général : Dossier par défaut des machines :
 
 # systemctl stop lm_sensors.service
 # systemctl disable lm_sensors.service
-# pacman -Syu lm_sensors-svn
+!!! INUTILE DEPUIS LE 22/01/2014 # pacman -Syu lm_sensors-svn
+# pacman -Syu lm_sensors
 # sensors-detect
 # systemctl start lm_sensors.service
 # systemctl enable lm_sensors.service
@@ -962,6 +964,7 @@ $ cp -v /0-DataLinux/00-ARCH_2-OB-CK/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /ho
 
 $ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
 
+!!! INUTILE DEPUIS LE 22/01/2014
 LM_SENSORS-SVN
 ===============
 
@@ -973,6 +976,9 @@ $ rm -f /home/jnd/05-builds/lm_sensors-svn.tar.xz
 # systemctl stop lm_sensors.service
 # systemctl disable lm_sensors.service
 # pacman -U /home/jnd/00-repolocal/lm_sensors-svn-3.34.6207-1-x86_64.pkg.tar.xz
+
+!!! DEPUIS LE 22/01/2014
+# pacman -Syu lm_sensors
 # sensors-detect
 # systemctl start lm_sensors.service
 # systemctl enable lm_sensors.service
@@ -993,9 +999,7 @@ $ rm -f 00-Conky.tar.xz
 
 INSTALLATION DE LINUX-CK
 =================================
-!!! VOIR : 00-Cmd-INSTALLATION-LINUX-CK.TXT
-OU
-!!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION-LINUX-CK.TXT
+!!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
 
 ==========================================================
 ANCIEN

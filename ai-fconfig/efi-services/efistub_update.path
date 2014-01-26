@@ -1,5 +1,5 @@
 [Unit]
-Description=Check update EFISTUB Kernel
+Description=Check update EFISTUB Linux-ARCH
 
 [Path]
 ##PathChanged=/boot/vmlinuz-linux
