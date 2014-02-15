@@ -165,10 +165,14 @@
             cp -v ai-fconfig/ob-user-.config-nitrogen-nitrogen.cfg /home/$USERNAME/.config/nitrogen/nitrogen.cfg
             # user fbpanel
             mkdir -p /home/$USERNAME/.config/fbpanel
-            cp -v ai-fconfig/ob-user-.config-fbpanel-default /home/$USERNAME/.config/fbpanel/default
-#            local id_net_name=(`ip link show | awk '/2: / {print $2}' | sed -e "s/://"`)
-            local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
-            sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/$USERNAME/.config/fbpanel/default
+            if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                cp -v ai-fconfig/ob-user-.config-fbpanel-default-vbox /home/$USERNAME/.config/fbpanel/default
+#               local id_net_name=(`ip link show | awk '/2: / {print $2}' | sed -e "s/://"`)
+                local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
+                sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/$USERNAME/.config/fbpanel/default
+            else
+                cp -v ai-fconfig/ob-user-.config-fbpanel-default-reel /home/$USERNAME/.config/fbpanel/default
+            fi
             # user terminator
             mkdir -p /home/$USERNAME/.config/terminator
             cp -v ai-fconfig/ob-user-.config-terminator-config /home/$USERNAME/.config/terminator/config
@@ -413,7 +417,7 @@
         print_title "OUTILS SYSTÈME"
         echo " 1) $(menu_item "gparted")"
         echo " 2) $(menu_item "grsync")"
-        echo " 3) $(menu_item "htop lshw hwinfo dmidecode ncdu dfc expac pkgfile")"
+        echo " 3) $(menu_item "htop iotop lshw hwinfo dmidecode ncdu dfc expac pkgfile")"
         echo " 4) $(menu_item "lm_sensors")"
         echo " 5) $(menu_item "hddtemp gnu-netcat")"
         echo " 6) $(menu_item "gsmartcontrol" "S.M.A.R.T.")"

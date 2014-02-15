@@ -257,7 +257,7 @@
         print_title "OUTILS SYSTÈME"
         echo " 1) $(menu_item "gparted")"
         echo " 2) $(menu_item "grsync")"
-        echo " 3) $(menu_item "htop lshw hwinfo dmidecode ncdu dfc expac pkgfile")"
+        echo " 3) $(menu_item "htop iotop lshw hwinfo dmidecode ncdu dfc expac pkgfile")"
         echo " 4) $(menu_item "lm_sensors")"
         echo " 5) $(menu_item "hddtemp gnu-netcat")"
         echo " 6) $(menu_item "gsmartcontrol" "S.M.A.R.T.")"
