@@ -43,7 +43,7 @@
 	package_install "kdenetwork-kget kwebkitpart"
         # KDE SDK {{{
         print_info_cyan "Installation de KDE Sdk"
-        package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdebindings-python2 kdebindings-python"
+        package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE FONTS {{{
         print_info_cyan "Installation de KDE Polices TTF"
 	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family"
