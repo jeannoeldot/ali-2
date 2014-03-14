@@ -17,12 +17,12 @@ Détail du compte : Emplacements : Dossier ...
 ===========================================
 $ systemctl list-units
 
-efistub_update.path                                       loaded active waiting   Check update EFISTUB Kernel
+efistub_update.path                                       loaded active waiting   Check update EFISTUB  Linux-ARCH
 refind_update.path                                        loaded active waiting   Check update rEFInd
 
 SI DANS ARCH_2 :
 ================
-efistub_update.path                                       loaded active waiting   Check update EFISTUB Kernel
+efistub_update.path                                       loaded active waiting   Check update EFISTUB  Linux-ARCH
 
 
  A)) ROOT
@@ -470,6 +470,24 @@ ln -s '/dev/null' '/etc/systemd/system/plymouth-start.service'
 ln -s '/dev/null' '/etc/systemd/system/plymouth-quit-wait.service'
 ln -s '/dev/null' '/etc/systemd/system/syslog.service'
 
+SI
+$ systemctl --state=failed
+UNIT                                          LOAD   ACTIVE SUB    DESCRIPTION
+systemd-backlight@backlight:eeepc-wmi.service loaded failed failed Load/Save Screen Backlight Brightness of backlight:eeepc/wmi
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+1 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+
+==> FAIRE :
+!!! EN ROOT !!!
+---------------
+# systemctl mask systemd-backlight@backlight:eeepc-wmi.service
+ln -s '/dev/null' '/etc/systemd/system/systemd-backlight@backlight:eeepc-wmi.service'
+
 
 13) HDDTEMP : Créer ma conf ds /etc/systemd/system/hddtemp.service.d/myhddtemp.conf
 ===================================================================================
@@ -506,6 +524,10 @@ hddtemp.service - Hard drive temperature monitor daemon
 
 20) Using udev for one device or HDD/SSD mixed environment
 ==========================================================
+    # INUTILES :
+    # VOIR https://wiki.archlinux.org/index.php/SSD#I.2FO_Scheduler
+    #   et https://wiki.archlinux.org/index.php/Talk:Solid_State_Drives
+
 !!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
 ===============================================
  create and edit a file in /etc/udev/rules.d named '60-schedulers.rules'.
@@ -999,9 +1021,8 @@ $ rm -f 00-Conky.tar.xz
 
 INSTALLATION DE LINUX-CK
 =================================
-!!! VOIR : 00-Cmd-INSTALLATION-LINUX-CK.TXT
-OU
-!!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION-LINUX-CK.TXT
+!!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
+
 ==========================================================
 ANCIEN
 ======

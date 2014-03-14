@@ -255,7 +255,10 @@ else
     configure_mirrorlist
     install_base_system
     configure_fstab
-    configure_rules_if_ssd
+    # INUTILES :
+    # VOIR https://wiki.archlinux.org/index.php/SSD#I.2FO_Scheduler
+    #   et https://wiki.archlinux.org/index.php/Talk:Solid_State_Drives
+    # configure_rules_if_ssd
     #
     print_title "FIN INSTALLATION PARTIE 1 HORS CHROOT."
     # COPIE AI TO ROOT FOLDER IN THE NEW SYSTEM
