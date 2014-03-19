@@ -1021,6 +1021,8 @@ $ rm -f 00-Conky.tar.xz
 
 INSTALLATION DE LINUX-CK
 =================================
+!!! VOIR : 00-Cmd-INSTALLATION-LINUX-CK.TXT
+OU
 !!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
 
 ==========================================================

@@ -408,9 +408,10 @@ source `pwd`/ai-commons
         sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
         sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
         #
-        print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
-        #RuntimeWatchdogSec=20
-        sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
+        # INUTILE DEPUIS systemd 211
+        # print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
+        # #RuntimeWatchdogSec=20
+        # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
         #
         print_info_cyan "Mise en service de cronie."
         systemctl enable cronie.service
