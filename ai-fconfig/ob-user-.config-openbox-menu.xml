@@ -2,7 +2,7 @@
 
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 <showIcons>yes</showIcons>
-<menu id="apps-accessories-menu" label="Accessories">
+<menu id="apps-accessories-menu" label="Accessoires">
   <item label="Calculator" icon="/usr/share/icons/hicolor/48x48/apps/accessories-calculator.png">
     <action name="Execute">
       <command>xcalc</command>
@@ -21,7 +21,7 @@
   </item>
 </menu>
 
-<menu id="apps-editors-menu" label="Editors">
+<menu id="apps-editors-menu" label="Éditeurs">
   <item label="Geany" icon="/usr/share/icons/hicolor/48x48/apps/geany.png">
     <action name="Execute">
       <command>geany</command>
@@ -40,7 +40,7 @@
   </item>
 </menu>
 
-<menu id="apps-term-menu" label="Terminals">
+<menu id="apps-term-menu" label="Terminaux">
   <item label="LxTerminal" icon="/usr/share/pixmaps/lxterminal.png">
     <action name="Execute">
       <command>lxterminal --geometry=100x34</command>
@@ -118,7 +118,7 @@
   </item>
 </menu>
 
-<menu id="apps-office-menu" label="Office">
+<menu id="apps-office-menu" label="Bureautique">
   <item label="PDF Viewer" icon="/usr/share/icons/hicolor/48x48/apps/epdfview.png">
     <action name="Execute">
       <command>epdfview</command>
@@ -159,7 +159,7 @@
   </item>
 </menu>
 
-<menu id="apps-multimedia-menu" label="Multimedia">
+<menu id="apps-multimedia-menu" label="Multimédia">
   <item label="Clementine" icon="/usr/share/icons/hicolor/64x64/apps/application-x-clementine.png">
     <action name="Execute">
       <command>clementine</command>
@@ -178,7 +178,7 @@
   </item>
 </menu>
 
-<menu id="apps-fileman-menu" label="File Managers">
+<menu id="apps-fileman-menu" label="Gestionnaires de Fichiers">
   <item label="SpaceFM" icon="/usr/share/icons/hicolor/48x48/apps/spacefm.png">
     <action name="Execute">
       <command>spacefm</command>
@@ -214,7 +214,7 @@
   </item>
 </menu>
 
-<menu id="apps-graphics-menu" label="Graphics">
+<menu id="apps-graphics-menu" label="Graphismes">
   <item label="Blender" icon="/usr/share/icons/hicolor/48x48/apps/blender.png">
     <action name="Execute">
       <command>blender</command>
@@ -249,7 +249,7 @@
   </item>
 </menu>
 
-<menu id="system-menu" label="System">
+<menu id="system-menu" label="Système">
   <item label="Openbox Configuration Manager" icon="/usr/share/pixmaps/obconf.png">
     <action name="Execute">
       <command>obconf</command>
@@ -279,7 +279,7 @@
   </item>
 </menu>
 
-<menu id="apps-games-menu" label="Games">
+<menu id="apps-games-menu" label="Jeux">
   <item label="Poker T H" icon="/usr/share/pixmaps/pokerth.png">
     <action name="Execute">
       <command>pokerth</command>
@@ -354,8 +354,8 @@
   <item icon="/usr/share/icons/Faenza/actions/96/view-refresh.png" label="Reconfigure Openbox">
     <action name="Reconfigure" />
   </item>
-  <separator label="Computer" />
-  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Log Out...">
+  <separator label="Ordinateur" />
+  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Déconnexion...">
     <action name="Exit">
       <prompt>yes</prompt>
     </action>

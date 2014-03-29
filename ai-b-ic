@@ -76,11 +76,11 @@ source `pwd`/ai-commons
         echo "Vérification et/ou modification du fichier /etc/hostname avec $EDITOR"
         pause_function
         $EDITOR /etc/hostname
-#        # Lire valeur hostname ds HN
-#        HN=(`cat /etc/hostname | awk '{print $1}'`)
-#        # Ecrire la valeur hostname dans /etc/hosts
-#        sed -i "/127.0.0.1/s/$/ ${HN}/" /etc/hosts
-#        sed -i "/::1/s/$/ ${HN}/" /etc/hosts
+       # Lire valeur hostname ds HN
+       HN=(`cat /etc/hostname | awk '{print $1}'`)
+       # Ecrire la valeur hostname dans /etc/hosts
+       sed -i "/127.0.0.1/s/$/ ${HN}/" /etc/hosts
+       sed -i "/::1/s/$/ ${HN}/" /etc/hosts
     }
     #}}}
     #CONFIGURE TIMEZONE {{{
