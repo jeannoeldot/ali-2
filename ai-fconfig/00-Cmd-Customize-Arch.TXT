@@ -470,7 +470,8 @@ ln -s '/dev/null' '/etc/systemd/system/plymouth-start.service'
 ln -s '/dev/null' '/etc/systemd/system/plymouth-quit-wait.service'
 ln -s '/dev/null' '/etc/systemd/system/syslog.service'
 
-SI
+!!! SI :
+=========
 $ systemctl --state=failed
 UNIT                                          LOAD   ACTIVE SUB    DESCRIPTION
 systemd-backlight@backlight:eeepc-wmi.service loaded failed failed Load/Save Screen Backlight Brightness of backlight:eeepc/wmi
@@ -551,8 +552,48 @@ $ cat /sys/block/sda/queue/scheduler   #where X is the device in question
 [noop] deadline cfq 
 
 
+21) MICROCODE
+=============
+!!! EN ROOT !!!
+---------------
+# lsmod | grep microcode
+microcode              15216  0 
+
+# journalctl -b  | grep microcode
+avril 06 08:22:55 arch1kde kernel: microcode: CPU0 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU1 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU2 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU3 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU4 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU5 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU6 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: CPU7 sig=0x306c3, pf=0x2, revision=0x12
+avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
+avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
+avril 06 08:22:55 arch1kde kernel: microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+
+==> FAIRE :
+# pacman -Syu intel-ucode
+
 25) MODIFICATION DE /etc/X11/xorg.conf.d/20-nvidia.conf
 ========================================================
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
+===============================================
+
 !!! SI GeForce GTX 650 TI
 -------------------------
 
