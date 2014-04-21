@@ -713,7 +713,6 @@ source `pwd`/ai-commons
     configure_sudo
     select_user
     choose_aurhelper
-    install_intel_microcode
     install_basic_setup
 #    install_preload
     enable_readahead
