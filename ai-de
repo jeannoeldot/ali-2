@@ -419,6 +419,12 @@ source `pwd`/ai-commons
         print_info_cyan "Masque les services non utilisés."
         systemctl mask auditd.service plymouth-start.service plymouth-quit-wait.service syslog.service
         pause_function
+        if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+            print_title "MICROCODE - https://wiki.archlinux.org/index.php/microcode"
+            print_info "intel-ucode permet de mettre à jour le microcode des processeurs Intel."
+            package_install "intel-ucode"
+            pause_function
+        fi
         print_title "OUTILS BASH - https://wiki.archlinux.org/index.php/Bash"
         package_install "bc mlocate rsync bash-completion wget net-tools tree atool mc"
         pause_function
@@ -707,6 +713,7 @@ source `pwd`/ai-commons
     configure_sudo
     select_user
     choose_aurhelper
+    install_intel_microcode
     install_basic_setup
 #    install_preload
     enable_readahead

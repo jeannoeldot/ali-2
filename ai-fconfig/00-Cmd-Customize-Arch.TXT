@@ -554,6 +554,8 @@ $ cat /sys/block/sda/queue/scheduler   #where X is the device in question
 
 21) MICROCODE
 =============
+https://wiki.archlinux.org/index.php/microcode
+
 !!! EN ROOT !!!
 ---------------
 # lsmod | grep microcode
@@ -586,6 +588,8 @@ avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load fail
 avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
 avril 06 08:22:55 arch1kde kernel: microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
 
+!!! INSTALLATION AUTOMATIQUE SI PAR MON SCRIPT AI-B
+====================================================
 ==> FAIRE :
 # pacman -Syu intel-ucode
 

@@ -307,7 +307,12 @@
                     package_install "hdparm bonnie++"
                     ;;
                 8)
-                    package_install "cpupower"
+                    print_info_cyan "Cpupower : Ne pas installer si Intel I7-4770K Haswell."
+                    read_input_text "Installer cpupower ?"
+                    if [[ $OPTION == o ]]; then
+                        package_install "cpupower"
+                        systemctl enable cpupower.service
+                    fi
                     ;;
                 9)
                     package_install "pacnew_scripts"
