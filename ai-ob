@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 #-------------------------------------------------------------------------------
@@ -60,20 +59,20 @@
         print_info_cyan "Installation de polkit-gnome"
         package_install "polkit-gnome"
         #
-        print_info_cyan "Configuration par défaut de l'utilisateur $USERNAME."
-        mkdir -p /home/$USERNAME/.config/openbox
-	cp -v /etc/xdg/openbox/{rc.xml,menu.xml,autostart,environment} /home/$USERNAME/.config/openbox/
-        chown -R $USERNAME:users /home/$USERNAME/.config
-        mkdir -p /home/$USERNAME/.local/share
-        chown -R $USERNAME:users /home/$USERNAME/.local
+        print_info_cyan "Configuration par défaut de l'utilisateur ${USERNAME}."
+        mkdir -p /home/${USERNAME}/.config/openbox
+	cp -v /etc/xdg/openbox/{rc.xml,menu.xml,autostart,environment} /home/${USERNAME}/.config/openbox/
+        chown -R ${USERNAME}:users /home/${USERNAME}/.config
+        mkdir -p /home/${USERNAME}/.local/share
+        chown -R ${USERNAME}:users /home/${USERNAME}/.local
 	#create a xinitrc file in home user directory
-	cp -f /etc/skel/.xinitrc /home/$USERNAME/
+	cp -f /etc/skel/.xinitrc /home/${USERNAME}/
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-            echo -e "/usr/bin/VBoxClient-all &" >> /home/$USERNAME/.xinitrc
+            echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
         fi
-	echo -e "exec openbox-session" >> /home/$USERNAME/.xinitrc
-	chmod +x /home/$USERNAME/.xinitrc
-	chown -R $USERNAME:users /home/$USERNAME/.xinitrc
+	echo -e "exec openbox-session" >> /home/${USERNAME}/.xinitrc
+	chmod +x /home/${USERNAME}/.xinitrc
+	chown -R ${USERNAME}:users /home/${USERNAME}/.xinitrc
         #}}}
 ##
 # TODO
@@ -85,10 +84,10 @@
             print_info_cyan "Montage Automatique de VBox Shared Folder pour JND."
             read_input_text "Monter automatiquement VBox Shared Folder pour JND ?"
             if [[ $OPTION == o ]]; then
-                mkdir -p /home/$USERNAME/vbox-shared-folder
-                chown -R $USERNAME:users /home/$USERNAME/vbox-shared-folder
-                user_uid=`id -u $USERNAME`
-                user_gid=`id -g $USERNAME`
+                mkdir -p /home/${USERNAME}/vbox-shared-folder
+                chown -R ${USERNAME}:users /home/${USERNAME}/vbox-shared-folder
+                user_uid=`id -u ${USERNAME}`
+                user_gid=`id -g ${USERNAME}`
                 echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
                 echo -e '90-Partage     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
                 pause_function
@@ -112,10 +111,10 @@
             read_input_text "Autologin pour JND sans Slim ?"
             if [[ $OPTION == o ]]; then
               # Autologin sans Slim
-              echo -e '\n# Autologin for JND' >> /home/$USERNAME/.bash_profile
-              echo -e '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx' >> /home/$USERNAME/.bash_profile
+              echo -e '\n# Autologin for JND' >> /home/${USERNAME}/.bash_profile
+              echo -e '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx' >> /home/${USERNAME}/.bash_profile
               cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
-              sed -i 's/--noclear/--noclear -a '$USERNAME'/' /etc/systemd/system/autologin@.service
+              sed -i 's/--noclear/--noclear -a '${USERNAME}'/' /etc/systemd/system/autologin@.service
               systemctl disable getty@tty1
               systemctl enable autologin@tty1
             else
@@ -132,7 +131,7 @@
             echo -e 'Cmnd_Alias PACMAN_CMDS = /usr/bin/pacman' >> /etc/sudoers
             echo -e 'Cmnd_Alias HDDTEMP_CMDS = /usr/bin/hddtemp' >> /etc/sudoers
             echo -e '\n## My User alias' >> /etc/sudoers
-            echo -e 'User_Alias ADMINS = '"$USERNAME" >> /etc/sudoers
+            echo -e 'User_Alias ADMINS = '"${USERNAME}" >> /etc/sudoers
             echo -e '\n## User specification' >> /etc/sudoers
             echo -e 'ADMINS ALL=(ALL) NOPASSWD: SHUTDOWN_CMDS' >> /etc/sudoers
             echo -e 'ADMINS ALL=(ALL) NOPASSWD: PACMAN_CMDS' >> /etc/sudoers
@@ -143,13 +142,13 @@
             cp -v ai-fconfig/accessories-calculator.png /usr/share/icons/hicolor/48x48/apps/
             cp -v ai-fconfig/xterm.png /usr/share/icons/hicolor/48x48/apps/
             # user wallpaper
-            mkdir -p /home/$USERNAME/09-Configurations/OO-Images-bureau
-            cp -v ai-fconfig/ob-user-skyzl1-1920x1080.jpg /home/$USERNAME/09-Configurations/OO-Images-bureau/skyzl1-1920x1080.jpg
+            mkdir -p /home/${USERNAME}/09-Configurations/OO-Images-bureau
+            cp -v ai-fconfig/ob-user-skyzl1-1920x1080.jpg /home/${USERNAME}/09-Configurations/OO-Images-bureau/skyzl1-1920x1080.jpg
             # user logo fbpanel
-            mkdir -p /home/$USERNAME/09-Configurations/OO-Logo-fbpanel
-            cp -v ai-fconfig/ob-user-fbpanel-archlinux-logo.png /home/$USERNAME/09-Configurations/OO-Logo-fbpanel/archlinux-logo.png
-            cp -v ai-fconfig/ob-user-fbpanel-installation-archlinux-logo.png.TXT /home/$USERNAME/09-Configurations/OO-Logo-fbpanel/installation-archlinux-logo.png.TXT
-            chown -R $USERNAME:users /home/$USERNAME/09-Configurations
+            mkdir -p /home/${USERNAME}/09-Configurations/OO-Logo-fbpanel
+            cp -v ai-fconfig/ob-user-fbpanel-archlinux-logo.png /home/${USERNAME}/09-Configurations/OO-Logo-fbpanel/archlinux-logo.png
+            cp -v ai-fconfig/ob-user-fbpanel-installation-archlinux-logo.png.TXT /home/${USERNAME}/09-Configurations/OO-Logo-fbpanel/installation-archlinux-logo.png.TXT
+            chown -R ${USERNAME}:users /home/${USERNAME}/09-Configurations
             # system logo fbpanel
             cp -v ai-fconfig/ob-user-fbpanel-archlinux-logo.png /usr/share/fbpanel/images/archlinux-logo.png
             chmod 644 /usr/share/fbpanel/images/archlinux-logo.png
@@ -160,64 +159,64 @@
             cp -v ai-fconfig/etc-systemd-system-fbpanel_update.service /etc/systemd/system/fbpanel_update.service
             systemctl enable fbpanel_update.path
             # user nitrogen
-            mkdir -p /home/$USERNAME/.config/nitrogen
-            cp -v ai-fconfig/ob-user-.config-nitrogen-bg-saved.cfg /home/$USERNAME/.config/nitrogen/bg-saved.cfg
-            cp -v ai-fconfig/ob-user-.config-nitrogen-nitrogen.cfg /home/$USERNAME/.config/nitrogen/nitrogen.cfg
+            mkdir -p /home/${USERNAME}/.config/nitrogen
+            cp -v ai-fconfig/ob-user-.config-nitrogen-bg-saved.cfg /home/${USERNAME}/.config/nitrogen/bg-saved.cfg
+            cp -v ai-fconfig/ob-user-.config-nitrogen-nitrogen.cfg /home/${USERNAME}/.config/nitrogen/nitrogen.cfg
             # user fbpanel
-            mkdir -p /home/$USERNAME/.config/fbpanel
+            mkdir -p /home/${USERNAME}/.config/fbpanel
             if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-                cp -v ai-fconfig/ob-user-.config-fbpanel-default-vbox /home/$USERNAME/.config/fbpanel/default
+                cp -v ai-fconfig/ob-user-.config-fbpanel-default-vbox /home/${USERNAME}/.config/fbpanel/default
 #               local id_net_name=(`ip link show | awk '/2: / {print $2}' | sed -e "s/://"`)
                 local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
-                sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/$USERNAME/.config/fbpanel/default
+                sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/${USERNAME}/.config/fbpanel/default
             else
-                cp -v ai-fconfig/ob-user-.config-fbpanel-default-reel /home/$USERNAME/.config/fbpanel/default
+                cp -v ai-fconfig/ob-user-.config-fbpanel-default-reel /home/${USERNAME}/.config/fbpanel/default
             fi
             # user terminator
-            mkdir -p /home/$USERNAME/.config/terminator
-            cp -v ai-fconfig/ob-user-.config-terminator-config /home/$USERNAME/.config/terminator/config
+            mkdir -p /home/${USERNAME}/.config/terminator
+            cp -v ai-fconfig/ob-user-.config-terminator-config /home/${USERNAME}/.config/terminator/config
             # user lxterminal
-            mkdir -p /home/$USERNAME/.config/lxterminal
-            cp -v ai-fconfig/ob-user-.config-lxterminal-lxterminal.conf /home/$USERNAME/.config/lxterminal/lxterminal.conf
+            mkdir -p /home/${USERNAME}/.config/lxterminal
+            cp -v ai-fconfig/ob-user-.config-lxterminal-lxterminal.conf /home/${USERNAME}/.config/lxterminal/lxterminal.conf
             # user gtk-3.0
-            mkdir -p /home/$USERNAME/.config/gtk-3.0
-            cp -v ai-fconfig/ob-user-.config-gtk-3.0-settings.ini /home/$USERNAME/.config/gtk-3.0/settings.ini
+            mkdir -p /home/${USERNAME}/.config/gtk-3.0
+            cp -v ai-fconfig/ob-user-.config-gtk-3.0-settings.ini /home/${USERNAME}/.config/gtk-3.0/settings.ini
             # user openbox
-#           mkdir -p /home/$USERNAME/.config/openbox
+#           mkdir -p /home/${USERNAME}/.config/openbox
             if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-                cp -v ai-fconfig/ob-user-.config-openbox-autostart-vbox /home/$USERNAME/.config/openbox/autostart
+                cp -v ai-fconfig/ob-user-.config-openbox-autostart-vbox /home/${USERNAME}/.config/openbox/autostart
             else
-                cp -v ai-fconfig/ob-user-.config-openbox-autostart-reel /home/$USERNAME/.config/openbox/autostart
+                cp -v ai-fconfig/ob-user-.config-openbox-autostart-reel /home/${USERNAME}/.config/openbox/autostart
             fi
-            cp -v ai-fconfig/ob-user-.config-openbox-environment /home/$USERNAME/.config/openbox/environment
-            cp -v ai-fconfig/ob-user-.config-openbox-rc.xml /home/$USERNAME/.config/openbox/rc.xml
-            cp -v ai-fconfig/ob-user-.config-openbox-menu.xml /home/$USERNAME/.config/openbox/menu.xml
-            chown -R $USERNAME:users /home/$USERNAME/.config
+            cp -v ai-fconfig/ob-user-.config-openbox-environment /home/${USERNAME}/.config/openbox/environment
+            cp -v ai-fconfig/ob-user-.config-openbox-rc.xml /home/${USERNAME}/.config/openbox/rc.xml
+            cp -v ai-fconfig/ob-user-.config-openbox-menu.xml /home/${USERNAME}/.config/openbox/menu.xml
+            chown -R ${USERNAME}:users /home/${USERNAME}/.config
             # user bin
-#           mkdir -p /home/$USERNAME/bin
+#           mkdir -p /home/${USERNAME}/bin
             print_info_cyan "Installation des dépendances de openbox-logout."
             package_install "python2-pillow"
-            cp -R ai-fconfig/ob-user-bin-openbox-logout /home/$USERNAME/bin/openbox-logout
-            cp -v ai-fconfig/ob-user-bin-ob-quitter.sh /home/$USERNAME/bin/ob-quitter.sh
-            chmod +x /home/$USERNAME/bin/openbox-logout/ob_logout.py
-            chmod +x /home/$USERNAME/bin/ob-quitter.sh
-            cp -v ai-fconfig/ob-user-bin-ob-terminator.sh /home/$USERNAME/bin/ob-terminator.sh
-            chmod +x /home/$USERNAME/bin/ob-terminator.sh
-            cp -v ai-fconfig/ob-user-bin-ob-lxterminal.sh /home/$USERNAME/bin/ob-lxterminal.sh
-            chmod +x /home/$USERNAME/bin/ob-lxterminal.sh
+            cp -R ai-fconfig/ob-user-bin-openbox-logout /home/${USERNAME}/bin/openbox-logout
+            cp -v ai-fconfig/ob-user-bin-ob-quitter.sh /home/${USERNAME}/bin/ob-quitter.sh
+            chmod +x /home/${USERNAME}/bin/openbox-logout/ob_logout.py
+            chmod +x /home/${USERNAME}/bin/ob-quitter.sh
+            cp -v ai-fconfig/ob-user-bin-ob-terminator.sh /home/${USERNAME}/bin/ob-terminator.sh
+            chmod +x /home/${USERNAME}/bin/ob-terminator.sh
+            cp -v ai-fconfig/ob-user-bin-ob-lxterminal.sh /home/${USERNAME}/bin/ob-lxterminal.sh
+            chmod +x /home/${USERNAME}/bin/ob-lxterminal.sh
             if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
-                cp -v ai-fconfig/ob-user-bin-ob-launcher_civ4 /home/$USERNAME/bin/ob-launcher_civ4
-                chmod +x /home/$USERNAME/bin/ob-launcher_civ4
+                cp -v ai-fconfig/ob-user-bin-ob-launcher_civ4 /home/${USERNAME}/bin/ob-launcher_civ4
+                chmod +x /home/${USERNAME}/bin/ob-launcher_civ4
             fi
-            chown -R $USERNAME:users /home/$USERNAME/bin
+            chown -R ${USERNAME}:users /home/${USERNAME}/bin
             # user gtkrc-2.0
-            cp -v ai-fconfig/ob-user-.gtkrc-2.0 /home/$USERNAME/.gtkrc-2.0
-            chown -R $USERNAME:users /home/$USERNAME/.gtkrc-2.0
+            cp -v ai-fconfig/ob-user-.gtkrc-2.0 /home/${USERNAME}/.gtkrc-2.0
+            chown -R ${USERNAME}:users /home/${USERNAME}/.gtkrc-2.0
             # user feh
-            cp -v ai-fconfig/ob-user-.fehbg /home/$USERNAME/.fehbg
-            chown -R $USERNAME:users /home/$USERNAME/.fehbg
+            cp -v ai-fconfig/ob-user-.fehbg /home/${USERNAME}/.fehbg
+            chown -R ${USERNAME}:users /home/${USERNAME}/.fehbg
             #
-            chown -R $USERNAME:users /home/$USERNAME
+            chown -R ${USERNAME}:users /home/${USERNAME}
             print_info_cyan "Installation des thèmes GTK 3/2 et Icones."
             package_install "gtk-update-icon-cache"
             aur_package_install "zukitwo-themes"
@@ -329,7 +328,7 @@
                 package_install "networkmanager network-manager-applet"
                 is_package_installed "ntp" && package_install "networkmanager-dispatcher-ntpd"
 #                groupadd networkmanager
-#                gpasswd -a $USERNAME networkmanager
+#                gpasswd -a ${USERNAME} networkmanager
                 #Network Management daemon
 		systemctl disable dhcpcd.service
                 systemctl disable network_ip_statique.service
@@ -477,7 +476,7 @@
                 11)
                     package_install "syslog-ng"
                     systemctl enable syslog-ng.service
-                    gpasswd -a $USERNAME log
+                    gpasswd -a ${USERNAME} log
                     ;;
                 "f")
                     break
@@ -641,17 +640,17 @@
                     ;;
                 2)
                     package_install "midori icedtea-web-java7"
-                    sed -i "s/chromium/midori/g" /home/$USERNAME/.config/fbpanel/default
+                    sed -i "s/chromium/midori/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 3)
                     package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web-java7"
                     aur_package_install "firefox-extension-https-everywhere"
-                    sed -i "s/chromium/firefox/g" /home/$USERNAME/.config/fbpanel/default
+                    sed -i "s/chromium/firefox/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 4)
                     package_install "opera flashplugin icedtea-web-java7"
-                    sed -i "s/chromium.png/opera-browser.png/" /home/$USERNAME/.config/fbpanel/default
-                    sed -i "s/chromium/opera/" /home/$USERNAME/.config/fbpanel/default
+                    sed -i "s/chromium.png/opera-browser.png/" /home/${USERNAME}/.config/fbpanel/default
+                    sed -i "s/chromium/opera/" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 5)
                     package_install "transmission-gtk"

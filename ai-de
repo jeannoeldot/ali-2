@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #-------------------------------------------------------------------------------
 # ai-de
@@ -300,50 +299,52 @@ source `pwd`/ai-commons
     select_user() {
         #CREATE NEW USER {{{
         create_new_user() {
+            print_warning "AVERTISSEMENT: Le nom de l'utilisateur doit être en minuscule."
             read -p "Utilisateur : " USERNAME
-#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network -s /bin/bash $USERNAME
-#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network,log -s /bin/bash $USERNAME
-#            useradd -m -g users -G wheel -s /bin/bash $USERNAME
-            useradd -m -g users -G wheel,sys -s /bin/bash $USERNAME
-            passwd $USERNAME
+            USERNAME=`echo ${USERNAME} | tr '[:upper:]' '[:lower:]'`
+#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network -s /bin/bash ${USERNAME}
+#            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network,log -s /bin/bash ${USERNAME}
+#            useradd -m -g users -G wheel -s /bin/bash ${USERNAME}
+            useradd -m -g users -G wheel,sys -s /bin/bash ${USERNAME}
+            passwd ${USERNAME}
             configure_user_account
         } #}}}
         #CONFIGURE USER ACCOUNT {{{
         configure_user_account() {
-#            cp /etc/skel/.* /home/$USERNAME/
+#            cp /etc/skel/.* /home/${USERNAME}/
             print_title "BASHRC - https://wiki.archlinux.org/index.php/Bashrc"
-            print_info_cyan "Copie des fichiers de configuration dans le répertoire /home de $USERNAME."
-            cp -v ai-fconfig/user-.bash_profile /home/$USERNAME/.bash_profile
-            cp -v ai-fconfig/user-.bashrc /home/$USERNAME/.bashrc
+            print_info_cyan "Copie des fichiers de configuration dans le répertoire /home de ${USERNAME}."
+            cp -v ai-fconfig/user-.bash_profile /home/${USERNAME}/.bash_profile
+            cp -v ai-fconfig/user-.bashrc /home/${USERNAME}/.bashrc
             echo -e "\n"
             #
-            mkdir -p /home/$USERNAME/.config/fontconfig
-            cp -v ai-fconfig/user-.config-fontconfig-fonts.conf /home/$USERNAME/.config/fontconfig/fonts.conf
+            mkdir -p /home/${USERNAME}/.config/fontconfig
+            cp -v ai-fconfig/user-.config-fontconfig-fonts.conf /home/${USERNAME}/.config/fontconfig/fonts.conf
             echo -e "\n"
             #
-            mkdir -p /home/$USERNAME/bin
+            mkdir -p /home/${USERNAME}/bin
             # SI en UEFI : copie fichiers conf de refind
             if [[ $IS_UEFI -eq 1 ]]; then
-                mkdir -p /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf
+                mkdir -p /home/${USERNAME}/09-Fichiers-Conf/Refind-Fichiers-Conf
                 if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
-                    cp -v /boot/efi/EFI/refind/refind.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
+                    cp -v /boot/efi/EFI/refind/refind.conf /home/${USERNAME}/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
                 else
-                    cp -v /boot/efi/EFI/BOOT/refind.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
+                    cp -v /boot/efi/EFI/BOOT/refind.conf /home/${USERNAME}/09-Fichiers-Conf/Refind-Fichiers-Conf/refind.conf
                 fi
-                cp -v /boot/efi/EFI/${NAME_DIR_ARCHLINUX}/refind_linux.conf /home/$USERNAME/09-Fichiers-Conf/Refind-Fichiers-Conf/refind_linux.conf
+                cp -v /boot/efi/EFI/${NAME_DIR_ARCHLINUX}/refind_linux.conf /home/${USERNAME}/09-Fichiers-Conf/Refind-Fichiers-Conf/refind_linux.conf
                 echo -e "\n"
             fi
-            cp -v ai-fconfig/00-Cmd-Customize-Arch.TXT /home/$USERNAME/00-Cmd-Customize-Arch.TXT
-            cp -v ai-fconfig/00-Cmd-INSTALLATION-LINUX-CK.TXT /home/$USERNAME/00-Cmd-INSTALLATION-LINUX-CK.TXT
+            cp -v ai-fconfig/00-Cmd-Customize-Arch.TXT /home/${USERNAME}/00-Cmd-Customize-Arch.TXT
+            cp -v ai-fconfig/00-Cmd-INSTALLATION-LINUX-CK.TXT /home/${USERNAME}/00-Cmd-INSTALLATION-LINUX-CK.TXT
             echo -e "\n"
-            chown -R $USERNAME:users /home/$USERNAME
+            chown -R ${USERNAME}:users /home/${USERNAME}
         } #}}}
         print_title "SÉLECTION/CRÉATION DU COMPTE UTILISATEUR - https://wiki.archlinux.org/index.php/Users_and_Groups"
         users_list=(`cat /etc/passwd | grep "/home" | cut -d: -f1`);
         PS3="$prompt1"
         echo "Utilisateurs disponibles:"
         if [[ $(( ${#users_list[@]} )) -gt 0 ]]; then
-            print_warning "AVERTISSEMENT: L'utilisateur sélectionné doit avoir les privilèges sudo"
+            print_warning "AVERTISSEMENT: L'utilisateur sélectionné doit avoir les privilèges sudo."
         else
             echo ""
         fi
@@ -358,7 +359,7 @@ source `pwd`/ai-commons
                 invalid_option
             fi
         done
-        [[ ! -f /home/$USERNAME/.bashrc ]] && configure_user_account;
+        [[ ! -f /home/${USERNAME}/.bashrc ]] && configure_user_account;
         pause_function
     }
     #}}}
@@ -378,9 +379,9 @@ source `pwd`/ai-commons
         # Modif /etc/yaourtrc si taille /tmp < 2000M
         taille_tmp_en_ram=(`df -h -BM | grep -E "/tmp" | awk '{print $2}' | sed -e "s/M//"`)
         if [[ $taille_tmp_en_ram -lt 2000 ]]; then
-            mkdir -p /home/$USERNAME/yaourt_tmp
-            chown -R $USERNAME:users /home/$USERNAME/yaourt_tmp
-            sed -i "/^#TMPDIR=/c\TMPDIR=\"/home/$USERNAME/yaourt_tmp\"" /etc/yaourtrc
+            mkdir -p /home/${USERNAME}/yaourt_tmp
+            chown -R ${USERNAME}:users /home/${USERNAME}/yaourt_tmp
+            sed -i "/^#TMPDIR=/c\TMPDIR=\"/home/${USERNAME}/yaourt_tmp\"" /etc/yaourtrc
         fi
         # Modif /etc/yaourtrc : EDITOR="nano" par défaut
         sed -i "/^#EDITOR=/c\EDITOR=\"nano\"" /etc/yaourtrc
@@ -402,8 +403,8 @@ source `pwd`/ai-commons
         package_install "python2-cairo python2-gobject"
         pacman -D --asdeps python2-cairo python2-gobject
         # Modifs conf
-        print_info_cyan "Ajout de $USERNAME au groupe systemd-journal."
-        gpasswd -a $USERNAME systemd-journal
+        print_info_cyan "Ajout de ${USERNAME} au groupe systemd-journal."
+        gpasswd -a ${USERNAME} systemd-journal
         print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
         sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
         sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
@@ -551,7 +552,7 @@ source `pwd`/ai-commons
             echo -e "\n"
             groupadd vboxsf
             echo -e "\n"
-            gpasswd -a $USERNAME vboxsf
+            gpasswd -a ${USERNAME} vboxsf
         else
             # test si nvidia
             if [[ -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
@@ -683,7 +684,7 @@ source `pwd`/ai-commons
         pause_function
         print_title "INSTALLATION TERMINÉE"
         echo -e "Merci d'avoir utilisé les scripts d'installation de Archlinux."
-        chown -R $USERNAME:users /home/$USERNAME
+        chown -R ${USERNAME}:users /home/${USERNAME}
         #REBOOT
         read -p "Rebooter le système [O/N] ? : " OPTION
         [[ $OPTION == o ]] && reboot

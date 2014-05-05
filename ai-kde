@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 #-------------------------------------------------------------------------------
@@ -64,10 +63,10 @@
             print_info_cyan "Montage Automatique de VBox Shared Folder pour JND."
             read_input_text "Monter automatiquement VBox Shared Folder pour JND ?"
             if [[ $OPTION == o ]]; then
-                mkdir -p /home/$USERNAME/vbox-shared-folder
-                chown -R $USERNAME:users /home/$USERNAME/vbox-shared-folder
-                user_uid=`id -u $USERNAME`
-                user_gid=`id -g $USERNAME`
+                mkdir -p /home/${USERNAME}/vbox-shared-folder
+                chown -R ${USERNAME}:users /home/${USERNAME}/vbox-shared-folder
+                user_uid=`id -u ${USERNAME}`
+                user_gid=`id -g ${USERNAME}`
                 echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
                 echo -e '90-Partage     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
                 pause_function
@@ -129,8 +128,8 @@
         done
         #}}}
 	echo "LANG=$LANGUAGE.utf8" >> /etc/environment
-	mkdir -p /home/$USERNAME/.compose-cache
-	chown -R $USERNAME:users /home/$USERNAME/.compose-cache
+	mkdir -p /home/${USERNAME}/.compose-cache
+	chown -R ${USERNAME}:users /home/${USERNAME}/.compose-cache
         echo -e "\n"
         # Enable kdm.service
         systemctl enable kdm.service
@@ -174,7 +173,7 @@
                 package_install "networkmanager kdeplasma-applets-plasma-nm"
                 is_package_installed "ntp" && package_install "networkmanager-dispatcher-ntpd"
 #                groupadd networkmanager
-#                gpasswd -a $USERNAME networkmanager
+#                gpasswd -a ${USERNAME} networkmanager
                 #Network Management daemon
 		systemctl disable dhcpcd.service
                 systemctl disable network_ip_statique.service
@@ -275,9 +274,9 @@
             case "$OPT" in
                 1)
                     package_install "gparted gptfdisk"
-		    mkdir -p /home/$USERNAME/.local/share/applications
-		    cp -v ai-fconfig/kde-user-gparted.desktop /home/$USERNAME/.local/share/applications/gparted.desktop
-		    chown -R $USERNAME:users /home/$USERNAME/.local
+		    mkdir -p /home/${USERNAME}/.local/share/applications
+		    cp -v ai-fconfig/kde-user-gparted.desktop /home/${USERNAME}/.local/share/applications/gparted.desktop
+		    chown -R ${USERNAME}:users /home/${USERNAME}/.local
                     ;;
                 2)
                     package_install "grsync"
@@ -299,9 +298,9 @@
                     ;;
                 6)
                     package_install "gsmartcontrol"
-                    mkdir -p /home/$USERNAME/.local/share/applications
-                    cp -v ai-fconfig/kde-user-gsmartcontrol.desktop /home/$USERNAME/.local/share/applications/gsmartcontrol.desktop
-                    chown -R $USERNAME:users /home/$USERNAME/.local
+                    mkdir -p /home/${USERNAME}/.local/share/applications
+                    cp -v ai-fconfig/kde-user-gsmartcontrol.desktop /home/${USERNAME}/.local/share/applications/gsmartcontrol.desktop
+                    chown -R ${USERNAME}:users /home/${USERNAME}/.local
                     ;;
                 7)
                     package_install "hdparm bonnie++"
@@ -323,7 +322,7 @@
                 11)
                     package_install "syslog-ng"
                     systemctl enable syslog-ng.service
-                    gpasswd -a $USERNAME log
+                    gpasswd -a ${USERNAME} log
                     ;;
                 "f")
                     break
