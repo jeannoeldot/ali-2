@@ -307,7 +307,6 @@ source `pwd`/ai-commons
 #            useradd -m -g users -G wheel -s /bin/bash ${USERNAME}
             useradd -m -g users -G wheel,sys -s /bin/bash ${USERNAME}
             passwd ${USERNAME}
-            configure_user_account
         } #}}}
         #CONFIGURE USER ACCOUNT {{{
         configure_user_account() {
@@ -351,6 +350,7 @@ source `pwd`/ai-commons
         select OPT in "${users_list[@]}" "Créer nouvel utilisateur"; do
             if [[ $OPT == "Créer nouvel utilisateur" ]]; then
                 create_new_user
+                configure_user_account
                 break
             elif contains_element "$OPT" "${users_list[@]}"; then
                 USERNAME=$OPT
@@ -414,8 +414,15 @@ source `pwd`/ai-commons
         # #RuntimeWatchdogSec=20
         # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
         #
-        print_info_cyan "Mise en service de cronie."
-        systemctl enable cronie.service
+        # Installation de cronie. Remplacer pae systemd-timer
+        print_title "CRON - https://wiki.archlinux.org/index.php/Cronie"
+        print_info "Cron est un service de planification qui permet l'exécution de commandes de manière périodique."
+        read_input_text "Installer cronie et activer cronie ?"
+        if [[ $OPTION == o ]]; then
+            package_install "cronie"
+            systemctl enable cronie.service
+            pause_function
+        fi
         # Masque les services non utilisés
         print_info_cyan "Masque les services non utilisés."
         systemctl mask auditd.service plymouth-start.service plymouth-quit-wait.service syslog.service
