@@ -358,7 +358,7 @@
                     package_install "kdevelop"
                     ;;
                 2)
-                    package_install "qtcreator qt qt5-doc"
+                    package_install "qtcreator qt qt5-doc libxkbcommon-x11"
                     ;;
                 3)
                     package_install "devtools"

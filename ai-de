@@ -414,7 +414,7 @@ source `pwd`/ai-commons
         # #RuntimeWatchdogSec=20
         # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
         #
-        # Installation de cronie. Remplacer pae systemd-timer
+        # Installation de cronie. Remplacer par systemd-timer
         print_title "CRON - https://wiki.archlinux.org/index.php/Cronie"
         print_info "Cron est un service de planification qui permet l'exécution de commandes de manière périodique."
         read_input_text "Installer cronie et activer cronie ?"
