@@ -92,13 +92,13 @@
             cp -v /usr/share/refind/refind_${ARCHI_REFIND}.efi /boot/efi${NAME_DIR_MGR_EFI}
             cp -v /usr/share/refind/refind.conf-sample ${NAME_DIR_EFI}/refind.conf
             cp -R /usr/share/refind/icons ${NAME_DIR_EFI}/icons
-            cp -v ai-fconfig/refind-icone-os_arch_ck.icns ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.icns
+            cp -v ai-fconfig/refind-icone-os_arch_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.png
         else
             print_info_cyan "MULTI BOOT UEFI : Pas d'installation de Manager de Boot."
             # Installe icone
-#            cp -v ${NAME_DIR_EFI}/icons/os_arch.icns ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.icns
-            cp -v ai-fconfig/refind-icone-os_arch_2.icns ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.icns
-            cp -v ai-fconfig/refind-icone-os_arch_2_ck.icns ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.icns
+#            cp -v ${NAME_DIR_EFI}/icons/os_arch.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
+            cp -v ai-fconfig/refind-icone-os_arch_2.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
+            cp -v ai-fconfig/refind-icone-os_arch_2_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.png
         fi
         pause_function
     }
