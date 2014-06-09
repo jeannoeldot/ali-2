@@ -112,6 +112,8 @@
             print_info_cyan "Configuration de refind.conf."
             sed -i "/^timeout/c\timeout 3" ${NAME_DIR_EFI}/refind.conf
             sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot" ${NAME_DIR_EFI}/refind.conf
+            sed -i "/^scan_all_linux_kernels/c\#scan_all_linux_kernels" ${NAME_DIR_EFI}/refind.conf
+
             if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
                 sed -i "/^#dont_scan_files/c\dont_scan_files fallback.efi,shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
             else
@@ -128,13 +130,13 @@
         sed -i "/^\"Boot/d;/^$/d" ${DIR_EFI_ARCHLINUX}/refind_linux.conf
         # ROOT_FS_TYPE=ext4
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' force_addr=0xaddr add_efi_memmap systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
         else
-            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rw rootfstype='$ROOT_FS_TYPE' add_efi_memmap systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=graphical.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=multi-user.target quiet"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=rescue.target"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
         fi
         #
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
