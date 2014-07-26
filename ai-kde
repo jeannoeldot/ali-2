@@ -45,7 +45,7 @@
         package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE FONTS {{{
         print_info_cyan "Installation de KDE Polices TTF"
-	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family"
+	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"
         # LSB-RELEASE {{{
         print_info_cyan "Installation de lsb-release"
         package_install "lsb-release"

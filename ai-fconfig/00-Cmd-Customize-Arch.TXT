@@ -901,7 +901,7 @@ BROWSERS="firefox"
 
 
 !!! VOIR
-# pacman -Syu ttf-oxygen ttf-win7-fonts
+# pacman -Syu ttf-win7-fonts
 !!!
 # pacman -S bluegriffon
 
