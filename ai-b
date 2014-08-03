@@ -58,9 +58,15 @@ source `pwd`/ai-commons
     #INSTALL BASE SYSTEM {{{
     install_base_system() {
         print_title "INSTALLATION DU SYSTÈME DE BASE"
-        print_info "En utilisant le script pacstrap le système de base, wget et elinks seront installés."
 #        pacstrap ${MOUNTPOINT} base reiserfsprogs links wget
-        pacstrap ${MOUNTPOINT} base lz4 elinks wget
+#        pacstrap ${MOUNTPOINT} base lz4 elinks wget
+        if [[ $IS_UEFI -eq 1 ]]; then
+            print_info "En utilisant le script pacstrap le système de base, gptfdisk, wget et elinks seront installés."
+            pacstrap ${MOUNTPOINT} base lz4 gptfdisk elinks wget
+        else
+            print_info "En utilisant le script pacstrap le système de base, wget et elinks seront installés."
+            pacstrap ${MOUNTPOINT} base lz4 elinks wget
+        fi
         # Si WiFi : installe les outils nécessaires
         local name_net_wireless=(`ip link | awk '/wlp/ {print $2}' | sed -e "s/://"`)
         if [[ -n ${name_net_wireless} ]]; then
