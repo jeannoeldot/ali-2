@@ -108,17 +108,27 @@
         print_title "rEFInd - https://wiki.archlinux.org/index.php/UEFI_Bootloaders#Using_rEFInd"
         print_info "rEFInd, écrit par Rod Smith, prend en charge le démarrage des noyaux EFISTUB et contient certaines caractéristiques qui leur sont propres"
         #
+        # rEFInd 0.8.3 :
+        # A ETUDIER
+        # #scanfor internal,external,optical,manual => scanfor internal,hdbios,external,optical,manual
+        # ==> Si problème CSM compatibility => à enlever
+        # #uefi_deep_legacy_scan => uefi_deep_legacy_scan true
+        # ==> NE PAS METTRE DANS VBOX
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
             print_info_cyan "Configuration de refind.conf."
-            sed -i "/^timeout/c\timeout 3" ${NAME_DIR_EFI}/refind.conf
-            sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot" ${NAME_DIR_EFI}/refind.conf
-            sed -i "/^scan_all_linux_kernels/c\#scan_all_linux_kernels" ${NAME_DIR_EFI}/refind.conf
+            sed -i "/^timeout/c\timeout 2" ${NAME_DIR_EFI}/refind.conf
+            sed -i "/^#scan_all_linux_kernels/c\scan_all_linux_kernels false" ${NAME_DIR_EFI}/refind.conf
 
             if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot" ${NAME_DIR_EFI}/refind.conf
                 sed -i "/^#dont_scan_files/c\dont_scan_files fallback.efi,shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
             else
+                sed -i "/^#showtools/c\showtools shell,about,shutdown,reboot,firmware" ${NAME_DIR_EFI}/refind.conf
                 sed -i "/^#dont_scan_files/c\dont_scan_files BOOTX64.EFI,fallback.efi,shim.efi,shim-fedora.efi,gcdx64.efi,MokManager.efi" ${NAME_DIR_EFI}/refind.conf
                 sed -i "/^#resolution 1024 768/c\resolution 1024 768" ${NAME_DIR_EFI}/refind.conf
+                sed -i "/^#scanfor/c\scanfor internal,hdbios,external,optical,manual" ${NAME_DIR_EFI}/refind.conf
+                # NE SEMBLE PAS OBLIGATOIRE ( PAR DEFAUT )
+                sed -i "/^#uefi_deep_legacy_scan/c\uefi_deep_legacy_scan true" ${NAME_DIR_EFI}/refind.conf
             fi
         else
             print_info_cyan "MULTI BOOT UEFI : Pas de configuration de refind.conf."
