@@ -171,23 +171,24 @@
         sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/efistub_update.service
         echo -e "\n"
         systemctl enable efistub_update.path
-        # Installe refind_update.path et refind_update.service
-        if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
-            if [[ $MGR_EFI != "" ]]; then
-                print_info_cyan "Installation de refind_update.service."
-                cp -v ai-fconfig/efi-services/refind_update.path /etc/systemd/system/refind_update.path
-                if [[ $MGR_EFI == "refind" ]]; then
-                    cp -v ai-fconfig/efi-services/ESP-refind-refind_update.service /etc/systemd/system/refind_update.service
-                elif [[ $MGR_EFI == "boot" ]]; then
-                    cp -v ai-fconfig/efi-services/ESP-boot-refind_update.service /etc/systemd/system/refind_update.service
-                else
-                    cp -v ai-fconfig/efi-services/ESP-microsoft-refind_update.service /etc/systemd/system/refind_update.service
-                fi
-                systemctl enable refind_update.path
-            fi
-        else
-            print_info_cyan "MULTI BOOT UEFI : Pas d'installation de refind_update.service."
-        fi
+        # SUPPRIMÉ : Voir script /home/jnd/01-scripts/Maj-refind/maj-refind
+#         # Installe refind_update.path et refind_update.service
+#         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
+#             if [[ $MGR_EFI != "" ]]; then
+#                 print_info_cyan "Installation de refind_update.service."
+#                 cp -v ai-fconfig/efi-services/refind_update.path /etc/systemd/system/refind_update.path
+#                 if [[ $MGR_EFI == "refind" ]]; then
+#                     cp -v ai-fconfig/efi-services/ESP-refind-refind_update.service /etc/systemd/system/refind_update.service
+#                 elif [[ $MGR_EFI == "boot" ]]; then
+#                     cp -v ai-fconfig/efi-services/ESP-boot-refind_update.service /etc/systemd/system/refind_update.service
+#                 else
+#                     cp -v ai-fconfig/efi-services/ESP-microsoft-refind_update.service /etc/systemd/system/refind_update.service
+#                 fi
+#                 systemctl enable refind_update.path
+#             fi
+#         else
+#             print_info_cyan "MULTI BOOT UEFI : Pas d'installation de refind_update.service."
+#         fi
         #
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
             print_info_cyan "Installation d'un Shell UEFI et création du script utilisé par le Shell UEFI."

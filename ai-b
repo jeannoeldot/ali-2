@@ -166,6 +166,15 @@ source `pwd`/ai-commons
 #        $EDITOR ${MOUNTPOINT}/root/variables.ali
     }
     #}}}
+    #UMOUNT PARTITIONS {{{
+    umount_partitions(){
+        mounted_partitions=(`lsblk | grep ${MOUNTPOINT} | awk '{print $7}' | sort -r`)
+        swapoff -a
+        for i in ${mounted_partitions[@]}; do
+            umount $i
+        done
+    }
+    #}}}
 
     #FINISH {{{
     finish() {
@@ -183,7 +192,8 @@ source `pwd`/ai-commons
         print_info_finish "\n==> INFO : Fermer tous les terminaux ouverts ( TTY 2, ... )."
         pause_function       
         #umount mounted partitions
-        umount -R ${MOUNTPOINT}
+#        umount -R ${MOUNTPOINT}
+        umount_partitions
         # Si dans VirtualBox
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
             print_info_finish "\n==> INFO : Dans VirtualBox, éteindre le système, modifier ordre de démarrage dans Système,\n           enlever ISO dans Stokage et relancer la VM."
