@@ -553,8 +553,6 @@
                     package_install "libreoffice-$LANGUAGE_LO libreoffice-common libreoffice-base libreoffice-calc libreoffice-draw libreoffice-impress libreoffice-math libreoffice-writer"
                     package_install "libreoffice-gnome libwpg"
                     package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
-		    cp -i ai-fconfig/etc-profile.d-openoffice.sh /etc/profile.d/openoffice.sh
-		    chmod a+x /etc/profile.d/openoffice.sh
                     ;;
                 2)
                     package_install "gnumeric abiword abiword-plugins"
