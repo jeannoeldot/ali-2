@@ -539,7 +539,7 @@
     while true
     do
         print_title "APPLICATIONS DE BUREAUTIQUE"
-        echo " 1) $(menu_item "libreoffice-common" "LibreOffice")"
+        echo " 1) $(menu_item "libreoffice-still-common" "LibreOffice")"
         echo " 2) $(menu_item "goffice" "Abiword + Gnumeric")"
         echo ""
         echo " f) FINI"
@@ -550,8 +550,8 @@
             case "$OPT" in
                 1)
                     print_title "LIBREOFFICE - https://wiki.archlinux.org/index.php/LibreOffice"
-                    package_install "libreoffice-$LANGUAGE_LO libreoffice-common libreoffice-base libreoffice-calc libreoffice-draw libreoffice-impress libreoffice-math libreoffice-writer"
-                    package_install "libreoffice-gnome libwpg"
+                    package_install "libreoffice-still-$LANGUAGE_LO libreoffice-still-common libreoffice-still-base libreoffice-still-calc libreoffice-still-draw libreoffice-still-impress libreoffice-still-math libreoffice-still-writer"
+                    package_install "libreoffice-still-gnome libwpg unoconv"
                     package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
                     ;;
                 2)
@@ -633,20 +633,20 @@
         for OPT in ${OPTIONS[@]}; do
             case "$OPT" in
                 1)
-                    package_install "chromium icedtea-web-java7"
+                    package_install "chromium icedtea-web"
                     aur_package_install "chromium-pepper-flash chromium-libpdf"
                     ;;
                 2)
-                    package_install "midori icedtea-web-java7"
+                    package_install "midori icedtea-web"
                     sed -i "s/chromium/midori/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 3)
-                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web-java7"
+                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web"
                     aur_package_install "firefox-extension-https-everywhere"
                     sed -i "s/chromium/firefox/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 4)
-                    package_install "opera flashplugin icedtea-web-java7"
+                    package_install "opera flashplugin icedtea-web"
                     sed -i "s/chromium.png/opera-browser.png/" /home/${USERNAME}/.config/fbpanel/default
                     sed -i "s/chromium/opera/" /home/${USERNAME}/.config/fbpanel/default
                     ;;
