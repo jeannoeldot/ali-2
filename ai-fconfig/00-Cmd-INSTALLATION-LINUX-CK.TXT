@@ -8,39 +8,67 @@ https://wiki.archlinux.org/index.php/Repo-ck
 https://aur.archlinux.org/packages/linux-ck/
 
 
-$ sudo nano /etc/pacman.conf
+https://wiki.archlinux.org/index.php/Unofficial_user_repositories#repo-ck
 
-Ajouter au-début AVANT [core] :
+repo-ck
+
+    Maintainer: graysky
+    Description: Kernel and modules with Brain Fuck Scheduler and all the goodies in the ck1 patch set.
+    Upstream page: repo-ck.com
+    Wiki: repo-ck
+    Key-ID: 5EE46C4C
 
 [repo-ck]
 Server = http://repo-ck.com/$arch
 
-[root@arch2obck ~]# pacman-key -r 5EE46C4C
-[root@arch2obck ~]# pacman-key --lsign-key 5EE46C4C
+$ sudo nano /etc/pacman.conf
 
-[root@arch2obck ~]# pacman -Syy
+Ajouter au-début AVANT [core] :
+================================
 
-[root@arch2obck ~]# pacman -Sl repo-ck
+[repo-ck]
+Server = http://repo-ck.com/$arch
 
-repo-ck linux-ck-haswell 3.12.3-1
-repo-ck linux-ck-haswell-headers 3.12.3-1
+# pacman-key -r 5EE46C4C
+# pacman-key -f 5EE46C4C
+# pacman-key --lsign-key 5EE46C4C
 
-repo-ck nvidia-ck-haswell 331.20-13
+# pacman -Syy
 
-repo-ck virtualbox-ck-guest-modules-haswell 4.3.4-2
-repo-ck virtualbox-ck-host-modules-haswell 4.3.4-2
+# pacman -Sl repo-ck
 
-[root@arch2obck ~]# pacman -Syu
+repo-ck linux-ck-haswell 3.16.1-1
+repo-ck linux-ck-haswell-headers 3.16.1-1
 
-[root@arch2obck ~]# pacman -S ck-haswell
-:: Il y a 7 membres dans le groupe ck-haswell :
-:: Dépôt repo-ck
-   1) broadcom-wl-ck-haswell  2) linux-ck-haswell  3) linux-ck-haswell-headers  4) nvidia-304xx-ck-haswell
-   5) nvidia-ck-haswell  6) virtualbox-ck-guest-modules-haswell  7) virtualbox-ck-host-modules-haswell
+repo-ck nvidia-ck-haswell 340.32-3
 
-Entrez une sélection (par défaut, tout est sélectionné): 
+repo-ck virtualbox-ck-guest-modules-haswell 4.3.14-4
+repo-ck virtualbox-ck-host-modules-haswell 4.3.14-4
 
-[root@arch2obck ~]# pacman -S linux-ck-haswell linux-ck-haswell-headers nvidia-ck-haswell
+# pacman -Syu
+
+# pacman -Sg ck-haswell
+ck-haswell broadcom-wl-ck-haswell
+ck-haswell linux-ck-haswell
+ck-haswell linux-ck-haswell-headers
+ck-haswell nvidia-304xx-ck-haswell
+ck-haswell nvidia-ck-haswell
+ck-haswell virtualbox-ck-guest-modules-haswell
+ck-haswell virtualbox-ck-host-modules-haswell
+
+
+# pacman -S linux-ck-haswell linux-ck-haswell-headers nvidia-ck-haswell
+
+Downloads interrupt regularly
+===============================
+See : https://wiki.archlinux.org/index.php/Improve_pacman_performance#Using_wget
+Change the pacman downloader to wget, which automatically resumes downloads. 
+
+# nano /etc/pacman.conf
+
+OU
+
+# pacman -Syyuu
 
 
 INSTALLATION DE EFISTUB
@@ -153,6 +181,8 @@ ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
+
+
 # systemctl enable efistub_ck_update.path
 
 # systemctl status efistub_ck_update.path
@@ -174,10 +204,94 @@ PKGFILE
 # pkgfile --update
 
 
+INSTALLATION DE VIRTUALBOX CK DANS ARCH_2_CK
+============================================
+# pacman -Sg ck-haswell
+ck-haswell broadcom-wl-ck-haswell
+ck-haswell linux-ck-haswell
+ck-haswell linux-ck-haswell-headers
+ck-haswell nvidia-304xx-ck-haswell
+ck-haswell nvidia-ck-haswell
+ck-haswell virtualbox-ck-guest-modules-haswell
+ck-haswell virtualbox-ck-host-modules-haswell
+
+# pacman -Syu virtualbox virtualbox-ck-host-modules-haswell virtualbox-guest-iso
+# modprobe vboxdrv
+# modprobe vboxnetflt
+
+# echo '# Load Vbox modules at boot.' > /etc/modules-load.d/virtualbox.conf
+# echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
+# echo 'vboxnetflt' >> /etc/modules-load.d/virtualbox.conf
+
+# cat /etc/modules-load.d/virtualbox.conf
+
+# gpasswd -a jnd vboxusers
+
+$ yaourt -Syua virtualbox-ext-oracle
+
+!!! DANS VIRTUAL-BOX :
+!!! ATTENTION AU CHEMIN DE VirtualBox-VMs -> /0-DataLinux/VirtualBox-VMs
+
+Fichiers -> Paramètres 
+Onglet Général : Dossier par défaut des machines :
+
+
+INSTALLATION DE VIRTUALBOX CK DANS ARCH / ARCH_CK
+==================================================
+# pacman -Sg ck-haswell
+ck-haswell virtualbox-ck-guest-modules-haswell
+ck-haswell virtualbox-ck-host-modules-haswell
+
+SI VIRTUALBOX PAS DÉJÀ INSTALLÉ
+--------------------------------
+# pacman -Syu virtualbox virtualbox-ck-host-modules-haswell virtualbox-guest-iso
+# modprobe vboxdrv
+# modprobe vboxnetflt
+
+# echo '# Load Vbox modules at boot.' > /etc/modules-load.d/virtualbox.conf
+# echo 'vboxdrv' >> /etc/modules-load.d/virtualbox.conf
+# echo 'vboxnetflt' >> /etc/modules-load.d/virtualbox.conf
+
+# cat /etc/modules-load.d/virtualbox.conf
+
+# gpasswd -a jnd vboxusers
+
+
+SI VIRTUALBOX DÉJÀ INSTALLÉ
+--------------------------------
+# pacman -Syu virtualbox-ck-host-modules-haswell
+
+# modprobe vboxdrv
+# modprobe vboxnetflt
+
+!!! voir : 00-Cmd-Customize-Arch.TXT   9) INSTALLATION DE VIRTUAL-BOX
+
+# pacman -Syu virtualbox-extension
+
+!!! DANS VIRTUAL-BOX :
+!!! ATTENTION AU CHEMIN DE VirtualBox-VMs -> /0-DataLinux/VirtualBox-VMs
+
+Fichiers -> Paramètres 
+Onglet Général : Dossier par défaut des machines :
+  ==> /home/jnd/VirtualBox-VMs
+  
+
+
+
+
+
 
 ======================================================================================
 ANCIEN
 =======
+# pacman -S ck-haswell
+:: Il y a 7 membres dans le groupe ck-haswell :
+:: Dépôt repo-ck
+   1) broadcom-wl-ck-haswell  2) linux-ck-haswell  3) linux-ck-haswell-headers  4) nvidia-304xx-ck-haswell
+   5) nvidia-ck-haswell  6) virtualbox-ck-guest-modules-haswell  7) virtualbox-ck-host-modules-haswell
+
+Entrez une sélection (par défaut, tout est sélectionné): 
+
 
 Monter partition Boot de Arch Principale
 -----------------------------------------

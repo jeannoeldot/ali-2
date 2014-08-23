@@ -338,6 +338,17 @@
   </item>
 </menu>
 
+<menu id="apps-virtualisation-menu" label="Virtualisation">
+  <item label="Oracle VM VirtualBox" icon="/usr/share/icons/hicolor/64x64/mimetypes/virtualbox-vbox.png">
+    <action name="Execute">
+      <command>virtualbox</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+</menu>
+
 <menu id="root-menu" label="Openbox 3">
   <separator label="Applications" />
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-accessories.png" id="apps-accessories-menu"/>
@@ -347,6 +358,7 @@
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-office.png" id="apps-office-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-multimedia.png" id="apps-multimedia-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-games.png" id="apps-games-menu"/>
+  <menu icon="/usr/share/icons/Faenza/apps/96/virtualbox.png" id="apps-virtualisation-menu"/>
   <menu icon="/usr/share/icons/Faenza/apps/96/utilities-terminal.png" id="apps-term-menu"/>
   <menu icon="/usr/share/icons/Faenza/places/96/folder.png" id="apps-fileman-menu"/>
   <separator label="Configuration" />
@@ -355,7 +367,7 @@
     <action name="Reconfigure" />
   </item>
   <separator label="Ordinateur" />
-  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Déconnexion...">
+  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Log Out...">
     <action name="Exit">
       <prompt>yes</prompt>
     </action>
