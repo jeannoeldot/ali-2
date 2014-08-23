@@ -47,10 +47,28 @@ INSTALLATION DE EFISTUB
 =========================
 
 # ls /boot
+efi  initramfs-linux-fallback.img  initramfs-linux.img  vmlinuz-linux
+
 initramfs-linux-ck.img
 initramfs-linux-ck-fallback.img
 vmlinuz-linux-ck
 
+INSTALLATION DANS ARCH / ARCH_CK
+====================================
+# ls /boot/efi/EFI/arch
+initramfs-arch-fallback.img  initramfs-arch.img  refind_linux.conf  vmlinuz-arch.efi
+
+# mkdir -p /boot/efi/EFI/arch_ck
+# cp -v /boot/efi/EFI/arch/refind_linux.conf /boot/efi/EFI/arch_ck/
+# cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_ck/vmlinuz-arch_ck.efi
+# cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_ck/initramfs-arch_ck.img
+# cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_ck/initramfs-arch_ck-fallback.img
+
+# ls /boot/efi/EFI/arch_ck
+initramfs-arch_ck-fallback.img  initramfs-arch_ck.img  refind_linux.conf  vmlinuz-arch_ck.efi
+
+INSTALLATION DANS ARCH_2 / ARCH_2_CK
+====================================
 # ls /boot/efi/EFI/arch_2
 initramfs-arch_2-fallback.img  initramfs-arch_2.img  refind_linux.conf  vmlinuz-arch_2.efi
 
@@ -104,6 +122,24 @@ Unit=efistub_ck_update.service
 WantedBy=multi-user.target
 
 
+INSTALLATION DANS ARCH / ARCH_CK
+====================================
+# nano -w /etc/systemd/system/efistub_ck_update.service
+
+[Unit]
+Description=Copy EFISTUB Linux-CK to UEFISYS Partition
+# Requires=boot-efi.mount
+
+[Service]
+Type=oneshot
+
+ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_ck/vmlinuz-arch_ck.efi
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_ck/initramfs-arch_ck.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_ck/initramfs-arch_ck-fallback.img
+
+
+INSTALLATION DANS ARCH_2 / ARCH_2_CK
+====================================
 # nano -w /etc/systemd/system/efistub_ck_update.service
 
 [Unit]
@@ -117,7 +153,6 @@ ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
-
 # systemctl enable efistub_ck_update.path
 
 # systemctl status efistub_ck_update.path
@@ -129,14 +164,15 @@ REBOOTER
 VÉRIFICATIONS
 =============
 # systemctl list-units | grep efistub
-efistub_ck_update.path                                                                    loaded active waiting
+efistub_ck_update.path   loaded active waiting
    Check update EFISTUB Linux-CK
-efistub_update.path                                                                       loaded active waiting
-   Check update EFISTUB Kernel
+efistub_update.path      loaded active waiting
+   Check update EFISTUB Linux-ARCH
 
 PKGFILE
 ========
 # pkgfile --update
+
 
 
 ======================================================================================

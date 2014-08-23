@@ -4,25 +4,18 @@ LISTE DES COMMANDES A AFFECTUER POUR PERSONNALISER KDE OU OPENBOX
 !!! EN USER
 ============
 
-1) DANS KDE : PERSONNALISER KDE
-=================================
-
-REVOIR :
---------
-Rechercher sur le bureau : Indexation : Personnaliser des dossiers
-Détail du compte : Emplacements : Dossier ...
-
-
-2) VÉRIFIER MES SERVICES SYSTEMD SI EN UEFI
+1) VÉRIFIER MES SERVICES SYSTEMD SI EN UEFI
 ===========================================
 $ systemctl list-units
 
-efistub_update.path                                       loaded active waiting   Check update EFISTUB  Linux-ARCH
-refind_update.path                                        loaded active waiting   Check update rEFInd
+efistub_update.path  loaded active waiting   Check update EFISTUB  Linux-ARCH
+
+!!! SUPPRIMÉ
+refind_update.path  loaded active waiting   Check update rEFInd
 
 SI DANS ARCH_2 :
 ================
-efistub_update.path                                       loaded active waiting   Check update EFISTUB  Linux-ARCH
+efistub_update.path  loaded active waiting   Check update EFISTUB  Linux-ARCH
 
 
  A)) ROOT
@@ -160,18 +153,6 @@ $ sudo cp /etc/fstab /etc/fstab.backup.moi
 # /dev/sda2
 #UUID=07e77477-5016-45ed-84e1-a64b3bb3579a      none            swap            defaults        0 0
 
- 4-1) FSTAB : TAILLE TMPFS 2 Go si 8 Go de RAM
- =============================================
-!!! SI TMPFS EXISTE DANS /etc/fstab
------------------------------------
-$ sudo sed -i "s/nodev,nosuid/nodev,nosuid,size=2G/g" /etc/fstab
-
-!!!  SI TMPFS N'EXISTE PAS DANS /etc/fstab
-------------------------------------------
-$ sudo nano -w /etc/fstab
-# tmpfs = 2G
-tmpfs      /tmp    tmpfs   nodev,nosuid,size=2G    0       0
-
 !!! VOIR :
 ----------
 systemd /usr/lib/systemd/system/tmp.mount  section "Options"
@@ -268,15 +249,6 @@ https://wiki.archlinux.org/index.php/KDE#Desktop_search_and_semantic_desktop
 
 $ sudo sh -c "echo '# Increase the number of files that can be watched with inotify' > /etc/sysctl.d/nepomuk.conf"
 $ sudo sh -c "echo 'fs.inotify.max_user_watches = 524288' >> /etc/sysctl.d/nepomuk.conf"
-
-5-3) !!! WATCHDOG : Création de /etc/sysctl.d/nmi-watchdog.conf
-=============================================================================================
-https://bbs.archlinux.org/viewtopic.php?id=163768
-Index » Kernel & Hardware » Anyone using watchdog daemons on a desktop/laptop? [SOLVED]
-
-$ sudo sh -c "echo '# Disable watchdog daemons on a desktop' > /etc/sysctl.d/nmi-watchdog.conf"
-$ sudo sh -c "echo 'kernel.watchdog=0' >> /etc/sysctl.d/nmi-watchdog.conf"
-
 
 !!! AVEC CORE 2 DUO
 !!! NE PAS FAIRE AVEC I7 HASWELL INTEL_PSTATE
@@ -523,35 +495,6 @@ hddtemp.service - Hard drive temperature monitor daemon
            └─237 /usr/bin/hddtemp -dF /dev/sda /dev/sdb
 
 
-20) Using udev for one device or HDD/SSD mixed environment
-==========================================================
-    # INUTILES :
-    # VOIR https://wiki.archlinux.org/index.php/SSD#I.2FO_Scheduler
-    #   et https://wiki.archlinux.org/index.php/Talk:Solid_State_Drives
-
-!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
-===============================================
- create and edit a file in /etc/udev/rules.d named '60-schedulers.rules'.
- In the file include the following:
-
-# set deadline scheduler for non-rotating disks
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
-
-# set noop scheduler for non-rotating disks
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="noop"
-
-# set cfq scheduler for rotating disks
-ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
-
-Of course, set noop/deadline/cfq to the desired schedulers.
-
-
-Changes should occur upon next boot. To check success of the new rule:
-
-$ cat /sys/block/sda/queue/scheduler   #where X is the device in question
-[noop] deadline cfq 
-
-
 21) MICROCODE
 =============
 https://wiki.archlinux.org/index.php/microcode
@@ -785,7 +728,10 @@ $ cd && cp -v /home/jnd/09-Fichiers-Conf/0-Save-Confs/home-jnd-.yasp.script.2013
  
 4) CONFIGS GIT
 ==============
-
+ !!! VOIR : /home/jnd/09-Documentation/00-Cmd-CREATION-GIT-INSTALLEUR.TXT
+ OU
+ !!! VOIR : /home/jnd/02-git/00-Cmd-CREATION-GIT-INSTALLEUR.TXT
+ 
 !!! ATTENTION DATE
 $ cd && cp -v /home/jnd/09-Fichiers-Conf/0-Save-Confs/home-jnd-.gitconfig.2013-12-01 .gitconfig
 
@@ -887,10 +833,18 @@ BROWSERS="firefox"
 # systemctl status psd.service
 # systemctl status psd-resync.service
 
+!!! openimageio-git
+!!! openshadinglanguage-git
 # pacman -Syu blender-git
+# pacman -Syu blender-addons-yafaray-git
 !!! TEST $ blender
 
+# pacman -Syu jndqaligne5-qt4 jndqrami-qt4
+OU Versions Qt5
 # pacman -Syu jndqaligne5 jndqrami
+
+# pacman -Syu jndqcbgrd
+
 # pacman -Syu konvertible
 # pacman -Syu pkgbrowser
 # pacman -Syu sysbench
@@ -902,14 +856,7 @@ BROWSERS="firefox"
 
 !!! VOIR
 # pacman -Syu ttf-win7-fonts
-!!!
-# pacman -S bluegriffon
 
-!!! INUTILE : PLUS UTILISE
-# pacman -S kdeplasma-yasp-scripted
-
-!!! INUTILE : SUR ARCHLINUXFR
-# pacman -S dfc
 
 9) INSTALLATION DE VIRTUAL-BOX
 =================================
@@ -941,7 +888,6 @@ Onglet Général : Dossier par défaut des machines :
 
 # systemctl stop lm_sensors.service
 # systemctl disable lm_sensors.service
-!!! INUTILE DEPUIS LE 22/01/2014 # pacman -Syu lm_sensors-svn
 # pacman -Syu lm_sensors
 # sensors-detect
 # systemctl start lm_sensors.service
@@ -1031,20 +977,11 @@ $ cp -v /0-DataLinux/00-ARCH_2-OB-CK/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /ho
 
 $ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
 
-!!! INUTILE DEPUIS LE 22/01/2014
-LM_SENSORS-SVN
+LM_SENSORS
 ===============
-
-1) COMPILER lm_sensors-svn
-$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/lm_sensors-svn.tar.xz /home/jnd/05-builds/
-$ tar -xJf /home/jnd/05-builds/lm_sensors-svn.tar.xz -C /home/jnd/05-builds/
-$ rm -f /home/jnd/05-builds/lm_sensors-svn.tar.xz
 
 # systemctl stop lm_sensors.service
 # systemctl disable lm_sensors.service
-# pacman -U /home/jnd/00-repolocal/lm_sensors-svn-3.34.6207-1-x86_64.pkg.tar.xz
-
-!!! DEPUIS LE 22/01/2014
 # pacman -Syu lm_sensors
 # sensors-detect
 # systemctl start lm_sensors.service
@@ -1066,13 +1003,87 @@ $ rm -f 00-Conky.tar.xz
 
 INSTALLATION DE LINUX-CK
 =================================
-!!! VOIR : 00-Cmd-INSTALLATION-LINUX-CK.TXT
+
+!!! VOIR : /home/jnd/00-Cmd-INSTALLATION-LINUX-CK.TXT
+OU
+!!! VOIR : /home/jnd/09-Documentation/00-Cmd-INSTALLATION-LINUX-CK.TXT
 OU
 !!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
 
 ==========================================================
 ANCIEN
 ======
+ 4-1) FSTAB : TAILLE TMPFS 2 Go si 8 Go de RAM
+ =============================================
+!!! SI TMPFS EXISTE DANS /etc/fstab
+-----------------------------------
+$ sudo sed -i "s/nodev,nosuid/nodev,nosuid,size=2G/g" /etc/fstab
+
+!!!  SI TMPFS N'EXISTE PAS DANS /etc/fstab
+------------------------------------------
+$ sudo nano -w /etc/fstab
+# tmpfs = 2G
+tmpfs      /tmp    tmpfs   nodev,nosuid,size=2G    0       0
+
+5-3) !!! WATCHDOG : Création de /etc/sysctl.d/nmi-watchdog.conf
+=============================================================================================
+https://bbs.archlinux.org/viewtopic.php?id=163768
+Index » Kernel & Hardware » Anyone using watchdog daemons on a desktop/laptop? [SOLVED]
+
+$ sudo sh -c "echo '# Disable watchdog daemons on a desktop' > /etc/sysctl.d/nmi-watchdog.conf"
+$ sudo sh -c "echo 'kernel.watchdog=0' >> /etc/sysctl.d/nmi-watchdog.conf"
+
+
+20) Using udev for one device or HDD/SSD mixed environment
+==========================================================
+    # INUTILES :
+    # VOIR https://wiki.archlinux.org/index.php/SSD#I.2FO_Scheduler
+    #   et https://wiki.archlinux.org/index.php/Talk:Solid_State_Drives
+
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
+===============================================
+ create and edit a file in /etc/udev/rules.d named '60-schedulers.rules'.
+ In the file include the following:
+
+# set deadline scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="noop"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+
+Of course, set noop/deadline/cfq to the desired schedulers.
+
+
+Changes should occur upon next boot. To check success of the new rule:
+
+$ cat /sys/block/sda/queue/scheduler   #where X is the device in question
+[noop] deadline cfq 
+
+
+!!!
+# pacman -S bluegriffon
+
+!!! INUTILE : PLUS UTILISE
+# pacman -S kdeplasma-yasp-scripted
+
+!!! INUTILE : SUR ARCHLINUXFR
+# pacman -S dfc
+
+!!! INUTILE DEPUIS LE 22/01/2014 # pacman -Syu lm_sensors-svn
+!!! INUTILE DEPUIS LE 22/01/2014
+1) COMPILER lm_sensors-svn
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/lm_sensors-svn.tar.xz /home/jnd/05-builds/
+$ tar -xJf /home/jnd/05-builds/lm_sensors-svn.tar.xz -C /home/jnd/05-builds/
+$ rm -f /home/jnd/05-builds/lm_sensors-svn.tar.xz
+
+# systemctl stop lm_sensors.service
+# systemctl disable lm_sensors.service
+# pacman -U /home/jnd/00-repolocal/lm_sensors-svn-3.34.6207-1-x86_64.pkg.tar.xz
+
+!!! DEPUIS LE 22/01/2014
 
 ==========================================================
 TEST
