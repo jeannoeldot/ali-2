@@ -539,7 +539,7 @@
     while true
     do
         print_title "APPLICATIONS DE BUREAUTIQUE"
-        echo " 1) $(menu_item "libreoffice-still-common" "LibreOffice")"
+        echo " 1) $(menu_item "libreoffice-still-common" "LibreOffice Still")"
         echo " 2) $(menu_item "goffice" "Abiword + Gnumeric")"
         echo ""
         echo " f) FINI"

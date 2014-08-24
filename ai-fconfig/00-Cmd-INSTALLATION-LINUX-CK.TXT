@@ -81,19 +81,20 @@ initramfs-linux-ck.img
 initramfs-linux-ck-fallback.img
 vmlinuz-linux-ck
 
-INSTALLATION DANS ARCH / ARCH_CK
+INSTALLATION DANS ARCH / ARCH_1_CK
 ====================================
 # ls /boot/efi/EFI/arch
 initramfs-arch-fallback.img  initramfs-arch.img  refind_linux.conf  vmlinuz-arch.efi
 
-# mkdir -p /boot/efi/EFI/arch_ck
-# cp -v /boot/efi/EFI/arch/refind_linux.conf /boot/efi/EFI/arch_ck/
-# cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_ck/vmlinuz-arch_ck.efi
-# cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_ck/initramfs-arch_ck.img
-# cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_ck/initramfs-arch_ck-fallback.img
+# mkdir -p /boot/efi/EFI/arch_1_ck
+# cp -v /boot/efi/EFI/arch/refind_linux.conf /boot/efi/EFI/arch_1_ck/
+# cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
+# cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
+# cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
-# ls /boot/efi/EFI/arch_ck
-initramfs-arch_ck-fallback.img  initramfs-arch_ck.img  refind_linux.conf  vmlinuz-arch_ck.efi
+# ls /boot/efi/EFI/arch_1_ck
+initramfs-arch_1_ck-fallback.img  initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
+
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
 ====================================
@@ -150,7 +151,7 @@ Unit=efistub_ck_update.service
 WantedBy=multi-user.target
 
 
-INSTALLATION DANS ARCH / ARCH_CK
+INSTALLATION DANS ARCH / ARCH_1_CK
 ====================================
 # nano -w /etc/systemd/system/efistub_ck_update.service
 
@@ -161,9 +162,9 @@ Description=Copy EFISTUB Linux-CK to UEFISYS Partition
 [Service]
 Type=oneshot
 
-ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_ck/vmlinuz-arch_ck.efi
-ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_ck/initramfs-arch_ck.img
-ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_ck/initramfs-arch_ck-fallback.img
+ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
@@ -236,8 +237,8 @@ Fichiers -> Paramètres
 Onglet Général : Dossier par défaut des machines :
 
 
-INSTALLATION DE VIRTUALBOX CK DANS ARCH / ARCH_CK
-==================================================
+INSTALLATION DE VIRTUALBOX CK DANS ARCH / ARCH_1_CK
+===================================================
 # pacman -Sg ck-haswell
 ck-haswell virtualbox-ck-guest-modules-haswell
 ck-haswell virtualbox-ck-host-modules-haswell
