@@ -634,7 +634,7 @@
             case "$OPT" in
                 1)
                     package_install "chromium icedtea-web"
-                    aur_package_install "chromium-pepper-flash chromium-libpdf"
+                    aur_package_install "chromium-pepper-flash"
                     ;;
                 2)
                     package_install "midori icedtea-web"

@@ -932,6 +932,9 @@ Edition -> Préférences -> Avancé -> Général -> Navigation
 Marque-pages -> Importation et sauvegarde -> Importer HTML
 /home/jnd/09-Fichiers-Conf/bookmarks-2013-12-01.html
 
+Libérer la mémoire après fermeture d'un onglet :
+browser.sessionstore.max_tabs_undo" to 0.
+
 
 12) INSTALLATION DE WINE
 =================================

@@ -64,11 +64,17 @@ Downloads interrupt regularly
 See : https://wiki.archlinux.org/index.php/Improve_pacman_performance#Using_wget
 Change the pacman downloader to wget, which automatically resumes downloads. 
 
-# nano /etc/pacman.conf
-
 OU
 
-# pacman -Syyuu
+[repo-ck]
+Server = http://repo-ck.com/$arch
+Server = http://repo-ck.com/$arch
+Server = http://repo-ck.com/$arch
+Server = http://repo-ck.com/$arch
+Server = http://repo-ck.com/$arch
+
+# nano /etc/pacman.conf
+
 
 
 INSTALLATION DE EFISTUB
