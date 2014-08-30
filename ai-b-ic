@@ -89,7 +89,7 @@ source `pwd`/ai-commons
         print_info "Le fuseau horaire sélectionné est : "$FR_ZONE"/"$FR_SUBZONE
         ZONE=$FR_ZONE
         SUBZONE=$FR_SUBZONE
-        ln -s /usr/share/zoneinfo/${ZONE}/${SUBZONE} /etc/localtime
+        ln -sf /usr/share/zoneinfo/${ZONE}/${SUBZONE} /etc/localtime
         pause_function
     }
     #}}}
