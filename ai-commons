@@ -106,15 +106,15 @@ MOUNTPOINT="/mnt"
 # MES FONCTIONS EN PLUS {{{
 # LECTURE DU NOM DU REPERTOIRE D'INSTALLATION SI EN UEFI {{{
 read_name_dir_archlinux() { #{{{
-    # Par défaut, nom du rep = arch
-    NAME_DIR_ARCHLINUX="arch"
+    # Par défaut, nom du rep = arch_1. NAME_ARCH_FIRST="arch_1"
+    NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
     if [[ -f "/root/name_dir_archlinux.uefi" ]]; then
         eval $(grep '^name_dir_archlinux=' "/root/name_dir_archlinux.uefi")
         if [[ -n "${name_dir_archlinux}" ]]; then
             NAME_DIR_ARCHLINUX="${name_dir_archlinux}"
         fi
     fi
-    if [[ $NAME_DIR_ARCHLINUX == "arch" ]]; then
+    if [[ $NAME_DIR_ARCHLINUX == ${NAME_ARCH_FIRST} ]]; then
         IS_MULTI_BOOT_UEFI=0
     else
         IS_MULTI_BOOT_UEFI=1

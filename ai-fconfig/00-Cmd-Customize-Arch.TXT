@@ -423,6 +423,20 @@ $ sudo sed -i "/^#EnableLinuxHWVideoDecode=1/c\EnableLinuxHWVideoDecode=0" /etc/
 
 12) SYSTEMD : Masquer services
 ==============================
+
+!!! SYSTEMD 216
+================
+!!! ATTENTION AUX SERVICES !!!
+--------------------------------
+systemctl --state=failed
+systemctl list-unit-files
+systemd-analyze blame
+
+=> Comparer avec Fichiers dans /home/jnd/09-Fichiers-Conf/0-Systemd/
+Liste-Services-Actifs.DERNIERE_DATE.TXT
+Liste-Units.DERNIERE_DATE.TXT
+
+
 !!! EN USER
 --------------
 $ systemctl -t service -a --full | grep error
