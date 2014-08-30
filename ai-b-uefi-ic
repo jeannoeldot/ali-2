@@ -21,9 +21,9 @@
         fi
         # Détermine le rep d'installation de arch
         if [[ -d /boot/efi/EFI ]]; then
-            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | wc -l`)
+            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<9' | wc -l`)
             if [[ $number_of_arch_first -eq 0 ]]; then
-                NAME_DIR_ARCHLINUX="arch"
+                NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
                 IS_MULTI_BOOT_UEFI=0
             else
                 digit_of_arch_after=$(( $number_of_arch_first + 1 ))
@@ -31,7 +31,7 @@
                 IS_MULTI_BOOT_UEFI=1
             fi
         else
-            NAME_DIR_ARCHLINUX="arch"
+            NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
             IS_MULTI_BOOT_UEFI=0
         fi
         DIR_EFI_ARCHLINUX="/boot/efi/EFI/${NAME_DIR_ARCHLINUX}"
@@ -78,6 +78,7 @@
         pacman -Syu refind-efi
         # Kernels
         print_info_cyan "Copie des fichiers du kernel (EFISTUB)."
+        # CREATION arch_x
         mkdir -p ${DIR_EFI_ARCHLINUX}
         cp -v /boot/vmlinuz-linux ${DIR_EFI_ARCHLINUX}/vmlinuz-${NAME_DIR_ARCHLINUX}.efi
         cp -v /boot/initramfs-linux.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}.img
@@ -92,15 +93,16 @@
             cp -v /usr/share/refind/refind_${ARCHI_REFIND}.efi /boot/efi${NAME_DIR_MGR_EFI}
             cp -v /usr/share/refind/refind.conf-sample ${NAME_DIR_EFI}/refind.conf
             cp -R /usr/share/refind/icons ${NAME_DIR_EFI}/icons
+            cp -v ${NAME_DIR_EFI}/icons/os_arch.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
             cp -v ai-fconfig/refind-icone-os_arch_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.png
-            cp -v ai-fconfig/refind-icone-os_arch_1_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_1_ck.png
         else
             print_info_cyan "MULTI BOOT UEFI : Pas d'installation de Manager de Boot."
             # Installe icone
-#            cp -v ${NAME_DIR_EFI}/icons/os_arch.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
-            cp -v ai-fconfig/refind-icone-os_arch_2.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
-            cp -v ai-fconfig/refind-icone-os_arch_2_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.png
+            cp -v ${NAME_DIR_EFI}/icons/os_arch.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}.png
+            cp -v ai-fconfig/refind-icone-os_arch_ck.png ${NAME_DIR_EFI}/icons/os_${NAME_DIR_ARCHLINUX}_ck.png
         fi
+        # RAJOUT CREATION arch_x_ck VIDE
+        mkdir -p ${DIR_EFI_ARCHLINUX}_ck
         pause_function
     }
     #}}}
