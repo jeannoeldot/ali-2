@@ -125,7 +125,11 @@ source `pwd`/ai-commons
         #
         if [[ $IS_UEFI -eq 1 ]]; then
             if [[ ${IS_HDD_OR_SSD} == "SSD" ]]; then
-                print_info_cyan "UEFI et SSD : Options pour vfat : rajouter discard."
+                local num_ligne_vfat=$(grep -n "vfat" "${MOUNTPOINT}/etc/fstab" | cut -f1 -d:)
+                if [[ "${num_ligne_vfat}" != "" ]]; then
+                    print_info_cyan "UEFI et SSD : Options pour vfat : rw,relatime,discard."
+                    sed -i "${num_ligne_vfat}s/rw,relatime/rw,relatime,discard/" ${MOUNTPOINT}/etc/fstab
+                fi
             fi
         fi
         #
