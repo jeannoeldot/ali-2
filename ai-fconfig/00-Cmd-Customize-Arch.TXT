@@ -182,8 +182,19 @@ $ sudo mkdir /etc/systemd/system/tmp.mount.d
 $ sudo sh -c "echo '[Mount]' > /etc/systemd/system/tmp.mount.d/tmp_size.conf"
 $ sudo sh -c "echo 'Options=mode=1777,strictatime,size=4G' >> /etc/systemd/system/tmp.mount.d/tmp_size.conf"
 
-FAIRE TEST SI OK ( PSD AVEC FIREFOX ... )
+OU POUR BLENDER
+----------------
+!!! SI 16 GiO RAM
+$ sudo mkdir /etc/systemd/system/tmp.mount.d
+$ sudo sh -c "echo '[Mount]' > /etc/systemd/system/tmp.mount.d/tmp_size.conf"
+$ sudo sh -c "echo 'Options=mode=1777,strictatime,size=6G' >> /etc/systemd/system/tmp.mount.d/tmp_size.conf"
 
+FAIRE TEST SI OK ( PSD AVEC FIREFOX ... COMPILER BLENDER DANS /TMP )
+
+POUR MODIFIER SIZE
+==================
+
+$ sudo /etc/systemd/system/tmp.mount.d/tmp_size.conf
 
  4-2) FSTAB : 0-DataLinux SI EXISTE
  ==================================
