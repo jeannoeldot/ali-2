@@ -234,13 +234,15 @@ $ findmnt
 
  4-3) PARTITION /BOOT/EFI : VFAT : RAJOUTER DISCARD
  ===================================================
-
+!!! FAIT EN AUTOMATIQUE SI INSTALLATION PAR MON SCRIPT AI-B
+===========================================================
+ 
 $ sudo nano -w /etc/fstab
 
 # /dev/sda1
 UUID=6BF6-2DEA          /boot/efi       vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro    0 2
   DEVIENT :
-UUID=6BF6-2DEA          /boot/efi       vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro,discard    0 2
+UUID=6BF6-2DEA          /boot/efi       vfat            rw,relatime,discard,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro    0 2
 
 
 
@@ -576,6 +578,23 @@ Section "Device"
    Option       "CoolBits"      "1"
    Option       "TripleBuffer"  "True"
 EndSection
+
+
+26) VERIFICATION DE /usr/lib/jvm
+================================
+$ ls -l /usr/lib/jvm
+total 4
+lrwxrwxrwx 1 root root   18  5 sept. 18:21 default -> java-7-openjdk/jre
+lrwxrwxrwx 1 root root   18  5 sept. 18:21 default-runtime -> java-7-openjdk/jre
+drwxr-xr-x 3 root root 4096 22 août  18:03 java-7-openjdk
+lrwxrwxrwx 1 root root    7  4 sept. 18:25 java-default-runtime -> default
+
+SI default -> default
+
+==> FAIRE :
+!!! EN ROOT !!!
+---------------
+# archlinux-java fix
 
 
 30) INSTALLATION DE ABS
