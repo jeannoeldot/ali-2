@@ -679,6 +679,8 @@ source `pwd`/ai-commons
         if is_package_installed "pkgfile" ; then
             print_info_cyan "Génération ou mise à jour du cache de pkgfile."
             pkgfile --update
+            print_info_cyan "Activation du service pkgfile-update.service."
+            systemctl enable pkgfile-update.service
         fi
         pause_function
     }
