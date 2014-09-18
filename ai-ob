@@ -499,7 +499,8 @@
         echo " 2) $(menu_item "gdb" "Debugger Tools")"
         echo " 3) $(menu_item "git subversion")"
         echo " 4) $(menu_item "cmake")"
-        echo " 5) $(menu_item "geany")"
+        echo " 5) $(menu_item "clang")"
+        echo " 6) $(menu_item "geany")"
         echo ""
         echo " f) FINI"
         echo ""
@@ -520,6 +521,9 @@
                     package_install "cmake"
                     ;;
                 5)
+                    package_install "clang"
+                    ;;
+                6)
                     package_install "geany"
                     ;;
                 "f")

@@ -758,7 +758,8 @@ source `pwd`/ai-commons
         #}}}
 
     install_desktop_environment
-    install_nm_wicd
+# APPEL SUPPRIMÉ LE 18/09/2014
+#    install_nm_wicd
     install_accessories_apps
     install_system_apps
     install_development_apps

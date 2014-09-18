@@ -73,7 +73,7 @@ Server = http://repo-ck.com/$arch
 Server = http://repo-ck.com/$arch
 Server = http://repo-ck.com/$arch
 
-# nano /etc/pacman.conf
+# nano -w /etc/pacman.conf
 
 
 
@@ -101,6 +101,24 @@ initramfs-arch-fallback.img  initramfs-arch.img  refind_linux.conf  vmlinuz-arch
 # ls /boot/efi/EFI/arch_1_ck
 initramfs-arch_1_ck-fallback.img  initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
 
+MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
+==========================================================
+# nano -w /boot/efi/EFI/arch_1_ck/refind_linux.conf
+
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target quiet"
+"Boot en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target quiet"
+"Boot en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet"
+"Boot en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet"
+"Boot en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
+
+
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
 ====================================
@@ -115,6 +133,23 @@ initramfs-arch_2-fallback.img  initramfs-arch_2.img  refind_linux.conf  vmlinuz-
 
 # ls /boot/efi/EFI/arch_2_ck
 initramfs-arch_2_ck-fallback.img  initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
+
+MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
+==========================================================
+# nano -w /boot/efi/EFI/arch_2_ck/refind_linux.conf
+
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target quiet"
+"Boot en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target quiet"
+"Boot en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet"
+"Boot en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet"
+"Boot en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
 
 
 ICONES
@@ -205,6 +240,14 @@ efistub_ck_update.path   loaded active waiting
    Check update EFISTUB Linux-CK
 efistub_update.path      loaded active waiting
    Check update EFISTUB Linux-ARCH
+
+BFQ I/O Scheduler
+------------------
+# cat /sys/block/sda/queue/scheduler
+noop deadline [cfq] bfq
+OU SI BFQ ACTIF
+noop deadline cfq [bfq]
+
 
 PKGFILE
 ========

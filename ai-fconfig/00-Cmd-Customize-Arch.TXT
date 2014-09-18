@@ -1012,8 +1012,6 @@ $ sudo systemctl status psd.service psd-resync.service
 $ yaourt -Syua profile-cleaner
 $ profile-cleaner f
 
-$ yaourt -Syua libicns
-
 $ yaourt -Syua sysbench
 
 SI 00-repolocal N'EXISTE PAS
@@ -1131,6 +1129,10 @@ $ rm -f /home/jnd/05-builds/lm_sensors-svn.tar.xz
 # pacman -U /home/jnd/00-repolocal/lm_sensors-svn-3.34.6207-1-x86_64.pkg.tar.xz
 
 !!! DEPUIS LE 22/01/2014
+
+!!! INUTILE : PLUS UTILISE
+$ yaourt -Syua libicns
+
 
 ==========================================================
 TEST

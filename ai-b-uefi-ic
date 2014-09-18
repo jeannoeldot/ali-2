@@ -162,6 +162,9 @@
             fi
             #
             efibootmgr -c -d ${ROOT_DEVICE} -p ${numpartefi} -l ${NAME_DIR_MGR_EFI} -L "rEFInd ArchLinux"
+            print_info_cyan "Vérification des entrées dans NVRAM."
+            efibootmgr -v
+            pause_function
         else
             print_info_cyan "MULTI BOOT UEFI : Pas de configuration du manager de Boot."
         fi
