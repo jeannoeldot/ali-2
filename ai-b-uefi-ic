@@ -19,7 +19,8 @@
         else
             ARCHI_REFIND="x64"
         fi
-        # Détermine le rep d'installation de arch
+        #
+        # Détermine le nom du rep d'installation de arch
         if [[ -d /boot/efi/EFI ]]; then
             number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<9' | wc -l`)
             if [[ $number_of_arch_first -eq 0 ]]; then
@@ -38,41 +39,23 @@
         print_info_cyan "Le répertoire d'installation de Arch Linux sera ${DIR_EFI_ARCHLINUX}."
         # INSCRIT NAME_DIR_ARCHLINUX DANS name_dir_archlinux.uefi
         echo "name_dir_archlinux=${NAME_DIR_ARCHLINUX}" > /root/name_dir_archlinux.uefi
+        #
         # Choix du Manager de Boot
-        manager_boot=("REFIND (refind_x64.efi)" "BOOT (bootx64.efi)" "MICROSOFT (bootmgfw.efi)");
-        PS3="$prompt1"
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-            print_warning "\nDans VirtualBox : CHOISIR BOOT (bootx64.efi)."
+            print_info_cyan "Installation dans VirtualBox : le nom du manager de boot sera : bootx64.efi."
+            MGR_EFI="boot"
+            NAME_DIR_EFI="/boot/efi/EFI/BOOT"
+            NAME_DIR_MGR_EFI="/EFI/BOOT/boot${ARCHI_REFIND}.efi"
+        else
+            print_info_cyan "Installation réelle : le nom du manager de boot sera refind_x64.efi."
+            MGR_EFI="refind"
+            NAME_DIR_EFI="/boot/efi/EFI/refind"
+            NAME_DIR_MGR_EFI="/EFI/refind/refind_${ARCHI_REFIND}.efi"
         fi
-        echo -e "\nSélectionner le NOM du Manager de Boot ( rEFInd, boot ou Microsoft ) :"
-        select OPT in "${manager_boot[@]}"; do
-            case "$REPLY" in
-                1)
-                    MGR_EFI="refind"
-                    NAME_DIR_EFI="/boot/efi/EFI/refind"
-                    NAME_DIR_MGR_EFI="/EFI/refind/refind_${ARCHI_REFIND}.efi"
-                    break
-                    ;;
-                2)
-                    MGR_EFI="boot"
-                    NAME_DIR_EFI="/boot/efi/EFI/BOOT"
-                    NAME_DIR_MGR_EFI="/EFI/BOOT/boot${ARCHI_REFIND}.efi"
-                    break
-                    ;;
-                3)
-                    MGR_EFI="microsoft"
-                    NAME_DIR_EFI="/boot/efi/EFI/Microsoft/Boot"
-                    NAME_DIR_MGR_EFI="/EFI/Microsoft/Boot/bootmgfw.efi"
-                    break
-                    ;;
-                *)
-                    invalid_option
-                    ;;
-            esac
-        done
         print_info_cyan "Le répertoire d'installation du Manager de Boot sera ${NAME_DIR_EFI}."
         # INSCRIT CHOIX NOM DANS name_dir_archlinux.uefi
         echo "name_mgr_efi=${MGR_EFI}" >> /root/name_dir_archlinux.uefi
+        #
         # Installation de rEFInd
         print_info_cyan "Installation de rEFInd."
         pacman -Syu refind-efi
