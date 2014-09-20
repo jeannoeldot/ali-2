@@ -16,9 +16,11 @@
         print_title "KDE - https://wiki.archlinux.org/index.php/KDE"
         print_info "KDE est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
         # KDE BASE {{{
+        print_info_cyan "Installation de KDE Base. Pour kactivities, choisir kactivities4."
         package_install "kdebase kde-l10n-$LANGUAGE_KDE"
-        # Dépendances optionnelles pour qt
-        package_install "icu"
+        # INUTILES
+#         # Dépendances optionnelles pour qt
+#         package_install "icu"
         # KDE UTILS {{{
         print_info_cyan "Installation de KDE Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
