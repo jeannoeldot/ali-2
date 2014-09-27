@@ -11,7 +11,7 @@
 # Thanks helmuthdu mailto: helmuthdu[at]gmail[dot]com
 # https://github.com/helmuthdu/aui
 # Created by helmuthdu mailto: helmuthdu[at]gmail[dot]com
-
+#
 # Run this script after your first boot with archlinux-AAAA.MM.JJ-dual.iso (as root)
 
 source `pwd`/ai-commons
