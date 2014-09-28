@@ -76,7 +76,7 @@ prompt3="Entrer manuellement les commandes suivantes, ensuite presser ${BYellow}
 # DESKTOP ENVIRONMENT {{{
 E17=0
 GNOME=0
-KDE=0
+KDE4=0
 LXDE=0
 OPENBOX=0
 XFCE=0

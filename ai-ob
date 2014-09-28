@@ -311,6 +311,7 @@
         pause_function
     }
     #}}}
+    # INUTILE : appel supprimé
     # 16 CONNMAN/NETWORKMANAGER/WICD {{{
     install_nm_wicd() {
         print_title "GESTIONNAIRE DE RÉSEAU"

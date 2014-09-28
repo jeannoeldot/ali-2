@@ -2,7 +2,7 @@
 
 #-------------------------------------------------------------------------------
 # ai-de
-# Installation de KDE ou OpenBox
+# Installation de KDE4 ou OpenBox
 #
 # ne fonctionne qu'avec la langue FR (fr_FR)
 # Created by me for me
@@ -30,7 +30,7 @@ source `pwd`/ai-commons
         print_line
         echo "Le script peut être stoppé à tout moment avec CTRL+C"
         print_line
-        echo -e "Ce script installe ${BWhite}KDE ou OPENBOX${White}"
+        echo -e "Ce script installe ${BWhite}KDE4 ou OPENBOX${White}"
         echo -e "Ce script ne fonctionne qu'avec la langue ${BWhite}FR (fr_FR)${White}"
         print_line
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
@@ -152,6 +152,7 @@ source `pwd`/ai-commons
         pause_function
     }
     #}}}
+    # INUTILE : appel supprimé
     # 4 REFLECTOR {{{
     sorting_mirror_by_speed() {
         print_title "MIRROIRS - https://wiki.archlinux.org/index.php/Mirrors#Sorting_mirrors"
@@ -250,8 +251,8 @@ source `pwd`/ai-commons
         #AUTOMATICALLY DETECTS THE SYSTEM LANGUAGE {{{
         #automatically detects the system language based on your locale
         LANGUAGE=fr_FR
-        #KDE #{{{
-        LANGUAGE_KDE=fr
+        #KDE4 #{{{
+        LANGUAGE_KDE4=fr
         #}}}
         #FIREFOX #{{{
         LANGUAGE_FF=fr
@@ -403,9 +404,10 @@ source `pwd`/ai-commons
         # #RuntimeWatchdogSec=20
         # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
         #
-        # Installation de cronie. Remplacer par systemd-timer
+        # Installation de cronie. Remplacé par systemd-timer
         print_title "CRON - https://wiki.archlinux.org/index.php/Cronie"
         print_info "Cron est un service de planification qui permet l'exécution de commandes de manière périodique."
+        print_info "Peu utile car remplacé par systemd-timer."
         read_input_text "Installer cronie et activer cronie ?"
         if [[ $OPTION == o ]]; then
             package_install "cronie"
@@ -723,12 +725,12 @@ source `pwd`/ai-commons
     install_cups
 
 # Début install DE OU WM {{{
-        print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
-        DES_KDE_OB=("KDE" "OPENBOX");
+        print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE4 ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
+        DES_KDE4_OB=("KDE4" "OPENBOX");
         PS3="$prompt1"
         echo -e "${BWhite}"
         echo -e "Sélectionner l'environnement de bureau ou le gestionnaire de fenêtres :"
-        select OPT in "${DES_KDE_OB[@]}"; do
+        select OPT in "${DES_KDE4_OB[@]}"; do
             case "$REPLY" in
                 1)
                     source `pwd`/ai-kde
@@ -759,8 +761,8 @@ source `pwd`/ai-commons
     install_internet_apps
     install_audio_apps
     install_video_apps
-    # SI KDE=1
-    if [[ ${KDE} -eq 1 ]]; then
+    # SI KDE4=1
+    if [[ ${KDE4} -eq 1 ]]; then
         install_audio_video_apps
     fi
     #

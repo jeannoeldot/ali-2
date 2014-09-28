@@ -4,7 +4,7 @@
 # ai-kde
 # Appelé par ai-de
 #
-# Ce script installe KDE
+# Ce script installe KDE4
 # et ne fonctionne qu'avec la langue FR (fr_FR)
 #
 #-------------------------------------------------------------------------------
@@ -12,43 +12,43 @@
 #ARCHLINUX INSTALL
     # 15 DESKTOP ENVIRONMENT {{{
     install_desktop_environment() {
-        # KDE {{{
-        print_title "KDE - https://wiki.archlinux.org/index.php/KDE"
-        print_info "KDE est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
-        # KDE BASE {{{
-        print_info_cyan "Installation de KDE Base. Pour kactivities, choisir kactivities4."
-        package_install "kdebase kde-l10n-$LANGUAGE_KDE"
+        # KDE4 {{{
+        print_title "KDE4 - https://wiki.archlinux.org/index.php/KDE"
+        print_info "KDE4 est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
+        # KDE4 BASE
+        print_info_cyan "Installation de KDE4 Base. Pour kactivities, installation de kactivities4."
+        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities4 icu "
         # INUTILES
 #         # Dépendances optionnelles pour qt
 #         package_install "icu"
-        # KDE UTILS {{{
-        print_info_cyan "Installation de KDE Utils"
+        # KDE4 UTILS
+        print_info_cyan "Installation de KDE4 Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
-        # KDE LOOK {{{
-        print_info_cyan "Installation de KDE Look"
+        # KDE4 LOOK
+        print_info_cyan "Installation de KDE4 Look"
 	package_install "oxygen-gtk2 oxygen-gtk3"
         package_install "qtcurve-gtk2 qtcurve-kde4"
-        # KDE PLASMA {{{
-        print_info_cyan "Installation de KDE Plasma Addons Applets"
+        # KDE4 PLASMA
+        print_info_cyan "Installation de KDE4 Plasma Addons Applets"
 	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
-        # KDE MULTIMEDIA {{{
-        print_info_cyan "Installation de KDE Multimedia"
+        # KDE4 MULTIMEDIA
+        print_info_cyan "Installation de KDE4 Multimedia"
 	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp"
 	package_install "libdvdcss libdvdread libdvdnav"
-        # KDE GRAPHICS {{{
-        print_info_cyan "Installation de KDE Graphiques"
+        # KDE4 GRAPHICS
+        print_info_cyan "Installation de KDE4 Graphiques"
 	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
 	package_install "kipi-plugins"
-        # KDE NETWORK {{{
-        print_info_cyan "Installation de KDE Réseau"
+        # KDE4 NETWORK
+        print_info_cyan "Installation de KDE4 Réseau"
 	package_install "kdenetwork-kget kwebkitpart"
-        # KDE SDK {{{
-        print_info_cyan "Installation de KDE Sdk"
+        # KDE4 SDK
+        print_info_cyan "Installation de KDE4 Sdk"
         package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
-        # KDE FONTS {{{
-        print_info_cyan "Installation de KDE Polices TTF"
+        # KDE4 FONTS
+        print_info_cyan "Installation de KDE4 Polices TTF"
 	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"
-        # LSB-RELEASE {{{
+        # LSB-RELEASE
         print_info_cyan "Installation de lsb-release"
         package_install "lsb-release"
 	#
@@ -84,7 +84,7 @@
             fi
         fi
         #}}}
-        #KDE CUSTOMIZATION {{{
+        #KDE4 CUSTOMIZATION {{{
         install_icon_theme() { #{{{
             package_install "gtk-update-icon-cache"
             print_warning "\nURL hycons-icon-theme non valide. http://dl.dropbox.com/u/153284/Hycons.tar.gz"
@@ -92,22 +92,22 @@
             gtk-update-icon-cache -f /usr/share/icons/Hycons
         } #}}}
         install_kdeartwork() { #{{{
-            print_info_cyan "Installation de KDE ARTWORK (partie 1)"
+            print_info_cyan "Installation de KDE4 ARTWORK (partie 1)"
             package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes"
-            print_info_cyan "Installation de KDE ARTWORK (partie 2)"
-            # KDE 4.12 : kdeartwork-sounds has been removed from the KDE SC.
+            print_info_cyan "Installation de KDE4 ARTWORK (partie 2)"
+            # KDE4 4.12 : kdeartwork-sounds has been removed from the KDE4 SC.
             package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
         } #}}}
         while true
         do
-            print_title "PERSONNALISATION DE KDE"
-            echo " 1) $(menu_item "hycons-icon-theme" "KDE Icones") $AUR"
-            echo " 2) $(menu_item "kdeartwork-colorschemes" "KDE ARTWORK")"
+            print_title "PERSONNALISATION DE KDE4"
+            echo " 1) $(menu_item "hycons-icon-theme" "KDE4 Icones") $AUR"
+            echo " 2) $(menu_item "kdeartwork-colorschemes" "KDE4 ARTWORK")"
             echo ""
             echo " f) FINI"
             echo ""
-            KDE_OPTIONS+=" f"
-            read_input_options "$KDE_OPTIONS"
+            KDE4_OPTIONS+=" f"
+            read_input_options "$KDE4_OPTIONS"
             for OPT in ${OPTIONS[@]}; do
                 case "$OPT" in
                     1)
@@ -154,10 +154,11 @@
             fi
         fi
         #
-        KDE=1
+        KDE4=1
         pause_function
     }
     #}}}
+    # INUTILE : appel supprimé
     # 16 CONNMAN/NETWORKMANAGER/WICD {{{
     install_nm_wicd() {
         print_title "GESTIONNAIRE DE RÉSEAU"
@@ -622,7 +623,7 @@
         install_audio_video_apps() {
         while true
         do
-            print_title "APPLICATIONS AUDIO/VIDEO POUR KDE"
+            print_title "APPLICATIONS AUDIO/VIDEO POUR KDE4"
             echo " 1) $(menu_item "digikam")"
             echo " 2) $(menu_item "k3b")"
             echo ""
