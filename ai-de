@@ -519,7 +519,7 @@ source `pwd`/ai-commons
         print_title "XORG - https://wiki.archlinux.org/index.php/Xorg"
         print_info "Xorg est l'implémentation officielle du système graphique X Window System version 11."
         echo "Installion de X-Server (requis pour Environement de Bureau, Pilotes GPU, Agencement Clavier, ...)"
-        package_install "xorg-server xorg-server-utils xorg-xinit xorg-utils xorg-twm xorg-xclock xterm"
+        package_install "xorg-server xorg-server-utils xorg-xinit xorg-utils xorg-xkill xorg-twm xorg-xclock xterm"
 #        package_install "xf86-input-synaptics xf86-input-mouse xf86-input-keyboard"
         package_install "mesa gamin"
         #CONFIGURE AZERTY KEYBOARD IN XORG {{{
@@ -541,7 +541,7 @@ source `pwd`/ai-commons
         print_title "CARTE VIDEO"
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
             print_info_cyan "Installation dans Oracle VM Virtualbox."
-            package_install "mesa-libgl virtualbox-guest-utils"
+            package_install "virtualbox-guest-utils mesa-libgl"
             echo "# Load vbox modules guest at boot" > /etc/modules-load.d/vbox_modules_guest.conf
             echo "vboxguest" >> /etc/modules-load.d/vbox_modules_guest.conf
             echo "vboxsf" >> /etc/modules-load.d/vbox_modules_guest.conf
@@ -549,37 +549,46 @@ source `pwd`/ai-commons
             start_module "vboxguest"
             start_module "vboxsf"
             start_module "vboxvideo"
-            echo -e "\n"
-            groupadd vboxsf
+            # Inutile : groupe déjà créé
+#            echo -e "\n"
+#            groupadd vboxsf
+            # Ajoute USER au groupe vboxsf
             echo -e "\n"
             gpasswd -a ${USERNAME} vboxsf
         else
             # test si nvidia
             if [[ -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
                 print_info_cyan "Carte NVIDIA détectée.\n"
-                read_input_text  "Installer le pilote vidéo propriétaire nVidia ?"
+                read_input_text "Installer le pilote vidéo propriétaire NVIDIA ?"
                 if [[ $OPTION == o ]]; then
-                    local video_installed=`pacman -Qe | grep xf86-video | awk '{print $1}'`
-                    if [[ -n $(echo ${video_installed}) ]]; then
-                        package_remove "$(pacman -Qe | grep xf86-video | awk '{print $1}')"
-                    fi
-                    package_install "nvidia nvidia-utils nvidia-libgl pangox-compat libva-vdpau-driver"
-                    #CONFIGURE NVIDIA IN XORG {{{
-                    print_info_cyan "Mise en place des réglages de nVidia."
-                    cp -v ai-fconfig/20-nvidia.conf /etc/X11/xorg.conf.d/20-nvidia.conf
-                    #}}}
+                    XF86_DRIVERS=$(pacman -Qe | grep xf86-video | awk '{print $1}')
+                    [[ -n $XF86_DRIVERS ]] && pacman -Rcsn $XF86_DRIVERS
+                    read_input_text "NVIDIA : Installer la dernière version? Si Non, installe la branche 340xx pour le GPU G9x?"
+                        if [[ $OPTION == o ]]; then
+                            # Installe la dernière version
+                            package_install "nvidia nvidia-utils nvidia-libgl pangox-compat libva-vdpau-driver"
+                            #CONFIGURE NVIDIA IN XORG
+                            print_info_cyan "Mise en place des réglages de nVidia."
+                            cp -v ai-fconfig/20-nvidia.conf /etc/X11/xorg.conf.d/20-nvidia.conf
+                        else
+                            # Installe la branche 340xx pour les GPUs G8x, G9x et GT2xx
+                            package_install "nvidia-340xx nvidia-340xx-utils nvidia-340xx-libgl pangox-compat libva-vdpau-driver"
+                            #CONFIGURE NVIDIA IN XORG
+                            print_info_cyan "Mise en place des réglages de nVidia."
+                            cp -v ai-fconfig/20-nvidia-340xx.conf /etc/X11/xorg.conf.d/20-nvidia.conf
+                        fi
                 else
-                    package_install "mesa-libgl xf86-video-nouveau nouveau-dri"
+                    package_install "mesa-libgl xf86-video-nouveau"
                     add_module "nouveau"
                 fi
             # test si intel
             elif [[ -f /sys/kernel/debug/dri/0/i915_capabilities ]]; then
                 print_info_cyan "Carte INTEL détectée.\n"
-                package_install "mesa-libgl xf86-video-intel intel-dri libva-intel-driver"
+                package_install "mesa-libgl xf86-video-intel libva-intel-driver"
             # test si ATI/AMD
             elif [[ -f /sys/kernel/debug/dri/0/radeon_pm_info || -f /sys/kernel/debug/dri/0/radeon_sa_info ]]; then
                 print_info_cyan "Carte ATI détectée.\n"
-                package_install "mesa-libgl xf86-video-ati ati-dri"
+                package_install "mesa-libgl xf86-video-ati"
                 add_module "radeon"
             # VESA PAR DEFAUT
             else
