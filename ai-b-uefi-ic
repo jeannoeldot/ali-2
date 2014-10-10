@@ -42,12 +42,12 @@
         #
         # Choix du Manager de Boot
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-            print_info_cyan "Installation dans VirtualBox : le nom du manager de boot sera : bootx64.efi."
+            print_info_cyan "Installation dans VirtualBox : le nom du Manager de Boot sera : bootx64.efi."
             MGR_EFI="boot"
             NAME_DIR_EFI="/boot/efi/EFI/BOOT"
             NAME_DIR_MGR_EFI="/EFI/BOOT/boot${ARCHI_REFIND}.efi"
         else
-            print_info_cyan "Installation réelle : le nom du manager de boot sera refind_x64.efi."
+            print_info_cyan "Installation réelle : le nom du Manager de Boot sera refind_x64.efi."
             MGR_EFI="refind"
             NAME_DIR_EFI="/boot/efi/EFI/refind"
             NAME_DIR_MGR_EFI="/EFI/refind/refind_${ARCHI_REFIND}.efi"
@@ -184,7 +184,7 @@
             # cp -v /run/archiso/bootmnt/EFI/shellx64_v2.efi /boot/efi/shellx64.efi
             cp -v Shell.efi /boot/efi/shellx64.efi
             echo "echo -on" > /boot/efi/archlinux.nsh
-            echo "\EFI\arch\vmlinuz-arch.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch/initramfs-arch.img" >> /boot/efi/archlinux.nsh
+            echo "\EFI\arch_1\vmlinuz-arch_1.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch_1/initramfs-arch_1.img" >> /boot/efi/archlinux.nsh
             print_info_cyan "Contenu du script utilisé par le Shell UEFI :"
             cat /boot/efi/archlinux.nsh
         else

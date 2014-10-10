@@ -386,24 +386,6 @@ source `pwd`/ai-commons
     #}}}
     # 11 BASIC SETUP {{{
     install_basic_setup() {
-        print_title "SYSTEMD - https://wiki.archlinux.org/index.php/Systemd"
-#        print_info "systemd est un système d'initialisation qui remplace sysvinit. Il permet entre autre un démarrage en parallèle, à la demande, par activation D-Bus ou socket, un suivi des services, etc..."
-#        package_install "systemd systemd-sysvcompat"
-        print_info "Installation des dépendances optionnelles de systemd."
-        package_install "python2-cairo python2-gobject"
-        pacman -D --asdeps python2-cairo python2-gobject
-        # Modifs conf
-        print_info_cyan "Ajout de ${USERNAME} au groupe systemd-journal."
-        gpasswd -a ${USERNAME} systemd-journal
-        print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
-        sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
-        sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
-        #
-        # INUTILE DEPUIS systemd 211
-        # print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
-        # #RuntimeWatchdogSec=20
-        # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
-        #
         # Installation de cronie. Remplacé par systemd-timer
         print_title "CRON - https://wiki.archlinux.org/index.php/Cronie"
         print_info "Cron est un service de planification qui permet l'exécution de commandes de manière périodique."
@@ -552,8 +534,7 @@ source `pwd`/ai-commons
             # Inutile : groupe déjà créé
 #            echo -e "\n"
 #            groupadd vboxsf
-            # Ajoute USER au groupe vboxsf
-            echo -e "\n"
+            print_info_cyan "Ajout de ${USERNAME} au groupe vboxsf."
             gpasswd -a ${USERNAME} vboxsf
         else
             # test si nvidia
@@ -596,6 +577,28 @@ source `pwd`/ai-commons
                 package_install "mesa-libgl xf86-video-vesa"
             fi
         fi
+        pause_function
+    }
+    #}}}
+    #SYSTEMD {{{
+    install_dep_opt_systemd() {
+        print_title "SYSTEMD - https://wiki.archlinux.org/index.php/Systemd"
+#        print_info "systemd est un système d'initialisation qui remplace sysvinit. Il permet entre autre un démarrage en parallèle, à la demande, par activation D-Bus ou socket, un suivi des services, etc..."
+#        package_install "systemd systemd-sysvcompat"
+        print_info "Installation des dépendances optionnelles de systemd."
+        package_install "python2-cairo python2-gobject"
+        pacman -D --asdeps python2-cairo python2-gobject
+        # Modifs conf
+        print_info_cyan "Ajout de ${USERNAME} au groupe systemd-journal."
+        gpasswd -a ${USERNAME} systemd-journal
+        print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
+        sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
+        sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
+        #
+        # INUTILE DEPUIS systemd 211
+        # print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
+        # #RuntimeWatchdogSec=20
+        # sed -i "/^#RuntimeWatchdogSec/c\RuntimeWatchdogSec=20" /etc/systemd/system.conf
         pause_function
     }
     #}}}
@@ -731,6 +734,7 @@ source `pwd`/ai-commons
     install_xorg
     configure_font_presets
     install_video_cards
+    install_dep_opt_systemd
     install_cups
 
 # Début install DE OU WM {{{

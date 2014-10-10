@@ -16,7 +16,7 @@
         print_title "KDE4 - https://wiki.archlinux.org/index.php/KDE"
         print_info "KDE4 est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
         # KDE4 BASE
-        print_info_cyan "Installation de KDE4 Base. Pour kactivities, installation de kactivities4."
+        print_info_cyan "Installation de KDE4 Base."
         package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities4 icu "
         # INUTILES
 #         # Dépendances optionnelles pour qt
