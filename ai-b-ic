@@ -46,7 +46,7 @@ source `pwd`/ai-commons
     }
     #}}}
     #CONFIGURE VCONSOLE.CONF {{{
-    configure_vconcole_conf() {
+    configure_vconsole_conf() {
         print_title "KEYMAP - https://wiki.archlinux.org/index.php/KEYMAP"
         print_info "La variable KEYMAP est spécifiée dans le fichier /etc/vconsole.conf. Elle définit le type de clavier dans les consoles virtuelles. Les fichiers de type de clavier sont fournis par le paquet kbd."
         KEYMAP=$FR_KEYMAP
@@ -252,7 +252,7 @@ source `pwd`/ai-commons
     fi
     pause_function
     #
-    configure_vconcole_conf
+    configure_vconsole_conf
     configure_pacman_conf
     configure_hostname
     configure_timezone
