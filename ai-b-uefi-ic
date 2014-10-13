@@ -65,7 +65,9 @@
         mkdir -p ${DIR_EFI_ARCHLINUX}
         cp -v /boot/vmlinuz-linux ${DIR_EFI_ARCHLINUX}/vmlinuz-${NAME_DIR_ARCHLINUX}.efi
         cp -v /boot/initramfs-linux.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}.img
-        cp -v /boot/initramfs-linux-fallback.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}-fallback.img
+# SUPPRIMÉ LE 13/10/2014
+# rEFInd BOOT SUR initramfs-linux-fallback.img AU LIEU DE initramfs-linux.img
+#        cp -v /boot/initramfs-linux-fallback.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}-fallback.img
         print_info_cyan "Copie du fichier de configuration du kernel (EFISTUB)."
         cp -v /usr/share/refind/refind_linux.conf-sample ${DIR_EFI_ARCHLINUX}/refind_linux.conf
 #        echo -e "\n"        

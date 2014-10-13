@@ -96,10 +96,11 @@ initramfs-arch-fallback.img  initramfs-arch.img  refind_linux.conf  vmlinuz-arch
 # cp -v /boot/efi/EFI/arch/refind_linux.conf /boot/efi/EFI/arch_1_ck/
 # cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
 # cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
+!!! NON : NE PAS COPIER
 # cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
 # ls /boot/efi/EFI/arch_1_ck
-initramfs-arch_1_ck-fallback.img  initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
+initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
 
 MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 ==========================================================
@@ -129,10 +130,11 @@ initramfs-arch_2-fallback.img  initramfs-arch_2.img  refind_linux.conf  vmlinuz-
 # cp -v /boot/efi/EFI/arch_2/refind_linux.conf /boot/efi/EFI/arch_2_ck/
 # cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
 # cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
+!!! NON : NE PAS COPIER
 # cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
 # ls /boot/efi/EFI/arch_2_ck
-initramfs-arch_2_ck-fallback.img  initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
+initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
 
 MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 ==========================================================
@@ -205,7 +207,7 @@ Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
-ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
+##ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
@@ -221,7 +223,7 @@ Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
-ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
+##ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
 
 
