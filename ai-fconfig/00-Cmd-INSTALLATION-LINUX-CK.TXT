@@ -96,11 +96,10 @@ initramfs-arch-fallback.img  initramfs-arch.img  refind_linux.conf  vmlinuz-arch
 # cp -v /boot/efi/EFI/arch/refind_linux.conf /boot/efi/EFI/arch_1_ck/
 # cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
 # cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
-!!! NON : NE PAS COPIER
 # cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
 # ls /boot/efi/EFI/arch_1_ck
-initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
+initramfs-arch_1_ck-fallback.img  initramfs-arch_1_ck.img  refind_linux.conf  vmlinuz-arch_1_ck.efi
 
 MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 ==========================================================
@@ -119,6 +118,22 @@ MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 "Boot en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet"
 "Boot en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
 
+16/10/2014
+==========
+MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd + FALLBACK
+===============================================================
+# nano -w /boot/efi/EFI/arch_1_ck/refind_linux.conf
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI\arch_1_ck\initramfs-arch_1_ck.img"
+"Boot en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI\arch_1_ck\initramfs-arch_1_ck.img"
+"Boot en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI\arch_1_ck\initramfs-arch_1_ck.img"
+"Fallback en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI\arch_1_ck\initramfs-arch_1_ck-fallback.img"
+"Fallback en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI\arch_1_ck\initramfs-arch_1_ck-fallback.img"
+"Fallback en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI\arch_1_ck\initramfs-arch_1_ck-fallback.img"
+
 
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
@@ -130,11 +145,10 @@ initramfs-arch_2-fallback.img  initramfs-arch_2.img  refind_linux.conf  vmlinuz-
 # cp -v /boot/efi/EFI/arch_2/refind_linux.conf /boot/efi/EFI/arch_2_ck/
 # cp -v /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
 # cp -v /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
-!!! NON : NE PAS COPIER
 # cp -v /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
 # ls /boot/efi/EFI/arch_2_ck
-initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
+initramfs-arch_2_ck-fallback.img  initramfs-arch_2_ck.img  refind_linux.conf  vmlinuz-arch_2_ck.efi
 
 MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 ==========================================================
@@ -152,6 +166,23 @@ MODIFICATIONS DE refind_linux.conf : AJOUT DE elevator=bfq
 "Boot en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet"
 "Boot en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet"
 "Boot en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target"
+
+16/10/2014
+==========
+MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd + FALLBACK
+===============================================================
+# nano -w /boot/efi/EFI/arch_2_ck/refind_linux.conf
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI\arch_2_ck\initramfs-arch_2_ck.img"
+"Boot en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI\arch_2_ck\initramfs-arch_2_ck.img"
+"Boot en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI\arch_2_ck\initramfs-arch_2_ck.img"
+"Fallback en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI\arch_2_ck\initramfs-arch_2_ck-fallback.img"
+"Fallback en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI\arch_2_ck\initramfs-arch_2_ck-fallback.img"
+"Fallback en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI\arch_2_ck\initramfs-arch_2_ck-fallback.img"
+
 
 
 ICONES
@@ -207,7 +238,7 @@ Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_1_ck/vmlinuz-arch_1_ck.efi
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck.img
-##ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img
 
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
@@ -223,7 +254,7 @@ Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux-ck /boot/efi/EFI/arch_2_ck/vmlinuz-arch_2_ck.efi
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck.img
-##ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
 
 

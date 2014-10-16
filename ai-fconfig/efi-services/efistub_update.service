@@ -7,4 +7,4 @@ Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/vmlinuz-linux /boot/efi/EFI/NAMEDIRARCHLINUX/vmlinuz-NAMEDIRARCHLINUX.efi
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux.img /boot/efi/EFI/NAMEDIRARCHLINUX/initramfs-NAMEDIRARCHLINUX.img
-##ExecStart=/usr/bin/cp -f /boot/initramfs-linux-fallback.img /boot/efi/EFI/NAMEDIRARCHLINUX/initramfs-NAMEDIRARCHLINUX-fallback.img
+ExecStart=/usr/bin/cp -f /boot/initramfs-linux-fallback.img /boot/efi/EFI/NAMEDIRARCHLINUX/initramfs-NAMEDIRARCHLINUX-fallback.img
