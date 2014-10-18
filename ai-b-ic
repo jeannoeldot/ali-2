@@ -117,6 +117,24 @@ source `pwd`/ai-commons
         pause_function
     }
     #}}}
+    #CONFIGURE INTEL-UCODE {{{
+    configure_intel_ucode() {
+        if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+            if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
+                print_title "MICROCODE - https://wiki.archlinux.org/index.php/microcode"
+                print_info "intel-ucode permet de mettre à jour le microcode des processeurs Intel."
+                print_info_cyan "Version du paquet Linux installé = "$VERSION_LINUX_INSTALLED
+                package_install "intel-ucode"
+            else
+                print_info_cyan "Version du paquet Linux installé = "$VERSION_LINUX_INSTALLED
+                print_info_cyan "PAS d'activion des mises à jour du microcode avant le démarrage du kernel."
+            fi
+        else
+            print_info_cyan "Installation dans VirtualBox : PAS d'activion des mises à jour du microcode."
+        fi
+        pause_function
+    }
+    #}}}
     #CONFIGURE MKINITCPIO {{{
     configure_mkinitcpio() {
         print_title "MKINITCPIO - https://wiki.archlinux.org/index.php/Mkinitcpio"
@@ -252,12 +270,6 @@ source `pwd`/ai-commons
     fi
     # TEST SI VERSION LINUX INSTALLÉE >= VERSION LINUX REFERENCE ( changement intel-ucode )
     check_is_version_linux_installed_sup_egale_ref
-    print_info_cyan "Version du paquet Linux installé = "$VERSION_LINUX_INSTALLED
-    if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
-        print_info_cyan "Version du paquet Linux SUPÉRIEUR OU ÉGALE À Version référence."
-    else
-        print_info_cyan "Version du paquet Linux INFÉRIEURE À Version référence."
-    fi
     pause_function
     #
     configure_vconsole_conf
@@ -266,6 +278,7 @@ source `pwd`/ai-commons
     configure_timezone
     configure_hardwareclock
     configure_locale
+    configure_intel_ucode
     configure_mkinitcpio
     # ai-b-bios-ic ou ai-b-uefi-ic
     install_bootloader

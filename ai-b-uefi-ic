@@ -66,6 +66,11 @@
         cp -v /boot/vmlinuz-linux ${DIR_EFI_ARCHLINUX}/vmlinuz-${NAME_DIR_ARCHLINUX}.efi
         cp -v /boot/initramfs-linux.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}.img
         cp -v /boot/initramfs-linux-fallback.img ${DIR_EFI_ARCHLINUX}/initramfs-${NAME_DIR_ARCHLINUX}-fallback.img
+        if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+            if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
+                cp -v /boot/intel-ucode.img ${DIR_EFI_ARCHLINUX}/intel-ucode.img
+            fi
+        fi
         print_info_cyan "Copie du fichier de configuration du kernel (EFISTUB)."
         cp -v /usr/share/refind/refind_linux.conf-sample ${DIR_EFI_ARCHLINUX}/refind_linux.conf
 #        echo -e "\n"        
@@ -132,12 +137,22 @@
             echo -e '"Fallback en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=multi-user.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
             echo -e '"Fallback en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
         else
-            echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=graphical.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=multi-user.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Fallback en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=graphical.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Fallback en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=multi-user.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
-            echo -e '"Fallback en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
+              echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=graphical.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=multi-user.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=graphical.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=multi-user.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/intel-ucode.img initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            else
+              echo -e '"Boot en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=graphical.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Boot en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=multi-user.target quiet initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Boot en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Graphique"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=graphical.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Terminal"    "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=multi-user.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+              echo -e '"Fallback en mode Depannage"   "root=PARTUUID='$partuuid' rootfstype='$ROOT_FS_TYPE' rw add_efi_memmap force_addr=0xaddr systemd.unit=rescue.target initrd=EFI/'$NAME_DIR_ARCHLINUX'/initramfs-'$NAME_DIR_ARCHLINUX'-fallback.img"' >> ${DIR_EFI_ARCHLINUX}/refind_linux.conf
+            fi
+
         fi
         #
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
@@ -157,8 +172,8 @@
         else
             print_info_cyan "MULTI BOOT UEFI : Pas de configuration du manager de Boot."
         fi
-        # Installation de efistub_update.service
-        print_info_cyan "Installation de efistub_update.service."
+        # Installation de efistub_update.path et efistub_update.service
+        print_info_cyan "Installation de efistub_update.path et efistub_update.service."
         cp -v ai-fconfig/efi-services/efistub_update.path /etc/systemd/system/efistub_update.path
         cp -v ai-fconfig/efi-services/efistub_update.service /etc/systemd/system/efistub_update.service
         sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/efistub_update.service
@@ -182,6 +197,21 @@
 #         else
 #             print_info_cyan "MULTI BOOT UEFI : Pas d'installation de refind_update.service."
 #         fi
+        # Installation de intel_ucode_update.path et intel_ucode_update.service
+        if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+          if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
+            print_info_cyan "Installation de intel_ucode_update.path et intel_ucode_update.service."
+            cp -v ai-fconfig/etc-systemd-system-intel_ucode_update.path /etc/systemd/system/intel_ucode_update.path
+            cp -v ai-fconfig/etc-systemd-system-intel_ucode_update.service /etc/systemd/system/intel_ucode_update.service
+            sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/intel_ucode_update.service
+            echo -e "\n"
+            systemctl enable intel_ucode_update.path
+          else
+            print_info_cyan "PAS d'activion des mises à jour du microcode avant le démarrage du kernel."
+          fi
+        else
+            print_info_cyan "Installation dans VirtualBox : PAS d'activion des mises à jour du microcode."
+        fi
         #
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
             print_info_cyan "Installation d'un Shell UEFI et création du script utilisé par le Shell UEFI."

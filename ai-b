@@ -282,7 +282,7 @@ else
     print_title "FIN INSTALLATION PARTIE 1 HORS CHROOT."
     # COPIE AI TO ROOT FOLDER IN THE NEW SYSTEM
     cp -R `pwd` ${MOUNTPOINT}/root
-    cp ${MOUNTPOINT}/root/ai/ai-b-ic ${MOUNTPOINT}/root/ai/ai-b
+    cp -f ${MOUNTPOINT}/root/ai/ai-b-ic ${MOUNTPOINT}/root/ai/ai-b
     #
     print_info_cyan "Commandes à éxécuter dans l'ordre pour poursuivre l'installation :"
     print_info_cyan "cd && arch-chroot /mnt /bin/bash   ( Chroot dans le nouveau système )"
