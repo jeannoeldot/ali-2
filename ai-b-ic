@@ -252,6 +252,7 @@ source `pwd`/ai-commons
     fi
     # TEST SI VERSION LINUX INSTALLÉE >= VERSION LINUX REFERENCE ( changement intel-ucode )
     check_is_version_linux_installed_sup_egale_ref
+    print_info_cyan "Version du paquet Linux installé = "$VERSION_LINUX_INSTALLED
     if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
         print_info_cyan "Version du paquet Linux SUPÉRIEUR OU ÉGALE À Version référence."
     else

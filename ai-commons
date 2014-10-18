@@ -128,6 +128,7 @@ read_name_mgr_efi() { #{{{
 check_is_version_linux_installed_sup_egale_ref() { #{{{
     local version_linux_ref=$VERSION_LINUX_REFERENCE
     local version_linux=$(pacman -Qi "linux" 2>/dev/null | awk '/Version/ {print $3}')
+    VERSION_LINUX_INSTALLED=$version_linux
     if [[ $(vercmp $version_linux $version_linux_ref) -lt 0 ]]; then
         IS_VERSION_LINUX_SUP_EGALE_REF=0
     else
