@@ -201,8 +201,8 @@
         if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
           if [[ $IS_VERSION_LINUX_SUP_EGALE_REF -eq 1 ]]; then
             print_info_cyan "Installation de intel_ucode_update.path et intel_ucode_update.service."
-            cp -v ai-fconfig/etc-systemd-system-intel_ucode_update.path /etc/systemd/system/intel_ucode_update.path
-            cp -v ai-fconfig/etc-systemd-system-intel_ucode_update.service /etc/systemd/system/intel_ucode_update.service
+            cp -v ai-fconfig/efi-services/intel_ucode_update.path /etc/systemd/system/intel_ucode_update.path
+            cp -v ai-fconfig/efi-services/intel_ucode_update.service /etc/systemd/system/intel_ucode_update.service
             sed -i "s/NAMEDIRARCHLINUX/${NAME_DIR_ARCHLINUX}/g" /etc/systemd/system/intel_ucode_update.service
             echo -e "\n"
             systemctl enable intel_ucode_update.path

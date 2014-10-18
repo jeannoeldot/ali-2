@@ -28,7 +28,7 @@ source `pwd`/ai-commons
         echo "-> Une connexion Internet fonctionnelle"
         echo "-> Ne pas avoir été déjà lancé"
         print_line
-        echo "Le script peut être stoppé à tout moment avec CTRL+C"
+        echo "Le script peut être stoppé à tout moment avec ${BWhite}CTRL+C${White}"
         print_line
         echo -e "Version du paquet Linux installé ${BWhite}${VERSION_LINUX_INSTALLED}${White}."
         print_line

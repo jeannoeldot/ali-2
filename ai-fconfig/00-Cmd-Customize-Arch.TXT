@@ -24,6 +24,11 @@ efistub_update.path  loaded active waiting   Check update EFISTUB  Linux-ARCH
 1) THEME GRUB SI BOOT EN MOSE BIOS
 ==================================
 
+!!! ATTENTION AUX CHANGEMENTS SUITE A MAJ intel-ucode 20140913-1
+----------------------------------------------------------------
+https://wiki.archlinux.org/index.php/microcode
+
+
 $ cd && mkdir wget-tmp && cd wget-tmp
 
 # Si DropBox !!! Vérifier lien
@@ -528,6 +533,8 @@ hddtemp.service - Hard drive temperature monitor daemon
 ----------------------------------------------------------------
 https://wiki.archlinux.org/index.php/microcode
 
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
+===============================================
 ==> FAIRE :
 # pacman -Syu intel-ucode
 
