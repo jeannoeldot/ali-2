@@ -30,6 +30,8 @@ source `pwd`/ai-commons
         print_line
         echo "Le script peut être stoppé à tout moment avec CTRL+C"
         print_line
+        echo -e "Version du paquet Linux installé ${BWhite}${VERSION_LINUX_INSTALLED}${White}."
+        print_line
         echo -e "Ce script installe ${BWhite}KDE4 ou OPENBOX${White}"
         echo -e "Ce script ne fonctionne qu'avec la langue ${BWhite}FR (fr_FR)${White}"
         print_line

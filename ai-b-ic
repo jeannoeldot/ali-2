@@ -270,6 +270,7 @@ source `pwd`/ai-commons
     fi
     # TEST SI VERSION LINUX INSTALLÉE >= VERSION LINUX REFERENCE ( changement intel-ucode )
     check_is_version_linux_installed_sup_egale_ref
+    print_info_cyan "Version du paquet Linux installé = "$VERSION_LINUX_INSTALLED
     pause_function
     #
     configure_vconsole_conf
