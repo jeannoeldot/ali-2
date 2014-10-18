@@ -33,7 +33,10 @@ NAME_ARCH_FIRST="arch_1"
 NAME_DIR_ARCHLINUX=""
 # NOM DU MANAGER DE BOOT
 MGR_EFI=""
+# VERSION MINIMUM LINUX REFERENCE
+VERSION_LINUX_REFERENCE=3.17.1-1
 #
+IS_VERSION_LINUX_SUP_EGALE_REF=0
 IS_MULTI_BOOT_UEFI=0
 IS_Z87C=0
 IN_VIRTUAL_BOX=0
@@ -94,7 +97,7 @@ AUI_DIR=`pwd`
 MOUNTPOINT="/mnt"
 #}}}
 # MES FONCTIONS EN PLUS {{{
-# LECTURE DU NOM DU REPERTOIRE D'INSTALLATION SI EN UEFI {{{
+# LECTURE DU NOM DU REPERTOIRE D'INSTALLATION SI EN UEFI
 read_name_dir_archlinux() { #{{{
     # Par défaut, nom du rep = arch_1. NAME_ARCH_FIRST="arch_1"
     NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
@@ -110,7 +113,7 @@ read_name_dir_archlinux() { #{{{
         IS_MULTI_BOOT_UEFI=1
     fi
 } #}}}
-# LECTURE DU NOM DU MANAGER DE BOOT SI EN UEFI {{{
+# LECTURE DU NOM DU MANAGER DE BOOT SI EN UEFI
 read_name_mgr_efi() { #{{{
     # Par défaut, nom du manager = vide
     MGR_EFI=""
@@ -121,7 +124,17 @@ read_name_mgr_efi() { #{{{
         fi
     fi
 } #}}}
-# # TEST SI CM = ASUS All Series/Z87-C {{{
+# TEST SI VERSION LINUX INSTALLÉE >= VERSION LINUX REFERENCE ( changement intel-ucode )
+check_is_version_linux_installed_sup_egale_ref() { #{{{
+    local version_linux_ref=$VERSION_LINUX_REFERENCE
+    local version_linux=$(pacman -Qi "linux" 2>/dev/null | awk '/Version/ {print $3}')
+    if [[ $(vercmp $version_linux $version_linux_ref) -lt 0 ]]; then
+        IS_VERSION_LINUX_SUP_EGALE_REF=0
+    else
+        IS_VERSION_LINUX_SUP_EGALE_REF=1
+    fi
+} #}}}
+# # TEST SI CM = ASUS All Series/Z87-C
 # check_is_cm_asus_z87c() { #{{{
 #     local z87c=`journalctl -b | grep -E "DMI:"`
 #     echo ${z87c} | tr "[:upper:]" "[:lower:]" | grep -q z87-c
@@ -131,7 +144,7 @@ read_name_mgr_efi() { #{{{
 #         IS_Z87C=0
 #     fi
 # } #}}}
-# DANS VIRTUALBOX OU NON {{{
+# DANS VIRTUALBOX OU NON
 check_is_in_virtualbox() { #{{{
     local vbox=`journalctl -b | grep -E "DMI:"`
     echo ${vbox} | tr "[:upper:]" "[:lower:]" | grep -q virtualbox
