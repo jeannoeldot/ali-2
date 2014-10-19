@@ -5,3 +5,4 @@ Description=Copy Microcode intel-ucode to UEFISYS Partition
 Type=oneshot
 
 ExecStart=/usr/bin/cp -f /boot/intel-ucode.img /boot/efi/EFI/NAMEDIRARCHLINUX/intel-ucode.img
+ExecStart=/usr/bin/cp -f /boot/intel-ucode.img /boot/efi/EFI/NAMEDIRARCHLINUX_ck/intel-ucode.img

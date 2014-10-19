@@ -306,6 +306,7 @@
         #}}}
 	echo "LANG=$LANGUAGE.utf8" >> /etc/environment
         #Abstraction for enumerating power devices, listening to device events and querying history and statistics
+        print_info_cyan "Installation de upower.service"
         systemctl enable upower.service
         OPENBOX=1
         pause_function

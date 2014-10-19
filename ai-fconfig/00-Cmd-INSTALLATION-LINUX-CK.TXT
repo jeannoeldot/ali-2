@@ -134,6 +134,22 @@ MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd + FALLBACK
 "Fallback en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq initrd=EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img"
 "Fallback en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img"
 
+19/10/2014
+==========
+MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd=EFI/arch_1_ck/intel-ucode.img
+==================================================================================
+# nano -w /boot/efi/EFI/arch_1_ck/refind_linux.conf
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck.img"
+"Boot en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck.img"
+"Boot en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck.img"
+"Fallback en mode Graphique"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img"
+"Fallback en mode Terminal"    "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img"
+"Fallback en mode Depannage"   "root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck-fallback.img"
+
 
 
 INSTALLATION DANS ARCH_2 / ARCH_2_CK
@@ -183,6 +199,22 @@ MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd + FALLBACK
 "Fallback en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq initrd=EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img"
 "Fallback en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img"
 
+19/10/2014
+==========
+MODIFICATIONS DE refind_linux.conf : AJOUT DE initrd=EFI/arch_2_ck/intel-ucode.img
+==================================================================================
+# nano -w /boot/efi/EFI/arch_2_ck/refind_linux.conf
+
+==> DEVIENT :
+## This file should be present in the same directory as the EFISTUB kernel and initramfs files
+## More info at http://www.rodsbooks.com/refind/linux.html , http://www.rodsbooks.com/efi-bootloaders/efistub.html
+"Boot en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck.img"
+"Boot en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq quiet initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck.img"
+"Boot en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck.img"
+"Fallback en mode Graphique"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img"
+"Fallback en mode Terminal"    "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=multi-user.target elevator=bfq initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img"
+"Fallback en mode Depannage"   "root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=rescue.target initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img"
+
 
 
 ICONES
@@ -208,7 +240,6 @@ efistub_update.service
 
 Modfifications de efistub_ck_update.path et de efistub_ck_update.service
 =========================================================================
-
 # nano -w /etc/systemd/system/efistub_ck_update.path
 
 [Unit]
@@ -226,7 +257,7 @@ WantedBy=multi-user.target
 
 
 INSTALLATION DANS ARCH / ARCH_1_CK
-====================================
+==================================
 # nano -w /etc/systemd/system/efistub_ck_update.service
 
 [Unit]
@@ -257,10 +288,19 @@ ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck.img /boot/efi/EFI/arch_2_ck/in
 ExecStart=/usr/bin/cp -f /boot/initramfs-linux-ck-fallback.img /boot/efi/EFI/arch_2_ck/initramfs-arch_2_ck-fallback.img
 
 
-
 # systemctl enable efistub_ck_update.path
 
 # systemctl status efistub_ck_update.path
+
+
+SERVICE INTEL_UCODE_UPDATE
+==========================
+
+Déja créés. Voir :
+/home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.path
+/home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.service
+
+Voir : 00-Cmd-Customize-Arch.TXT -> 21) MICROCODE
 
 
 REBOOTER
@@ -273,6 +313,9 @@ efistub_ck_update.path   loaded active waiting
    Check update EFISTUB Linux-CK
 efistub_update.path      loaded active waiting
    Check update EFISTUB Linux-ARCH
+
+# systemctl list-units | grep intel_ucode
+
 
 BFQ I/O Scheduler
 ------------------

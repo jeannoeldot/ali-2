@@ -529,9 +529,51 @@ hddtemp.service - Hard drive temperature monitor daemon
 
 21) MICROCODE
 =============
-!!! ATTENTION AUX CHANGEMENTS SUITE A MAJ intel-ucode 20140913-1
-----------------------------------------------------------------
 https://wiki.archlinux.org/index.php/microcode
+
+!!! ATTENTION AUX CHANGEMENTS SUITE A MAJ intel-ucode 20140913-1 + linux 3.17.1
+--------------------------------------------------------------------------------
+SERVICE INTEL_UCODE_UPDATE
+==========================
+
+Déja créés. Voir :
+/home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.path
+/home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.service
+
+$ sudo cp -v /home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.path \
+/etc/systemd/system/intel_ucode_update.path
+
+$ sudo cp -v /home/jnd/01-scripts/Installeur/ai-fconfig/efi-services/intel_ucode_update.service \
+/etc/systemd/system/intel_ucode_update.service
+
+INSTALLATION DANS ARCH_1 / ARCH_1_CK
+------------------------------------
+$ sudo sed -i "s/NAMEDIRARCHLINUX/arch_1/g" /etc/systemd/system/intel_ucode_update.service
+
+INSTALLATION DANS ARCH_2 / ARCH_2_CK
+------------------------------------
+$ sudo sed -i "s/NAMEDIRARCHLINUX/arch_2/g" /etc/systemd/system/intel_ucode_update.service
+
+VÉRIFICATIONS
+--------------
+$ cat /etc/systemd/system/intel_ucode_update.service
+
+$ sudo systemctl enable intel_ucode_update.path
+
+$ systemctl status intel_ucode_update.path
+
+COPIE DE /boot/intel-ucode.img
+==============================
+INSTALLATION DANS ARCH_1 / ARCH_1_CK
+------------------------------------
+$ sudo cp -vf /boot/intel-ucode.img /boot/efi/EFI/arch_1/intel-ucode.img
+$ sudo cp -vf /boot/intel-ucode.img /boot/efi/EFI/arch_1_ck/intel-ucode.img
+
+INSTALLATION DANS ARCH_2 / ARCH_2_CK
+------------------------------------
+$ sudo cp -vf /boot/intel-ucode.img /boot/efi/EFI/arch_2/intel-ucode.img
+$ sudo cp -vf /boot/intel-ucode.img /boot/efi/EFI/arch_2_ck/intel-ucode.img
+
 
 !!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
 ===============================================
@@ -546,31 +588,31 @@ AU REBOOT
 microcode              15216  0 
 
 # journalctl -b  | grep microcode
-avril 06 08:22:55 arch1kde kernel: microcode: CPU0 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU1 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU2 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU3 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU4 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU5 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU6 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: CPU7 sig=0x306c3, pf=0x2, revision=0x12
-avril 06 08:22:55 arch1kde kernel: platform microcode: Direct firmware load failed with error -2
-avril 06 08:22:55 arch1kde kernel: platform microcode: Falling back to user helper
-avril 06 08:22:55 arch1kde kernel: microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU0 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU0 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU0 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU1 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU1 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU1 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU2 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU2 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU2 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU3 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU3 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU3 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU4 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU4 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU4 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU5 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU5 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU5 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU6 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU6 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU6 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU7 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU7 sig=0x306c3, pf=0x2, revision=0x19
+oct. 19 08:50:44 arch1kde kernel: microcode: CPU7 updated to revision 0x1a, date = 2014-05-23
+oct. 19 08:50:44 arch1kde kernel: microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
 
 
 25) MODIFICATION DE /etc/X11/xorg.conf.d/20-nvidia.conf

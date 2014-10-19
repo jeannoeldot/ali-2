@@ -134,12 +134,14 @@
 	chown -R ${USERNAME}:users /home/${USERNAME}/.compose-cache
         echo -e "\n"
         # Enable kdm.service
+        print_info_cyan "Installation de kdm.service"
         systemctl enable kdm.service
         echo -e "\n"
 #        # Application development toolkit for controlling system-wide privileges
 #	systemctl enable polkit.service
         echo -e "\n"
         # Abstraction for enumerating power devices, listening to device events and querying history and statistics
+        print_info_cyan "Installation de upower.service"
         systemctl enable upower.service
         echo -e "\n"
         # Mise en place d'un drop-in pour kdm.service si carte nvivia et drivers nvidia installé
