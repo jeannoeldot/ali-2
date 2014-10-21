@@ -22,7 +22,7 @@
         #
         # Détermine le nom du rep d'installation de arch
         if [[ -d /boot/efi/EFI ]]; then
-            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<9' | wc -l`)
+            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<7' | wc -l`)
             if [[ $number_of_arch_first -eq 0 ]]; then
                 NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
                 IS_MULTI_BOOT_UEFI=0
