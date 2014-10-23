@@ -33,11 +33,7 @@ NAME_ARCH_FIRST="arch_1"
 NAME_DIR_ARCHLINUX=""
 # NOM DU MANAGER DE BOOT
 MGR_EFI=""
-# VERSION MINIMUM LINUX REFERENCE
-VERSION_LINUX_REFERENCE=3.17.1-1
-VERSION_LINUX_INSTALLED=0
 #
-IS_VERSION_LINUX_SUP_EGALE_REF=0
 IS_MULTI_BOOT_UEFI=0
 IS_Z87C=0
 IN_VIRTUAL_BOX=0
@@ -123,17 +119,6 @@ read_name_mgr_efi() { #{{{
         if [[ -n "${name_mgr_efi}" ]]; then
             MGR_EFI="${name_mgr_efi}"
         fi
-    fi
-} #}}}
-# TEST SI VERSION LINUX INSTALLÉE >= VERSION LINUX REFERENCE ( changement intel-ucode )
-check_is_version_linux_installed_sup_egale_ref() { #{{{
-    local version_linux_ref=$VERSION_LINUX_REFERENCE
-    local version_linux=$(pacman -Qi "linux" 2>/dev/null | awk '/Version/ {print $3}')
-    VERSION_LINUX_INSTALLED=$version_linux
-    if [[ $(vercmp $version_linux $version_linux_ref) -lt 0 ]]; then
-        IS_VERSION_LINUX_SUP_EGALE_REF=0
-    else
-        IS_VERSION_LINUX_SUP_EGALE_REF=1
     fi
 } #}}}
 # # TEST SI CM = ASUS All Series/Z87-C
