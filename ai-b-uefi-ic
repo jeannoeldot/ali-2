@@ -205,7 +205,11 @@
             # cp -v /run/archiso/bootmnt/EFI/shellx64_v2.efi /boot/efi/shellx64.efi
             cp -v Shell.efi /boot/efi/shellx64.efi
             echo "echo -on" > /boot/efi/archlinux.nsh
-            echo "\EFI\arch_1\vmlinuz-arch_1.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch_1/intel-ucode.img initrd=EFI/arch_1/initramfs-arch_1.img" >> /boot/efi/archlinux.nsh
+            if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
+                echo "\EFI\arch_1\vmlinuz-arch_1.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch_1/intel-ucode.img initrd=EFI/arch_1/initramfs-arch_1.img" >> /boot/efi/archlinux.nsh
+            else
+                echo "\EFI\arch_1\vmlinuz-arch_1.efi root=PARTUUID=$partuuid rw rootfstype=$ROOT_FS_TYPE add_efi_memmap initrd=EFI/arch_1/initramfs-arch_1.img" >> /boot/efi/archlinux.nsh
+            fi
             print_info_cyan "Contenu du script utilisé par le Shell UEFI :"
             cat /boot/efi/archlinux.nsh
         else
