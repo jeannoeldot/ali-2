@@ -359,12 +359,15 @@ source `pwd`/ai-commons
         print_info "Yaourt (Yet AnOther User Repository Tool) est un programme en ligne de commande qui interface les fonctions de pacman et makepkg pour la gestion des paquets sous Arch Linux."
         print_warning "\tYaourt n'est pas officiellement supporté par les développeurs d'Arch."
         if ! is_package_installed "yaourt" ; then
-        package_install "base-devel namcap yaourt"
-        if ! is_package_installed "yaourt" ; then
-            echo -e "${BRed}ERREUR :${White} Yaourt non installé. ARRET immédiat."
-            pause_function
-            exit 1
-            fi
+          package_install "base-devel namcap yaourt"
+          if ! is_package_installed "yaourt" ; then
+            package_install "base-devel namcap yaourt"
+              if ! is_package_installed "yaourt" ; then
+                echo -e "${BRed}ERREUR :${White} Yaourt non installé. ARRET immédiat."
+                pause_function
+                exit 1
+              fi
+          fi
         fi
         # Modif /etc/yaourtrc si taille /tmp < 2000M
         taille_tmp_en_ram=(`df -h -BM | grep -E "/tmp" | awk '{print $2}' | sed -e "s/M//"`)

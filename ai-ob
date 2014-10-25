@@ -216,6 +216,8 @@
             cp -v ai-fconfig/ob-user-.fehbg /home/${USERNAME}/.fehbg
             chown -R ${USERNAME}:users /home/${USERNAME}/.fehbg
             #
+            cp -v ai-fconfig/00-CMD-UTILES-OB-CK.TXT /home/${USERNAME}/00-CMD-UTILES-OB-CK.TXT
+            #
             chown -R ${USERNAME}:users /home/${USERNAME}
             print_info_cyan "Installation des thèmes GTK 3/2 et Icones."
             package_install "gtk-update-icon-cache"
