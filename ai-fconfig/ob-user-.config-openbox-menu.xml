@@ -41,7 +41,7 @@
 </menu>
 
 <menu id="apps-term-menu" label="Terminaux">
-  <item label="LxTerminal" icon="/usr/share/pixmaps/lxterminal.png">
+  <item label="LxTerminal" icon="/usr/share/icons/hicolor/128x128/apps/lxterminal.png">
     <action name="Execute">
       <command>lxterminal --geometry=100x34</command>
     </action>
@@ -341,7 +341,7 @@
 <menu id="apps-virtualisation-menu" label="Virtualisation">
   <item label="Oracle VM VirtualBox" icon="/usr/share/icons/hicolor/64x64/mimetypes/virtualbox-vbox.png">
     <action name="Execute">
-      <command>virtualbox</command>
+      <command>VirtualBox</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>

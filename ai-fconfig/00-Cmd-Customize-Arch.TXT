@@ -619,7 +619,18 @@ oct. 23 17:42:14 localhost kernel: microcode: CPU7 sig=0x306c3, pf=0x2, revision
 oct. 23 17:42:14 localhost kernel: microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
 
 $ cat /proc/cmdline
+DANS ARCH_1 / ARCH_1_CK
+-----------------------
 \EFI\arch_1\vmlinuz-arch_1.efi root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target quiet initrd=EFI/arch_1/intel-ucode.img initrd=EFI/arch_1/initramfs-arch_1.img
+
+\EFI\arch_1_ck\vmlinuz-arch_1_ck.efi root=PARTUUID=665fca39-0246-467e-b74d-dadde7036567 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI/arch_1_ck/intel-ucode.img initrd=EFI/arch_1_ck/initramfs-arch_1_ck.img
+
+DANS ARCH_2 / ARCH_2_CK
+-----------------------
+\EFI\arch_2\vmlinuz-arch_2.efi root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target quiet initrd=EFI/arch_2/intel-ucode.img initrd=EFI/arch_2/initramfs-arch_2.img
+
+\EFI\arch_2_ck\vmlinuz-arch_2_ck.efi root=PARTUUID=871ad7aa-2350-4654-a3a8-be5d0bd7f1d3 rootfstype=ext4 rw add_efi_memmap systemd.unit=graphical.target elevator=bfq quiet initrd=EFI/arch_2_ck/intel-ucode.img initrd=EFI/arch_2_ck/initramfs-arch_2_ck.img
+
 
 25) MODIFICATION DE /etc/X11/xorg.conf.d/20-nvidia.conf
 ========================================================
@@ -1048,6 +1059,13 @@ browser.sessionstore.max_tabs_undo" to 0.
 
 DANS OPEN-BOX / CK
 ===================
+
+SI CURSEUR SOURIS TROP GRAND
+============================
+
+Voir : https://wiki.archlinux.org/index.php/Cursor#Using_X_resources
+
+
 SI 05-builds N'EXISTE PAS
 ==============================
 $ cd && mkdir ~/05-builds && mkdir ~/05-builds/0-chroot
