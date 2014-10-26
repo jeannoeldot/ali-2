@@ -40,6 +40,7 @@ source `pwd`/ai-commons
                     ;;
             esac
         done
+        print_info_cyan "Type de clavier : "$TYPE_KEYBOARD" et valeur de KEYMAP : "$KEYMAP
         loadkeys $KEYMAP
         setfont Lat2-Terminus16
         pause_function

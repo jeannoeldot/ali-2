@@ -30,7 +30,7 @@ source `pwd`/ai-commons
         print_line
         echo -e "Le script peut être stoppé à tout moment avec ${BWhite}CTRL+C${White}"
         print_line
-        echo -e "Ce script installe ${BWhite}KDE4 ou OPENBOX${White}"
+        echo -e "Ce script installe ${BWhite}KDE4, KDE5 ou OPENBOX${White}"
         print_line
         echo -e "Ce script ne fonctionne qu'avec la langue ${BWhite}FR (fr_FR)${White}"
         print_line
@@ -256,6 +256,8 @@ source `pwd`/ai-commons
         LANGUAGE=fr_FR
         #KDE4 #{{{
         LANGUAGE_KDE4=fr
+        #}}}
+        LANGUAGE_KDE5=fr
         #}}}
         #FIREFOX #{{{
         LANGUAGE_FF=fr
@@ -745,18 +747,23 @@ source `pwd`/ai-commons
     install_cups
 
 # Début install DE OU WM {{{
-        print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE4 ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
-        DES_KDE4_OB=("KDE4" "OPENBOX");
+        print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE4, KDE5 ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
+        liste_env_des_wm=("KDE4" "KDE5" "OPENBOX");
         PS3="$prompt1"
         echo -e "${BWhite}"
         echo -e "Sélectionner l'environnement de bureau ou le gestionnaire de fenêtres :"
-        select OPT in "${DES_KDE4_OB[@]}"; do
+        select OPT in "${liste_env_des_wm[@]}"; do
             case "$REPLY" in
                 1)
-                    source `pwd`/ai-kde
+                    source `pwd`/ai-kde4
                     break
                     ;;
                 2)
+                    print_warning "AU 25/10/2014 : NON MIS EN OEUVRE => INSTALLE KDE4"
+                    source `pwd`/ai-kde5
+                    break
+                    ;;
+                3)
                     source `pwd`/ai-ob
                     break
                     ;;

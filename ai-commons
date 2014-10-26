@@ -77,6 +77,7 @@ prompt3="Entrer manuellement les commandes suivantes, ensuite presser ${BYellow}
 E17=0
 GNOME=0
 KDE4=0
+KDE5=0
 LXDE=0
 OPENBOX=0
 XFCE=0
@@ -125,8 +126,8 @@ read_name_mgr_efi() { #{{{
 read_name_type_keyboard() { #{{{
     # Par défaut, type de clavier = AZERTY
     TYPE_KEYBOARD="AZERTY"
-    if [[ -f "/root/name_dir_archlinux.uefi" ]]; then
-        eval $(grep '^type_choix_keyboard=' "/root/name_dir_archlinux.uefi")
+    if [[ -f "/root/variables_pour_ai_de.txt" ]]; then
+        eval $(grep '^type_choix_keyboard=' "/root/variables_pour_ai_de.txt")
         if [[ -n "${type_choix_keyboard}" ]]; then
             TYPE_KEYBOARD="${type_choix_keyboard}"
         fi

@@ -81,6 +81,9 @@ source `pwd`/ai-commons
         # Ecrire la valeur hostname dans /etc/hosts
         sed -i "/127.0.0.1/s/$/ ${HN}/" /etc/hosts
         sed -i "/::1/s/$/ ${HN}/" /etc/hosts
+        print_info_cyan "Contenu du fichier /etc/hosts :"
+        cat /etc/hosts
+        pause_function
     }
     #}}}
     #CONFIGURE TIMEZONE {{{
@@ -245,11 +248,13 @@ source `pwd`/ai-commons
     read_variables_ali_b1
     # Sets the interval of inactivity
     setterm -blank 0
+    # Sets keymap et font
     if [[ $TYPE_KEYBOARD == "AZERTY" ]]; then
         KEYMAP=fr-latin9
     else
         KEYMAP=fr-bepo-latin9
     fi
+    print_info_cyan "Type de clavier : "$TYPE_KEYBOARD" et valeur de KEYMAP : "$KEYMAP
     loadkeys $KEYMAP
     setfont Lat2-Terminus16
     # Editeur par défaut
@@ -284,8 +289,8 @@ source `pwd`/ai-commons
     #
     configure_network
     set_root_password
-    # INSCRIT CHOIX CLAVIER DANS name_dir_archlinux.uefi pour ai-de
-    echo "type_choix_keyboard=${TYPE_KEYBOARD}" >> /root/name_dir_archlinux.uefi
+    # INSCRIT CHOIX CLAVIER DANS variables_pour_ai_de.txt pour ai-de
+    echo "type_choix_keyboard=${TYPE_KEYBOARD}" > /root/variables_pour_ai_de.txt
     #
     print_title "FIN INSTALLATION PARTIE 2 DANS CHROOT."
     #
