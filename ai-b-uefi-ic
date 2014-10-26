@@ -37,7 +37,7 @@
         fi
         DIR_EFI_ARCHLINUX="/boot/efi/EFI/${NAME_DIR_ARCHLINUX}"
         print_info_cyan "Le répertoire d'installation de Arch Linux sera ${DIR_EFI_ARCHLINUX}."
-        # INSCRIT NAME_DIR_ARCHLINUX DANS name_dir_archlinux.uefi
+        # INSCRIT NAME_DIR_ARCHLINUX DANS name_dir_archlinux.uefi pour ai-de
         echo "name_dir_archlinux=${NAME_DIR_ARCHLINUX}" > /root/name_dir_archlinux.uefi
         #
         # Choix du Manager de Boot
@@ -53,7 +53,7 @@
             NAME_DIR_MGR_EFI="/EFI/refind/refind_${ARCHI_REFIND}.efi"
         fi
         print_info_cyan "Le répertoire d'installation du Manager de Boot sera ${NAME_DIR_EFI}."
-        # INSCRIT CHOIX NOM DANS name_dir_archlinux.uefi
+        # INSCRIT CHOIX NOM DANS name_dir_archlinux.uefi pour ai-de
         echo "name_mgr_efi=${MGR_EFI}" >> /root/name_dir_archlinux.uefi
         #
         # Installation de rEFInd

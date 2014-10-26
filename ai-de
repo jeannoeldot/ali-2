@@ -34,6 +34,8 @@ source `pwd`/ai-commons
         print_line
         echo -e "Ce script ne fonctionne qu'avec la langue ${BWhite}FR (fr_FR)${White}"
         print_line
+        echo -e "Le type de clavier est de type ${BWhite}${TYPE_KEYBOARD}${White}"
+        print_line
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
             echo -e "Installation dans ${BWhite}Oracle VM VirtualBox${White}."
         else
@@ -500,13 +502,17 @@ source `pwd`/ai-commons
     install_xorg() {
         print_title "XORG - https://wiki.archlinux.org/index.php/Xorg"
         print_info "Xorg est l'implémentation officielle du système graphique X Window System version 11."
-        echo "Installion de X-Server (requis pour Environement de Bureau, Pilotes GPU, Agencement Clavier, ...)"
+        print_info "Installion de X-Server (requis pour Environement de Bureau, Pilotes GPU, Agencement Clavier, ...)"
         package_install "xorg-server xorg-server-utils xorg-xinit xorg-utils xorg-xkill xorg-twm xorg-xclock xterm"
 #        package_install "xf86-input-synaptics xf86-input-mouse xf86-input-keyboard"
         package_install "mesa gamin"
-        #CONFIGURE AZERTY KEYBOARD IN XORG {{{
-        print_info_cyan "Mise en place de la disposition du clavier en FR."
-        cp -v ai-fconfig/10-keyboard-layout.conf /etc/X11/xorg.conf.d/10-keyboard-layout.conf
+        #CONFIGURE AZERTY OR BEPO KEYBOARD IN XORG
+        print_info_cyan "Mise en place de la disposition du clavier en FR (AZERTY ou BÉPO)."
+        if [[ $TYPE_KEYBOARD == "AZERTY" ]]; then
+            cp -v ai-fconfig/10-keyboard-layout-AZERTY.conf /etc/X11/xorg.conf.d/10-keyboard-layout.conf
+        else
+            cp -v ai-fconfig/10-keyboard-layout-BEPO.conf /etc/X11/xorg.conf.d/10-keyboard-layout.conf
+        fi
         pause_function
     }
     #}}}
@@ -711,6 +717,7 @@ source `pwd`/ai-commons
     setterm -blank 0
     setfont Lat2-Terminus16
     #
+    read_name_type_keyboard
     read_name_dir_archlinux
     read_name_mgr_efi
     check_is_uefi_or_bios

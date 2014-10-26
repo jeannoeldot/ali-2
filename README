@@ -3,9 +3,9 @@ Mes scripts personnels d'installation de ArchLinux
 
 LICENSE         : GPL2 (Voir COPYING pour les détails).
 
-VERSION         : 3.4.6
+VERSION         : 3.5.0
 
-LANGUE          : uniquement FR
+LANGUE          : uniquement FR (AZERTY ou BÉPO)
 
 NOMS DES SCRIPTS
 

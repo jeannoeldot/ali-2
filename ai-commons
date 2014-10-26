@@ -12,8 +12,6 @@
 #Created by helmuthdu mailto: helmuthdu[at]gmail[dot]com
 
 # CONSTANTES {{{
-# CLAVIER
-FR_KEYMAP=fr-latin9
 # FUSEAU HORAIRE
 FR_ZONE=Europe
 FR_SUBZONE=Paris
@@ -33,6 +31,8 @@ NAME_ARCH_FIRST="arch_1"
 NAME_DIR_ARCHLINUX=""
 # NOM DU MANAGER DE BOOT
 MGR_EFI=""
+# TYPE DE CLAVIER ( AZERTY ou BEPO )
+TYPE_KEYBOARD=""
 #
 IS_MULTI_BOOT_UEFI=0
 IS_Z87C=0
@@ -118,6 +118,17 @@ read_name_mgr_efi() { #{{{
         eval $(grep '^name_mgr_efi=' "/root/name_dir_archlinux.uefi")
         if [[ -n "${name_mgr_efi}" ]]; then
             MGR_EFI="${name_mgr_efi}"
+        fi
+    fi
+} #}}}
+# LECTURE DU TYPE DE CLAVIER
+read_name_type_keyboard() { #{{{
+    # Par défaut, type de clavier = AZERTY
+    TYPE_KEYBOARD="AZERTY"
+    if [[ -f "/root/name_dir_archlinux.uefi" ]]; then
+        eval $(grep '^type_choix_keyboard=' "/root/name_dir_archlinux.uefi")
+        if [[ -n "${type_choix_keyboard}" ]]; then
+            TYPE_KEYBOARD="${type_choix_keyboard}"
         fi
     fi
 } #}}}

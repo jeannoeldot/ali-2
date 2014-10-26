@@ -18,6 +18,8 @@ source `pwd`/ai-commons
     read_variables_ali_b1() {
         #/root/variables.ali
         if [[ -f "/root/variables.ali" ]]; then
+            eval $(grep '^TYPE_KEYBOARD=' "/root/variables.ali")
+            TYPE_KEYBOARD="${TYPE_KEYBOARD}"
             eval $(grep '^NAME_NET_WIRED=' "/root/variables.ali")
             NAME_NET_WIRED="${NAME_NET_WIRED}"
             eval $(grep '^IS_UEFI=' "/root/variables.ali")
@@ -49,7 +51,6 @@ source `pwd`/ai-commons
     configure_vconsole_conf() {
         print_title "KEYMAP - https://wiki.archlinux.org/index.php/KEYMAP"
         print_info "La variable KEYMAP est spécifiée dans le fichier /etc/vconsole.conf. Elle définit le type de clavier dans les consoles virtuelles. Les fichiers de type de clavier sont fournis par le paquet kbd."
-        KEYMAP=$FR_KEYMAP
         echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
         echo "FONT=Lat2-Terminus16" >> /etc/vconsole.conf
 #        echo "FONT_MAP=8859-15_to_uni" >> /etc/vconsole.conf
@@ -244,7 +245,12 @@ source `pwd`/ai-commons
     read_variables_ali_b1
     # Sets the interval of inactivity
     setterm -blank 0
-    loadkeys $FR_KEYMAP
+    if [[ $TYPE_KEYBOARD == "AZERTY" ]]; then
+        KEYMAP=fr-latin9
+    else
+        KEYMAP=fr-bepo-latin9
+    fi
+    loadkeys $KEYMAP
     setfont Lat2-Terminus16
     # Editeur par défaut
     print_info_cyan "L'éditeur par défaut est nano"
@@ -278,6 +284,8 @@ source `pwd`/ai-commons
     #
     configure_network
     set_root_password
+    # INSCRIT CHOIX CLAVIER DANS name_dir_archlinux.uefi pour ai-de
+    echo "type_choix_keyboard=${TYPE_KEYBOARD}" >> /root/name_dir_archlinux.uefi
     #
     print_title "FIN INSTALLATION PARTIE 2 DANS CHROOT."
     #

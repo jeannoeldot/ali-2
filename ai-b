@@ -20,8 +20,26 @@ source `pwd`/ai-commons
     configure_keymap() {
         print_title "KEYMAP - https://wiki.archlinux.org/index.php/KEYMAP"
         print_info "La variable KEYMAP est spécifiée dans le fichier /etc/vconsole.conf. Elle définit le type de clavier dans les consoles virtuelles. Les fichiers de type de clavier sont fournis par le paquet kbd."
-        print_info "Le type de clavier sélectionné est : "$FR_KEYMAP
-        KEYMAP=$FR_KEYMAP
+        type_keyboard=("AZERTY" "BÉPO")
+        PS3="$prompt1"
+        echo -e "Choisir le type de clavier ( AZERTY ou BÉPO )"
+        select OPT in "${type_keyboard[@]}"; do
+            case "$REPLY" in
+                1)
+                    KEYMAP=fr-latin9
+                    TYPE_KEYBOARD="AZERTY"
+                    break
+                    ;;
+                2)
+                    KEYMAP=fr-bepo-latin9
+                    TYPE_KEYBOARD="BEPO"
+                    break
+                    ;;
+                *)
+                    invalid_option
+                    ;;
+            esac
+        done
         loadkeys $KEYMAP
         setfont Lat2-Terminus16
         pause_function
@@ -80,10 +98,10 @@ source `pwd`/ai-commons
         print_title "FSTAB - https://wiki.archlinux.org/index.php/Fstab"
         print_info "Le fichier /etc/fstab contient les informations des systèmes de fichiers statiques. Il définit la façon dont les périphériques de stockage et les partitions doivent être montés et intégrés dans le système. Il est lu par la commande mount pour déterminer les options à utiliser lors du montage d'un dispositif spécifique ou d'une partition."
         print_info_cyan "UUID recommandé."
-        FSTAB=("UUID" "LABEL" "DEV");
+        fstab_list=("UUID" "LABEL" "DEV");
         PS3="$prompt1"
         echo -e "Configurer le fichier /etc/fstab en se basant sur :"
-        select OPT in "${FSTAB[@]}"; do
+        select OPT in "${fstab_list[@]}"; do
             case "$REPLY" in
                 1)
                     genfstab -U -p ${MOUNTPOINT} >> ${MOUNTPOINT}/etc/fstab
@@ -152,6 +170,7 @@ source `pwd`/ai-commons
     # ECRITURE DES VARIABLES {{{
     write_variables_ali() {
         touch ${MOUNTPOINT}/root/variables.ali
+        echo "TYPE_KEYBOARD=${TYPE_KEYBOARD}" >> ${MOUNTPOINT}/root/variables.ali
 #        local name_net_wired=(`ip link | awk '/2: / {print $2}' | sed -e "s/://"`)
         local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
         echo "NAME_NET_WIRED=${name_net_wired}" >> ${MOUNTPOINT}/root/variables.ali
