@@ -770,7 +770,13 @@
     done
     }
     #}}}
-    # 24 GAMES {{{
+# TODO
+    # 24 AUDIO-VIDEO {{{
+    install_audio_video_apps() {
+        clear
+    }
+    #}}}
+    # 25 GAMES {{{
     install_games() {
 ##
 # A REVOIR jndqrami sur un repo perso

@@ -290,7 +290,7 @@ source `pwd`/ai-commons
     configure_network
     set_root_password
     # INSCRIT CHOIX CLAVIER DANS variables_pour_ai_de.txt pour ai-de
-    echo "type_choix_keyboard=${TYPE_KEYBOARD}" > /root/variables_pour_ai_de.txt
+    echo "type_choice_keyboard=${TYPE_KEYBOARD}" > /root/variables_pour_ai_de.txt
     #
     print_title "FIN INSTALLATION PARTIE 2 DANS CHROOT."
     #

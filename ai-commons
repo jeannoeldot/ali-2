@@ -127,9 +127,9 @@ read_name_type_keyboard() { #{{{
     # Par défaut, type de clavier = AZERTY
     TYPE_KEYBOARD="AZERTY"
     if [[ -f "/root/variables_pour_ai_de.txt" ]]; then
-        eval $(grep '^type_choix_keyboard=' "/root/variables_pour_ai_de.txt")
-        if [[ -n "${type_choix_keyboard}" ]]; then
-            TYPE_KEYBOARD="${type_choix_keyboard}"
+        eval $(grep '^type_choice_keyboard=' "/root/variables_pour_ai_de.txt")
+        if [[ -n "${type_choice_keyboard}" ]]; then
+            TYPE_KEYBOARD="${type_choice_keyboard}"
         fi
     fi
 } #}}}
