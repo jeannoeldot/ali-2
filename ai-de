@@ -619,7 +619,7 @@ source `pwd`/ai-commons
       if [[ $OPTION == o ]]; then
           package_install "cups cups-filters ghostscript gsfonts"
           package_install "gutenprint foomatic-db foomatic-db-engine foomatic-db-nonfree foomatic-filters hplip splix cups-pdf"
-          systemctl enable cups.service
+          systemctl enable org.cups.cupsd.service
           pause_function
       fi
     }
