@@ -269,6 +269,10 @@
                         ;;
                     3)
                         package_install "xcompmgr transset-df"
+                        if is_package_installed "xcompmgr" ; then
+                            sed -i "s/#xcompmgr/xcompmgr/" /home/${USERNAME}/.config/openbox/autostart
+                            chown -R ${USERNAME}:users /home/${USERNAME}/.config
+                        fi
                         ;;
                     4)
                         package_install "scrot"
