@@ -42,7 +42,8 @@ source `pwd`/ai-commons
         done
         print_info_cyan "Type de clavier : "$TYPE_KEYBOARD" et valeur de KEYMAP : "$KEYMAP
         loadkeys $KEYMAP
-        setfont Lat2-Terminus16
+#        setfont Lat2-Terminus16
+        setfont lat9w-16
         pause_function
     }
     #}}}
@@ -254,7 +255,8 @@ if [[ -f /root/ai-b.launched ]]; then
     check_is_in_virtualbox
     # Sets the interval of inactivity et fonts
     setterm -blank 0
-    setfont Lat2-Terminus16
+#    setfont Lat2-Terminus16
+    setfont lat9w-16
     #
     finish
 else

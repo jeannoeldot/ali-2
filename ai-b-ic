@@ -52,7 +52,8 @@ source `pwd`/ai-commons
         print_title "KEYMAP - https://wiki.archlinux.org/index.php/KEYMAP"
         print_info "La variable KEYMAP est spécifiée dans le fichier /etc/vconsole.conf. Elle définit le type de clavier dans les consoles virtuelles. Les fichiers de type de clavier sont fournis par le paquet kbd."
         echo "KEYMAP=$KEYMAP" > /etc/vconsole.conf
-        echo "FONT=Lat2-Terminus16" >> /etc/vconsole.conf
+#        echo "FONT=Lat2-Terminus16" >> /etc/vconsole.conf
+        echo "FONT=lat9w-16" >> /etc/vconsole.conf
 #        echo "FONT_MAP=8859-15_to_uni" >> /etc/vconsole.conf
         echo "Vérification et/ou modification du fichier /etc/vconsole.conf avec $EDITOR"
         pause_function
@@ -256,7 +257,8 @@ source `pwd`/ai-commons
     fi
     print_info_cyan "Type de clavier : "$TYPE_KEYBOARD" et valeur de KEYMAP : "$KEYMAP
     loadkeys $KEYMAP
-    setfont Lat2-Terminus16
+#    setfont Lat2-Terminus16
+    setfont lat9w-16
     # Editeur par défaut
     print_info_cyan "L'éditeur par défaut est nano"
     # UEFI ou BIOS

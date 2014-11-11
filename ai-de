@@ -718,7 +718,8 @@ source `pwd`/ai-commons
     # Début Install
     # Sets the interval of inactivity et fonts
     setterm -blank 0
-    setfont Lat2-Terminus16
+#    setfont Lat2-Terminus16
+    setfont lat9w-16
     #
     read_name_type_keyboard
     read_name_dir_archlinux
