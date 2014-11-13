@@ -489,7 +489,7 @@ source `pwd`/ai-commons
         #}}}
     }
     #}}}
-    # SUPPRIMÈ suite à maj systemd 217-6
+    # SUPPRIMÉ suite à maj systemd 217-6
 #     # 12 READAHEAD {{{
 #     enable_readahead() {
 #         print_title "READAHEAD - https://wiki.archlinux.org/index.php/Improve_Boot_Performance"
@@ -742,7 +742,7 @@ source `pwd`/ai-commons
     choose_aurhelper
     install_basic_setup
 #    install_preload
-    # SUPPRIMÈ suite à maj systemd 217-6
+    # SUPPRIMÉ suite à maj systemd 217-6
 #    enable_readahead
     install_xorg
     configure_font_presets

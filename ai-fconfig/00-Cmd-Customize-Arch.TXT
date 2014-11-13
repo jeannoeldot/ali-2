@@ -21,7 +21,7 @@ efistub_update.path  loaded active waiting   Check update EFISTUB  Linux-ARCH
  A)) ROOT
 ========================
 
-1) THEME GRUB SI BOOT EN MOSE BIOS
+0) THEME GRUB SI BOOT EN MOSE BIOS
 ==================================
 
 !!! ATTENTION AUX CHANGEMENTS SUITE A MAJ intel-ucode 20140913-1
@@ -102,6 +102,16 @@ $ sudo grub-mkconfig -o /boot/grub/grub.cfg
 # Vérifications
 -------------------
 $ kdesu kwrite /boot/grub/grub.cfg &
+
+
+1) SUDO : Edition fichier /etc/sudoers
+======================================
+!!! FAIT EN AUTOMATIQUE SI INSTALLATION PAR MON SCRIPT AI-B
+===========================================================
+
+$ sudo sh -c "echo -e '\n## My Defaults timestamp_timeout = 30 minutes' >> /etc/sudoers"
+$ sudo sh -c "echo -e 'Defaults:jnd timestamp_timeout=30' >> /etc/sudoers"
+
 
 
 2) MAKEPKG.CONF : Edition fichier /etc/makepkg.conf
@@ -846,14 +856,34 @@ $ cd && cp -v /home/jnd/09-Fichiers-Conf/0-Save-Confs/home-jnd-.yasp.script.2013
  !!! VOIR : /home/jnd/09-Fichiers-Conf/config-mes-kdeplasma/KDE-CONFIG-notes.TXT
 
  
-4) CONFIGS GIT
-==============
+3-3) CONFIGS GIT
+================
  !!! VOIR : /home/jnd/09-Documentation/00-Cmd-CREATION-GIT-INSTALLEUR.TXT
  OU
  !!! VOIR : /home/jnd/02-git/00-Cmd-CREATION-GIT-INSTALLEUR.TXT
  
 !!! ATTENTION DATE
 $ cd && cp -v /home/jnd/09-Fichiers-Conf/0-Save-Confs/home-jnd-.gitconfig.2013-12-01 .gitconfig
+
+
+3-4) CONFIGS TOP
+================
+Supprimer  ~/.toprc (si existe)
+Lancer "top"
+
+Presser z
+Presser V
+Presser 1
+Presser y
+Presser m m
+Presser t t t
+Presser W
+
+Cela va écrire un fichier ~/.toprc.
+
+OU
+!!! ATTENTION DATE
+$ cd && cp -v /home/jnd/09-Fichiers-Conf/0-Save-Confs/home-jnd-.toprc.2013-12-01 .toprc
 
 
 4) REPOLOCAL
