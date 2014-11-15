@@ -415,17 +415,13 @@ source `pwd`/ai-commons
         package_install "bc mlocate rsync bash-completion wget net-tools tree atool mc"
         pause_function
         if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
-            print_title "NTP - https://wiki.archlinux.org/index.php/NTP"
-            print_info "NTP permet de synchroniser son horloge avec une référence."
-            read_input_text "Installer ntp et activer ntpd ?"
+            print_title "HORLOGE - https://wiki.archlinux.org/index.php/Systemd-timesyncd"
+            print_info "Systemd-timesyncd est un démon qui été ajouté pour synchroniser l'horloge du système à travers le réseau."
+            read_input_text "Activer Systemd-timesyncd ?"
             if [[ $OPTION == o ]]; then
-                package_install "ntp libedit"
-                pacman -D --asdeps libedit
-#                 sed -i "s/\([0-9]\).pool.ntp.org/\1.fr.pool.ntp.org iburst/g" /etc/ntp.conf
-#                 sed -i "/^server 2.fr.pool.ntp.org iburst/a\server 3.fr.pool.ntp.org iburst" /etc/ntp.conf
-                # MAJ DU 08/09/2014
-                sed -i "s/arch.pool.ntp.org/fr.pool.ntp.org iburst/g"  /etc/ntp.conf
-                systemctl enable ntpd.service
+                sed -i "/^#NTP=/c\NTP=0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org" /etc/systemd/timesyncd.conf
+                sed -i "s/#FallbackNTP/FallbackNTP/" /etc/systemd/timesyncd.conf
+                systemctl enable systemd-timesyncd.service
             fi
             pause_function
 ##
