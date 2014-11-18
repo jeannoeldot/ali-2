@@ -109,9 +109,12 @@ $ kdesu kwrite /boot/grub/grub.cfg &
 !!! FAIT EN AUTOMATIQUE SI INSTALLATION PAR MON SCRIPT AI-B
 ===========================================================
 
-$ sudo sh -c "echo -e '\n## My Defaults timestamp_timeout = 30 minutes' >> /etc/sudoers"
-$ sudo sh -c "echo -e 'Defaults:jnd timestamp_timeout=30' >> /etc/sudoers"
+$ sudo sh -c "echo -e '\n## My Defaults timestamp_timeout = 20 minutes' >> /etc/sudoers"
+$ sudo sh -c "echo -e 'Defaults:jnd timestamp_timeout=20' >> /etc/sudoers"
 
+OU :
+
+# EDITOR=nano visudo
 
 
 2) MAKEPKG.CONF : Edition fichier /etc/makepkg.conf
@@ -948,13 +951,19 @@ $ cd && mkdir ~/05-builds/0-chroot
 $ cd && mkdir ~/05-builds && mkdir ~/05-builds/0-chroot
 
 
-7) RÉGLAGES KONSOLE, DOLPHIN, KATE, KWRITE, FAVORI FireFox
+7-1) RÉGLAGES KONSOLE, DOLPHIN, KATE, KWRITE, FAVORI FireFox
 ===========================================================
 !!! ATTENTION DATE
 $ cd && cp -v /home/jnd/09-Fichiers-Conf/kate-sessions/*.katesession /home/jnd/.kde4/share/apps/kate/sessions/
 
 NOTE :
 VOIR !!! /home/jnd/09-Fichiers-Conf/config-mes-kdeplasma/KDE-CONFIG-notes.TXT
+
+7-2) VISIONNEUR PDF PAR DÉFAUT DANS LES APPLICATIONS GTK SOUS KDE
+=================================================================
+SI INSTALLATION DE inkscape, gimp ou firefox
+--------------------------------------------
+$ xdg-mime default kde4-okularApplication_pdf.desktop application/pdf
 
 
 8) RECOMPILATION DE MES PROGRAMMES

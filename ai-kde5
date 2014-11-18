@@ -156,9 +156,9 @@
             fi
         fi
         #
-        print_info_cyan "Modification de sudo : timestamp_timeout = 30 minutes"
-        echo -e '\n## My Defaults timestamp_timeout = 30 minutes' >> /etc/sudoers
-        echo -e 'Defaults:'"${USERNAME}"' timestamp_timeout=30' >> /etc/sudoers
+        print_info_cyan "Modification de sudo : timestamp_timeout = ${TIMESTAMP_TIMEOUT} minutes"
+        echo -e '\n## My Defaults timestamp_timeout = '${TIMESTAMP_TIMEOUT}' minutes' >> /etc/sudoers
+        echo -e 'Defaults:'"${USERNAME}"' timestamp_timeout='${TIMESTAMP_TIMEOUT}'' >> /etc/sudoers
         #
         KDE5=1
         pause_function
