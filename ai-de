@@ -551,19 +551,27 @@ source `pwd`/ai-commons
                     XF86_DRIVERS=$(pacman -Qe | grep xf86-video | awk '{print $1}')
                     [[ -n $XF86_DRIVERS ]] && pacman -Rcsn $XF86_DRIVERS
                     read_input_text "NVIDIA : Installer la dernière version? Si Non, installe la branche 340xx pour le GPU G9x?"
-                        if [[ $OPTION == o ]]; then
-                            # Installe la dernière version
-                            package_install "nvidia nvidia-utils nvidia-libgl pangox-compat libva-vdpau-driver"
-                            #CONFIGURE NVIDIA IN XORG
-                            print_info_cyan "Mise en place des réglages de nVidia."
-                            cp -v ai-fconfig/20-nvidia.conf /etc/X11/xorg.conf.d/20-nvidia.conf
-                        else
-                            # Installe la branche 340xx pour les GPUs G8x, G9x et GT2xx
-                            package_install "nvidia-340xx nvidia-340xx-utils nvidia-340xx-libgl pangox-compat libva-vdpau-driver"
-                            #CONFIGURE NVIDIA IN XORG
-                            print_info_cyan "Mise en place des réglages de nVidia."
-                            cp -v ai-fconfig/20-nvidia-340xx.conf /etc/X11/xorg.conf.d/20-nvidia.conf
-                        fi
+                    if [[ $OPTION == o ]]; then
+                        # Installe la dernière version
+                        package_install "nvidia nvidia-utils nvidia-libgl pangox-compat libva-vdpau-driver"
+                        #CONFIGURE NVIDIA IN XORG
+                        print_info_cyan "Mise en place des réglages de la carte nVidia."
+                        cp -v ai-fconfig/20-nvidia.conf /etc/X11/xorg.conf.d/20-nvidia.conf
+                    else
+                        # Installe la branche 340xx pour les GPUs G8x, G9x et GT2xx
+                        package_install "nvidia-340xx nvidia-340xx-utils nvidia-340xx-libgl pangox-compat libva-vdpau-driver"
+                        #CONFIGURE NVIDIA IN XORG
+                        print_info_cyan "Mise en place des réglages de la carte nVidia."
+                        cp -v ai-fconfig/20-nvidia-340xx.conf /etc/X11/xorg.conf.d/20-nvidia.conf
+                    fi
+                    # NOM DE LA CARTE
+                    NAME_CG_NVIDIA=$(lspci | grep -E "VGA" | sed -e "s/^.*\[//;s/\].*$//")
+                    print_info_cyan "Nom de la carte nVidia :${NAME_CG_NVIDIA}"
+                    sed -i "s/NAMECGNVIDIA/${NAME_CG_NVIDIA}/" /etc/X11/xorg.conf.d/20-nvidia.conf
+                    read_input_text "Visualiser et/ou éditer le fichier « 20-nvidia.conf » ?"
+                    if [[ $OPTION == o ]]; then
+                        nano /etc/X11/xorg.conf.d/20-nvidia.conf
+                    fi
                 else
                     package_install "mesa-libgl xf86-video-nouveau"
                     add_module "nouveau"
