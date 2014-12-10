@@ -1072,7 +1072,14 @@ https://addons.mozilla.org/fr/firefox/addon/dictionnaires-fran%C3%A7ais/?src=ss
 
 https://addons.mozilla.org/firefox/downloads/latest/354872/addon-354872-latest.xpi?src=ss
 
- 11-2) RÉGLAGES DANS FIREFOX
+
+ 11-2) INSTALLATION DE "Bookmarks Checker - check for bad links" DANS FIREFOX
+ ============================================================================
+  Extensions Bookmarks Checker - check for bad links 
+https://addons.mozilla.org/fr/firefox/addon/bookmarks-checker/?src=dp-dl-othersby
+
+
+ 11-9) RÉGLAGES DANS FIREFOX
  ===========================
  
  about:config

@@ -46,17 +46,16 @@ VOIR /home/jnd/Bureau
 Clic Droit -> Ouvrir -> Exécuter
 
 
-
 BACKUP
 ===========
 
 $ cd && backup
 
-
 $ systemd-analyze && systemd-analyze blame
 
-
 $ profile-cleaner f
+
+$ maj-mirrorlist
 
 
 MAJ PSD.SERVICE OU MAJ firefox-extension-https-everywhere

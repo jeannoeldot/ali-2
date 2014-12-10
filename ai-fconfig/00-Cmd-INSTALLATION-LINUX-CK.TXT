@@ -33,6 +33,10 @@ Server = http://repo-ck.com/$arch
 # pacman-key -f 5EE46C4C
 # pacman-key --lsign-key 5EE46C4C
 
+SI PROBLÈME AVEC pacman-key -r 5EE46C4C :
+-----------------------------------------
+VOIR : /home/jnd/09-Documentation/00-PROBLEME-AVEC-PACMAN-KEY-R-keyid.TXT
+
 # pacman -Syy
 
 # pacman -Sl repo-ck
