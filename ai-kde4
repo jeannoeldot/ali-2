@@ -456,7 +456,7 @@
                     ;;
                 2)
                     package_install "gimp"
-                    package_install "potrace gimp-ufraw gimp-plugin-fblur gimp-plugin-gmic gimp-plugin-lqr gimp-plugin-mathmap gimp-plugin-wavelet-decompose gimp-plugin-wavelet-denoise gimp-refocus"
+                    package_install "webkitgtk2 potrace gimp-ufraw gimp-plugin-fblur gimp-plugin-gmic gimp-plugin-lqr gimp-plugin-mathmap gimp-plugin-wavelet-decompose gimp-plugin-wavelet-denoise gimp-refocus"
                     ;;
                 3)
                     package_install "inkscape uniconvertor"

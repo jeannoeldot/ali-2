@@ -666,6 +666,16 @@ source `pwd`/ai-commons
         done
     }
     #}}}
+    # 95 INSTALL OPTIONAL DEP FOR QT4 SI INSTALLÉ {{{
+    install_optional_dep_for_qt4() {
+        if is_package_installed "qt4" ; then
+            print_title "INSTALLATION de sni-qt: StatusNotifierItem (AppIndicators) support"
+            package_install "sni-qt"
+            pacman -D --asdeps sni-qt
+        fi
+        pause_function
+    }
+    #}}}
     # 96 CLEAN ORPHAN PACKAGES {{{
     clean_orphan_packages() {
         print_title "NETTOYAGE PAQUETS ORPHELINS"
@@ -802,6 +812,7 @@ source `pwd`/ai-commons
 #}}} FIN install DE OU WM
 
     install_fonts
+    install_optional_dep_for_qt4
 #    clean_orphan_packages
     update_mandb
     clean_cache_pacman
