@@ -419,8 +419,15 @@ source `pwd`/ai-commons
             print_info "Systemd-timesyncd est un démon qui été ajouté pour synchroniser l'horloge du système à travers le réseau."
             read_input_text "Activer Systemd-timesyncd ?"
             if [[ $OPTION == o ]]; then
-                sed -i "/^#NTP=/c\NTP=0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org" /etc/systemd/timesyncd.conf
-                sed -i "s/#FallbackNTP/FallbackNTP/" /etc/systemd/timesyncd.conf
+                # Changement suite maj 218
+#                 sed -i "/^#NTP=/c\NTP=0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org" /etc/systemd/timesyncd.conf
+#                 sed -i "s/#FallbackNTP/FallbackNTP/" /etc/systemd/timesyncd.conf
+                mkdir -p /etc/systemd/timesyncd.conf.d
+                echo "# Reglages personnel de systemd-timesyncd." > /etc/systemd/timesyncd.conf.d/my_timesyncd_conf.conf
+                echo "[Time]" >> /etc/systemd/timesyncd.conf.d/my_timesyncd_conf.conf
+                echo "NTP=0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org" >> /etc/systemd/timesyncd.conf.d/my_timesyncd_conf.conf
+                echo "FallbackNTP=0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org" >> /etc/systemd/timesyncd.conf.d/my_timesyncd_conf.conf
+                
                 systemctl enable systemd-timesyncd.service
             fi
             pause_function
@@ -606,9 +613,18 @@ source `pwd`/ai-commons
         # Modifs conf
         print_info_cyan "Ajout de ${USERNAME} au groupe systemd-journal."
         gpasswd -a ${USERNAME} systemd-journal
-        print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
-        sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
-        sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
+        #
+        # Changement suite maj 218
+#         print_info_cyan "Modification de journald.conf : Taille de /var/log/journal/system.journal"
+#         sed -i "/^#SystemMaxUse/c\SystemMaxUse=50M" /etc/systemd/journald.conf
+#         sed -i "/^#SystemMaxFileSize/c\SystemMaxFileSize=10M" /etc/systemd/journald.conf
+        #
+        print_info_cyan "Modification de systemd-journal : MaxUse et MaxFileSize"
+        mkdir -p /etc/systemd/journald.conf.d
+        echo "# Reglages personnel de systemd-journal." > /etc/systemd/journald.conf.d/my_journald_conf.conf
+        echo "[Journal]" >> /etc/systemd/journald.conf.d/my_journald_conf.conf
+        echo "SystemMaxUse=50M" >> /etc/systemd/journald.conf.d/my_journald_conf.conf
+        echo "SystemMaxFileSize=10M" >> /etc/systemd/journald.conf.d/my_journald_conf.conf
         #
         # INUTILE DEPUIS systemd 211
         # print_info_cyan "Modification de system.conf : RuntimeWatchdogSec = 20 secondes"
