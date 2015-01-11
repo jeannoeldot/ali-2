@@ -246,7 +246,7 @@
             echo " 3) $(menu_item "xcompmgr")"
             echo " 4) $(menu_item "scrot")"
             echo " 5) $(menu_item "xfburn")"
-            echo " 6) $(menu_item "xarchiver-xz") $AUR"
+            echo " 6) $(menu_item "xarchiver")"
 	    echo " 7) $(menu_item "xorg-xcalc")"
             echo " 8) $(menu_item "pcmanfm" "PCManFM")"
             echo " 9) $(menu_item "rxvt-unicode")"
@@ -281,7 +281,7 @@
                         package_install "xfburn"
                         ;;
                     6)
-                        aur_package_install "xarchiver-xz"
+                        package_install "xarchiver"
                         ;;
 		    7)
 			package_install "xorg-xcalc"

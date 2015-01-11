@@ -668,6 +668,17 @@ Section "Device"
    Option       "TripleBuffer"  "True"
 EndSection
 
+!!! SI GeForce GTX 980
+-------------------------
+
+Section "Device"
+   Identifier   "GeForce GTX 980"
+   Driver       "nvidia"
+   Option       "NoLogo"        "True"
+   Option       "CoolBits"      "1"
+   Option       "TripleBuffer"  "True"
+EndSection
+
 
 26) VERIFICATION DE /usr/lib/jvm
 ================================
@@ -983,14 +994,28 @@ OU
 # pacman -Syu mkpkg-tmpfs
 
 # pacman -Syu firefox-https-everywhere
+
+!!! VOIR https://wiki.archlinux.org/index.php/Profile-sync-daemon
 # pacman -Syu profile-sync-daemon profile-cleaner
 # nano -w /etc/psd.conf
 USERS="jnd"
 BROWSERS="firefox"
-# systemctl enable psd.service psd-resync.service
+!!! SI VERSION Linux kernel >= 3.18.0
+USE_OVERLAYFS="yes"
+
+# modprobe overlay
+# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
+# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
+
+# cat /etc/modules-load.d/profile_sync_daemon.conf
+
 # systemctl start psd.service psd-resync.service
+# systemctl enable psd.service psd-resync.service
 # systemctl status psd.service
 # systemctl status psd-resync.service
+$ profile-sync-daemon parse
+$ cat ~/.mozilla/firefox/profiles.ini
+
 
 !!! openimageio-git
 !!! openshadinglanguage-git
@@ -1132,11 +1157,31 @@ $ yaourt -Syua turbostat
 https://wiki.archlinux.org/index.php/Profile-sync-daemon
 $ yaourt -Syua profile-sync-daemon
 $ sudo nano -w /etc/psd.conf
-$ profile-sync-daemon parse
-$ cat ~/.mozilla/firefox/profiles.ini
 $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl enable psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
+$ profile-sync-daemon parse
+$ cat ~/.mozilla/firefox/profiles.ini
+
+!!! SI VERSION Linux kernel >= 3.18.0
+$ yaourt -Syua profile-sync-daemon
+$ sudo nano -w /etc/psd.conf
+USERS="jnd"
+BROWSERS="firefox"
+USE_OVERLAYFS="yes"
+
+# modprobe overlay
+# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
+# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
+
+$ cat /etc/modules-load.d/profile_sync_daemon.conf
+
+$ sudo systemctl start psd.service psd-resync.service
+$ sudo systemctl enable psd.service psd-resync.service
+$ sudo systemctl status psd.service psd-resync.service
+$ profile-sync-daemon parse
+$ cat ~/.mozilla/firefox/profiles.ini
+
 
 $ yaourt -Syua profile-cleaner
 $ profile-cleaner f
