@@ -1,2 +1,2 @@
 #!/bin/bash
-lxterminal --geometry=120x34
+lxterminal --geometry=140x38
