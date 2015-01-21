@@ -68,10 +68,12 @@ $ yaourt -Syua
 $ sudo mv /etc/psd.conf.pacnew /etc/psd.conf
 $ sudo nano -w /etc/psd.conf
 :: USERS="jnd"		BROWSERS="firefox"
-$ profile-sync-daemon parse
+!!! SI VERSION Linux kernel >= 3.18.0
+USE_OVERLAYFS="yes"
 $ sudo systemctl daemon-reload
 $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
+$ profile-sync-daemon parse
 
 
 
