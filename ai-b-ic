@@ -246,6 +246,9 @@ source `pwd`/ai-commons
     print_info "Les Arch Install Scripts sont un ensemble de scripts Bash qui simplifie l'installation de Archlinux."
     print_info_cyan "INSTALLATION PARTIE 2 DANS CHROOT."
     #
+    print_info_cyan "Mise à jour de la base de pacman"
+    pacman-db-upgrade
+    #
     read_variables_ali_b1
     # Sets the interval of inactivity
     setterm -blank 0
