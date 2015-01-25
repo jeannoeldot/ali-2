@@ -965,7 +965,7 @@ $ cd && mkdir ~/05-builds && mkdir ~/05-builds/0-chroot
 7-1) RÉGLAGES KONSOLE, DOLPHIN, KATE, KWRITE, FAVORI FireFox
 ===========================================================
 !!! ATTENTION DATE
-$ cd && cp -v /home/jnd/09-Fichiers-Conf/kate-sessions/*.katesession /home/jnd/.kde4/share/apps/kate/sessions/
+$ cd && cp -v /home/jnd/09-Fichiers-Conf/kate-sessions/*.katesession /home/jnd/.local/share/kate/sessions/
 
 NOTE :
 VOIR !!! /home/jnd/09-Fichiers-Conf/config-mes-kdeplasma/KDE-CONFIG-notes.TXT

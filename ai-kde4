@@ -26,7 +26,7 @@
         # KDE4 LOOK
         print_info_cyan "Installation de KDE4 Look"
 	package_install "oxygen-gtk2 oxygen-gtk3"
-        package_install "qtcurve-gtk2 qtcurve-kde4"
+        package_install "qtcurve-gtk2 qtcurve-kde4 qtcurve-qt4 qtcurve-qt5"
         # KDE4 PLASMA
         print_info_cyan "Installation de KDE4 Plasma Addons Applets"
 	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
