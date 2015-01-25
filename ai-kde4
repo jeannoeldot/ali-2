@@ -17,10 +17,9 @@
         print_info "KDE4 est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
         # KDE4 BASE
         print_info_cyan "Installation de KDE4 Base."
-        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities4 icu "
-        # INUTILES
-#         # Dépendances optionnelles pour qt
-#         package_install "icu"
+        # MAJ KDE + Qt4 => KDE + Qt5
+#        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities4 icu"
+        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities-frameworks"
         # KDE4 UTILS
         print_info_cyan "Installation de KDE4 Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
@@ -37,14 +36,18 @@
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE4 GRAPHICS
         print_info_cyan "Installation de KDE4 Graphiques"
-	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
+        # MAJ KDE + Qt4 => KDE + Qt5
+#	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
+	package_install "gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
 	package_install "kipi-plugins"
         # KDE4 NETWORK
         print_info_cyan "Installation de KDE4 Réseau"
 	package_install "kdenetwork-kget kwebkitpart"
         # KDE4 SDK
         print_info_cyan "Installation de KDE4 Sdk"
-        package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
+        # MAJ KDE + Qt4 => KDE + Qt5
+#        package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
+        package_install "okteta kate kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE4 FONTS
         print_info_cyan "Installation de KDE4 Polices TTF"
 	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"

@@ -686,8 +686,8 @@ source `pwd`/ai-commons
     # 95 INSTALL OPTIONAL DEP FOR QT4 SI INSTALLÉ {{{
     install_optional_dep_for_qt4() {
         if is_package_installed "qt4" ; then
-            print_title "INSTALLATION de sni-qt: StatusNotifierItem (AppIndicators) support"
-            package_install "sni-qt"
+            print_title "INSTALLATION de sni-qt: StatusNotifierItem (AppIndicators) support et INSTALLATION de icu"
+            package_install "sni-qt icu"
             pacman -D --asdeps sni-qt
         fi
         pause_function

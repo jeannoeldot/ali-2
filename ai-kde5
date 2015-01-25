@@ -17,10 +17,7 @@
         print_info "KDE5 est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
         # KDE5 BASE
         print_info_cyan "Installation de KDE5 Base."
-        package_install "kdebase kde-l10n-$LANGUAGE_KDE5 kactivities4 icu "
-        # INUTILES
-#         # Dépendances optionnelles pour qt
-#         package_install "icu"
+        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities-frameworks"
         # KDE5 UTILS
         print_info_cyan "Installation de KDE5 Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
@@ -37,14 +34,14 @@
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE5 GRAPHICS
         print_info_cyan "Installation de KDE5 Graphiques"
-	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
+	package_install "gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
 	package_install "kipi-plugins"
         # KDE5 NETWORK
         print_info_cyan "Installation de KDE5 Réseau"
 	package_install "kdenetwork-kget kwebkitpart"
         # KDE5 SDK
         print_info_cyan "Installation de KDE5 Sdk"
-        package_install "kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-okteta kdesdk-kate kdesdk-poxml kdebindings-python2 kdebindings-python"
+        package_install "okteta kate kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE5 FONTS
         print_info_cyan "Installation de KDE5 Polices TTF"
 	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"
