@@ -92,6 +92,7 @@
         echo -e "\n"
         # Installe et Enable sddm.service
         print_info_cyan "Installation de sddm et Activation de sddm.service"
+        package_install "sddm"
         systemctl enable sddm.service
         echo -e "\n"
 #        # Application development toolkit for controlling system-wide privileges
@@ -101,15 +102,15 @@
         print_info_cyan "Installation de upower.service"
         systemctl enable upower.service
         echo -e "\n"
-        # Mise en place d'un drop-in pour kdm.service si carte nvivia et drivers nvidia installé
+        # Mise en place d'un drop-in pour sddm.service si carte nvivia et drivers nvidia installé
         # https://bbs.archlinux.org/viewtopic.php?id=173153. brain0    Developer
         if is_package_installed "nvidia" ; then
-            print_info_cyan "Carte Vidéo Nvidia : Mise en place d'un drop-in pour kdm.service."
-            read_input_text "Mettre en place un drop-in pour kdm.service ?"
+            print_info_cyan "Carte Vidéo Nvidia : Mise en place d'un drop-in pour sddm.service."
+            read_input_text "Mettre en place un drop-in pour sddm.service ?"
             if [[ $OPTION == o ]]; then
                 cp -v ai-fconfig/etc-udev-rules.d-99-make-udev-drm-aware.rules /etc/udev/rules.d/99-make-udev-drm-aware.rules
-                mkdir -p /etc/systemd/system/kdm.service.d
-                cp -v ai-fconfig/etc-systemd-system-kdm.service.d-10-wait-for-card.conf /etc/systemd/system/kdm.service.d/10-wait-for-card.conf
+                mkdir -p /etc/systemd/system/sddm.service.d
+                cp -v ai-fconfig/etc-systemd-system-sddm.service.d-10-wait-for-card.conf /etc/systemd/system/sddm.service.d/10-wait-for-card.conf
             fi
         fi
         #
