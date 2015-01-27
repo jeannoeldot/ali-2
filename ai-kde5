@@ -17,20 +17,22 @@
         print_info "KDE5 est constitué d'un grand nombre d'applications individuelles et d'un espace de travail de bureau comme un shell pour exécuter ces applications."
         # KDE5 BASE
         print_info_cyan "Installation de KDE5 Base."
-        package_install "kdebase kde-l10n-$LANGUAGE_KDE4 kactivities-frameworks"
+        package_install "plasma-next kf5 kf5-aids kde-l10n-$LANGUAGE_KDE5"
+        package_install "konsole krite kdebase-dolphin"
         # KDE5 UTILS
         print_info_cyan "Installation de KDE5 Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
         # KDE5 LOOK
         print_info_cyan "Installation de KDE5 Look"
+        package_install "oxygen-icons oxygen-icons-svg oxygen-kde4"
 	package_install "oxygen-gtk2 oxygen-gtk3"
         package_install "qtcurve-gtk2 qtcurve-kde4 qtcurve-qt4 qtcurve-qt5"
-        # KDE5 PLASMA
-        print_info_cyan "Installation de KDE5 Plasma Addons Applets"
-	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
+#         # KDE5 PLASMA
+#         print_info_cyan "Installation de KDE5 Plasma Addons Applets"
+# 	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
         # KDE5 MULTIMEDIA
         print_info_cyan "Installation de KDE5 Multimedia"
-	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp"
+	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp kio-extras"
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE5 GRAPHICS
         print_info_cyan "Installation de KDE5 Graphiques"
@@ -82,58 +84,15 @@
         fi
         #}}}
         #KDE5 CUSTOMIZATION {{{
-        install_icon_theme() { #{{{
-            package_install "gtk-update-icon-cache"
-            print_warning "\nURL hycons-icon-theme non valide. http://dl.dropbox.com/u/153284/Hycons.tar.gz"
-            aur_package_install "hycons-icon-theme"
-            gtk-update-icon-cache -f /usr/share/icons/Hycons
-        } #}}}
-        install_kdeartwork() { #{{{
-            print_info_cyan "Installation de KDE5 ARTWORK (partie 1)"
-            package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes"
-            print_info_cyan "Installation de KDE5 ARTWORK (partie 2)"
-            # KDE5 4.12 : kdeartwork-sounds has been removed from the KDE5 SC.
-            package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
-        } #}}}
-        while true
-        do
-            print_title "PERSONNALISATION DE KDE5"
-            echo " 1) $(menu_item "hycons-icon-theme" "KDE5 Icones") $AUR"
-            echo " 2) $(menu_item "kdeartwork-colorschemes" "KDE5 ARTWORK")"
-            echo ""
-            echo " f) FINI"
-            echo ""
-            KDE5_OPTIONS+=" f"
-            read_input_options "$KDE5_OPTIONS"
-            for OPT in ${OPTIONS[@]}; do
-                case "$OPT" in
-                    1)
-                        install_icon_theme
-                        OPT=1
-                        ;;
-                    2)
-                        install_kdeartwork
-                        OPT=2
-                        ;;
-                    "f")
-                        break
-                        ;;
-                    *)
-                        invalid_option
-                        ;;
-                esac
-            done
-        elihw
-        done
         #}}}
 	echo "LANG=$LANGUAGE.utf8" >> /etc/environment
         echo "FT2_SUBPIXEL_HINTING=1" >> /etc/environment
 	mkdir -p /home/${USERNAME}/.compose-cache
 	chown -R ${USERNAME}:users /home/${USERNAME}/.compose-cache
         echo -e "\n"
-        # Enable kdm.service
-        print_info_cyan "Installation de kdm.service"
-        systemctl enable kdm.service
+        # Installe et Enable sddm.service
+        print_info_cyan "Installation de sddm et Activation de sddm.service"
+        systemctl enable sddm.service
         echo -e "\n"
 #        # Application development toolkit for controlling system-wide privileges
 #	systemctl enable polkit.service

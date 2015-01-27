@@ -137,6 +137,8 @@ $ sudo sed -i "s/-march=native -O2 -pipe/-march=native -O2 -pipe -fdiagnostics-c
 $ sudo sed -i "/^#MAKEFLAGS/c\MAKEFLAGS=\"-j5\"" /etc/makepkg.conf
 
 $ sudo sed -i "/^#PACKAGER/c\PACKAGER=\"Jean-Noel Dot <jeannoeldot@club-internet.fr>\"" /etc/makepkg.conf
+OU
+$ sudo sed -i "/^#PACKAGER/c\PACKAGER=\"Jean-Noel Dot <jean.noel.dot@sfr.fr>\"" /etc/makepkg.conf
 
 
 3) PACMAN.CONF : Edition fichier /etc/pacman.conf

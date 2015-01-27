@@ -387,7 +387,7 @@
         echo " 1) $(menu_item "conky" "Conky")"
         echo " 2) $(menu_item "docky" "Docky-Dock")"
         echo " 3) $(menu_item "wbar" "Wbar-Dock")"
-        echo " 4) $(menu_item "plank-bzr" "Plank-Dock") $AUR"
+        echo " 4) $(menu_item "plank" "Plank-Dock")"
         echo ""
         echo " f) FINI"
         echo ""
@@ -409,7 +409,7 @@
                     package_install "wbar"
                     ;;
                 4)
-                    aur_package_install "plank-bzr"
+                    package_install "plank"
                     ;;
                 "f")
                     break

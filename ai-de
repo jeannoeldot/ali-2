@@ -783,7 +783,7 @@ source `pwd`/ai-commons
 
 # Début install DE OU WM {{{
         print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE4, KDE5 ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
-        print_warning "AU 27/10/2014 : KDE5 NON MIS EN OEUVRE => INSTALLE KDE4"
+#        print_warning "AU 27/10/2014 : KDE5 NON MIS EN OEUVRE => INSTALLE KDE4"
         liste_env_des_wm=("KDE4" "KDE5" "OPENBOX");
         PS3="$prompt1"
         echo -e "${BWhite}"
@@ -795,7 +795,7 @@ source `pwd`/ai-commons
                     break
                     ;;
                 2)
-                    print_warning "AU 27/10/2014 : NON MIS EN OEUVRE => INSTALLE KDE4"
+#                    print_warning "AU 27/10/2014 : NON MIS EN OEUVRE => INSTALLE KDE4"
                     source `pwd`/ai-kde5
                     break
                     ;;
