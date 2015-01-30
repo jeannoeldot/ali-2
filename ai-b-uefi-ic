@@ -35,6 +35,7 @@
             fi
         else
             NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
+            NUMBER_OF_ARCH=1
             IS_MULTI_BOOT_UEFI=0
         fi
         DIR_EFI_ARCHLINUX="/boot/efi/EFI/${NAME_DIR_ARCHLINUX}"
