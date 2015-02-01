@@ -73,7 +73,7 @@ USE_OVERLAYFS="yes"
 $ sudo systemctl daemon-reload
 $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
-$ profile-sync-daemon parse
+$ profile-sync-daemon preview
 
 
 

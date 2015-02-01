@@ -550,8 +550,15 @@ source `pwd`/ai-commons
             print_info_cyan "Ajout de ${USERNAME} au groupe vboxsf."
             gpasswd -a ${USERNAME} vboxsf
         else
-            # test si nvidia
-            if [[ -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
+            _vga=$(lspci | grep VGA | tr "[:upper:]" "[:lower:]")
+            _vga_length=$(lspci | grep VGA | wc -l)
+            # test si bumblebee
+            if [[ $_vga_length -eq 2 ]] && [[ -n $(echo ${_vga} | grep "nvidia") || -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
+                XF86_DRIVERS=$(pacman -Qe | grep xf86-video | awk '{print $1}')
+                [[ -n $XF86_DRIVERS ]] && pacman -Rcsn $XF86_DRIVERS
+                package_install "xf86-video-intel bumblebee nvidia"
+                gpasswd -a ${username} bumblebee
+            elif [[ -n $(echo ${_vga} | grep "nvidia") || -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
                 print_info_cyan "Carte NVIDIA détectée.\n"
                 read_input_text "Installer le pilote vidéo propriétaire NVIDIA ?"
                 if [[ $OPTION == o ]]; then
@@ -585,14 +592,15 @@ source `pwd`/ai-commons
                     add_module "nouveau"
                 fi
             # test si intel
-            elif [[ -f /sys/kernel/debug/dri/0/i915_capabilities ]]; then
+            elif [[ -n $(echo ${_vga} | grep "intel corporation") || -f /sys/kernel/debug/dri/0/i915_capabilities ]]; then
                 print_info_cyan "Carte INTEL détectée.\n"
                 package_install "mesa-libgl xf86-video-intel libva-intel-driver"
             # test si ATI/AMD
-            elif [[ -f /sys/kernel/debug/dri/0/radeon_pm_info || -f /sys/kernel/debug/dri/0/radeon_sa_info ]]; then
+            elif [[ -n $(echo ${_vga} | grep "advanced micro devices") || -f /sys/kernel/debug/dri/0/radeon_pm_info || -f /sys/kernel/debug/dri/0/radeon_sa_info ]]; then
                 print_info_cyan "Carte ATI détectée.\n"
                 package_install "mesa-libgl xf86-video-ati"
                 add_module "radeon"
+                add_module "ati"
             # VESA PAR DEFAUT
             else
                 print_info_cyan "Installe le pilote Vesa par défaut.\n"
