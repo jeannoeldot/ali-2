@@ -558,6 +558,7 @@ source `pwd`/ai-commons
                 [[ -n $XF86_DRIVERS ]] && pacman -Rcsn $XF86_DRIVERS
                 package_install "xf86-video-intel bumblebee nvidia"
                 gpasswd -a ${username} bumblebee
+            # test si NVIDIA
             elif [[ -n $(echo ${_vga} | grep "nvidia") || -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
                 print_info_cyan "Carte NVIDIA détectée.\n"
                 read_input_text "Installer le pilote vidéo propriétaire NVIDIA ?"

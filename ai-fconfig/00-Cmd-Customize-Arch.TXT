@@ -1142,7 +1142,7 @@ browser.sessionstore.max_tabs_undo to 0.
 !!! VOIR : /home/jnd/09-Documentation/20-Wine-Civ4/0-INSTALL/02-Installation-Civ4-Complete.txt
 
 
-12) BALOO
+12) BALOO KDE5
 =================================
 https://wiki.archlinux.org/index.php/KDE#Desktop_search_and_semantic_desktop
 https://community.kde.org/Baloo/Configuration
@@ -1156,9 +1156,13 @@ Indexing-Enabled=true
 
 exclude folders[$e]=$HOME/90-BACKUP/,/0-DataLinux/
 
+$ balooctl status
 
-12) KMIX
+
+12) KMIX KDE5
 =================================
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
+===============================================
 $ yaourt -Syua kmix
 
 
