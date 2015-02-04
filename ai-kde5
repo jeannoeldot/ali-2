@@ -34,7 +34,7 @@
         print_info_cyan "Installation de KDE5 Multimedia"
 	package_install "kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp kio-extras"
 	# Remplace kdemultimedia-kmix : PAS de miniature dans Barre des Tâches
-	aur_package_install "kmix"
+	package_install "kmix"
 	package_install "libdvdcss libdvdread libdvdnav"
         # KDE5 GRAPHICS
         print_info_cyan "Installation de KDE5 Graphiques"

@@ -1159,12 +1159,6 @@ exclude folders[$e]=$HOME/90-BACKUP/,/0-DataLinux/
 $ balooctl status
 
 
-12) KMIX KDE5
-=================================
-!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-DE
-===============================================
-$ yaourt -Syua kmix
-
 
 
 DANS OPEN-BOX / CK
@@ -1264,6 +1258,13 @@ OU
 ==========================================================
 ANCIEN
 ==========================================================
+
+12) KMIX KDE5
+=================================
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-DE
+===============================================
+$ yaourt -Syua kmix
+
 
 23/10/2014 : linux 3.17.1
 ==> FAIRE :
