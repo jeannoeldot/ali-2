@@ -1161,7 +1161,7 @@ $ balooctl status
 
 12) KMIX KDE5
 =================================
-!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-B
+!!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-DE
 ===============================================
 $ yaourt -Syua kmix
 

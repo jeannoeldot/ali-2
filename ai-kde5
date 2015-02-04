@@ -362,7 +362,7 @@
     while true
     do
         print_title "APPLICATIONS DE BUREAUTIQUE"
-        echo " 1) $(menu_item "libreoffice-still-common" "LibreOffice Still")"
+        echo " 1) $(menu_item "libreoffice-still" "LibreOffice Still")"
         echo " 2) $(menu_item "calligra" "Calligra office suite")"
         echo ""
         echo " f) FINI"
@@ -373,8 +373,7 @@
             case "$OPT" in
                 1)
                     print_title "LIBREOFFICE - https://wiki.archlinux.org/index.php/LibreOffice"
-                    package_install "libreoffice-still-$LANGUAGE_LO libreoffice-still-common libreoffice-still-base libreoffice-still-calc libreoffice-still-draw libreoffice-still-impress libreoffice-still-math libreoffice-still-writer"
-                    package_install "libreoffice-still-gnome libwpg unoconv"
+                    package_install "libreoffice-still-$LANGUAGE_LO libreoffice-still libwpg"
                     package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
                     ;;
                 2)
