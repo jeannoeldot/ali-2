@@ -417,7 +417,7 @@
             case "$OPT" in
                 1)
                     print_title "LIBREOFFICE - https://wiki.archlinux.org/index.php/LibreOffice"
-                    package_install "libreoffice-still-$LANGUAGE_LO libreoffice-still libwpg"
+                    package_install "libreoffice-still-$LANGUAGE_LO libreoffice-still libwpg unoconv"
                     package_install "hyphen-fr hyphen hunspell-fr hunspell mythes-fr libmythes"
                     ;;
                 2)
