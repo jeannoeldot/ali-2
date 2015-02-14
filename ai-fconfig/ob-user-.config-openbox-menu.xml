@@ -116,6 +116,14 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Transmission Gtk" icon="/usr/share/icons/hicolor/48x48/apps/transmission.png">
+    <action name="Execute">
+      <command>transmission-gtk</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
 </menu>
 
 <menu id="apps-office-menu" label="Bureautique">
@@ -171,6 +179,14 @@
   <item label="Vlc" icon="/usr/share/icons/hicolor/48x48/apps/vlc.png">
     <action name="Execute">
       <command>vlc</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Audacity" icon="/usr/share/icons/hicolor/48x48/apps/audacity.png">
+    <action name="Execute">
+      <command>audacity</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
@@ -349,11 +365,31 @@
   </item>
 </menu>
 
+<menu id="apps-development-menu" label="Développement">
+  <item label="Qt Creator" icon="/usr/share/icons/hicolor/64x64/apps/QtProject-qtcreator.png">
+    <action name="Execute">
+      <command>qtcreator</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Qt Assistant" icon="/usr/share/icons/hicolor/32x32/apps/assistant.png">
+    <action name="Execute">
+      <command>assistant-qt5</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+</menu>
+
 <menu id="root-menu" label="Openbox 3">
   <separator label="Applications" />
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-accessories.png" id="apps-accessories-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-publishing.png" id="apps-editors-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-graphics.png" id="apps-graphics-menu"/>
+  <menu icon="/usr/share/icons/Faenza/categories/96/applications-development.png" id="apps-development-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-internet.png" id="apps-net-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-office.png" id="apps-office-menu"/>
   <menu icon="/usr/share/icons/Faenza/categories/96/applications-multimedia.png" id="apps-multimedia-menu"/>

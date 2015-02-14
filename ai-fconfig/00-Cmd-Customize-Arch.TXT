@@ -981,6 +981,13 @@ SI INSTALLATION DE inkscape, gimp ou firefox
 --------------------------------------------
 $ xdg-mime default kde4-okularApplication_pdf.desktop application/pdf
 
+7-3) VÉRIFICATIONS DE $HOME/.local/share/applications/mimetypes.list ( KDE 5 )
+==============================================================================
+Replace 'kde4-kwrite.desktop' with 'org.kde.kwrite.desktop'
+Replace 'kde4-kate.desktop' with 'org.kde.kate.desktop'
+Replace 'kde4-gwenview.desktop' with 'gwenview.desktop'
+
+
 
 8) RECOMPILATION DE MES PROGRAMMES
 ==================================
@@ -1142,7 +1149,7 @@ browser.sessionstore.max_tabs_undo to 0.
 !!! VOIR : /home/jnd/09-Documentation/20-Wine-Civ4/0-INSTALL/02-Installation-Civ4-Complete.txt
 
 
-12) BALOO KDE5
+13) BALOO KDE5
 =================================
 https://wiki.archlinux.org/index.php/KDE#Desktop_search_and_semantic_desktop
 https://community.kde.org/Baloo/Configuration

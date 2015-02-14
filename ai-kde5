@@ -66,12 +66,30 @@
             print_info_cyan "Montage Automatique de VBox Shared Folder pour JND."
             read_input_text "Monter automatiquement VBox Shared Folder pour JND ?"
             if [[ $OPTION == o ]]; then
+                liste_des_pc_hotes=("PC-John" "PC-Jnd")
+                PS3="$prompt1"
+                echo -e "Choisir le PC Hôte ( PC-John Windows 7 ou PC-Jnd Arch )"
+                select OPT in "${liste_des_pc_hotes[@]}"; do
+                    case "$REPLY" in
+                        1)
+                            name_rep_partage="Partage-Win7-WMs"
+                            break
+                            ;;
+                        2)
+                            name_rep_partage="90-Partage"
+                            break
+                            ;;
+                        *)
+                            invalid_option
+                            ;;
+                    esac
+                done
                 mkdir -p /home/${USERNAME}/vbox-shared-folder
                 chown -R ${USERNAME}:users /home/${USERNAME}/vbox-shared-folder
                 user_uid=`id -u ${USERNAME}`
                 user_gid=`id -g ${USERNAME}`
                 echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
-                echo -e '90-Partage     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
+                echo -e "$name_rep_partage"'     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
                 pause_function
             fi
         fi
