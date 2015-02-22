@@ -128,9 +128,9 @@
             print_info_cyan "Carte Vidéo Nvidia : Mise en place d'un drop-in pour sddm.service."
             read_input_text "Mettre en place un drop-in pour sddm.service ?"
             if [[ $OPTION == o ]]; then
-                cp -v ai-fconfig/etc-udev-rules.d-99-make-udev-drm-aware.rules /etc/udev/rules.d/99-make-udev-drm-aware.rules
-                mkdir -p /etc/systemd/system/sddm.service.d
-                cp -v ai-fconfig/etc-systemd-system-sddm.service.d-10-wait-for-card.conf /etc/systemd/system/sddm.service.d/10-wait-for-card.conf
+                cp -v ai-fconfig/etc-udev-rules.d-99-systemd-dri-devices.rules /etc/udev/rules.d/99-systemd-dri-devices.rules
+                mkdir -p /etc/systemd/system/display-manager.service.d
+                cp -v ai-fconfig/etc-systemd-system-display-manager.service.d-10-wait-for-dri-devices.conf /etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf
             fi
         fi
         #

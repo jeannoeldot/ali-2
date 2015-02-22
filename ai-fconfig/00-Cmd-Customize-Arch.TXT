@@ -290,6 +290,14 @@ https://wiki.archlinux.org/index.php/KDE#Inotify_folder_watch_limit
 $ sudo sh -c "echo '# Increase inotify watch limit' > /etc/sysctl.d/90-inotify.conf"
 $ sudo sh -c "echo 'fs.inotify.max_user_watches = 10000' >> /etc/sysctl.d/90-inotify.conf"
 
+OU SI
+-----
+$ journalctl -b | grep baloo
+févr. 18 17:08:22 arch1kde baloo_file[5918]: KDE Baloo Filewatch service reached the inotify folder watch limit. File changes may be ignored.
+
+$ sudo sh -c "echo 'fs.inotify.max_user_watches = 20000' >> /etc/sysctl.d/90-inotify.conf"
+
+
 
 !!! AVEC CORE 2 DUO
 !!! NE PAS FAIRE AVEC I7 HASWELL INTEL_PSTATE
@@ -699,7 +707,21 @@ SI default -> default
 # archlinux-java fix
 
 
-30) INSTALLATION DE ABS
+27) KDE 5 / Plasma 5 : ENTRÉES DANS JOURNAL
+============================================
+https://bbs.archlinux.org/viewtopic.php?id=193123
+https://git.reviewboard.kde.org/r/121903/diff/1/?file=338977#1
+
+$ sudo nano /usr/bin/startkde
+
+RAJOUTER LIGNES 12 À 14
+------------------------
+QT_LOGGING_RULES="*.debug=false"
+export QT_LOGGING_RULES
+
+--------------------
+
+90) INSTALLATION DE ABS
 ========================
 
 https://wiki.archlinux.org/index.php/VCS_PKGBUILD_Guidelines#Subversion
@@ -1166,6 +1188,11 @@ exclude folders[$e]=$HOME/90-BACKUP/,/0-DataLinux/
 $ balooctl status
 
 
+14) DOLPHIN KDE5
+=================
+Emplacements :
+Voir : /home/jnd/09-Fichiers-Conf/KDE5-Dolphin/
+/home/jnd/.local/share/user-places.xbel
 
 
 DANS OPEN-BOX / CK
@@ -1271,6 +1298,14 @@ ANCIEN
 !!! FAIT EN AUTOMATIQUE SI PAR MON SCRIPT AI-DE
 ===============================================
 $ yaourt -Syua kmix
+
+
+5-2) NEPOMUK : Création de /etc/sysctl.d/nepomuk.conf
+=============================================================================================
+https://wiki.archlinux.org/index.php/KDE#Desktop_search_and_semantic_desktop
+
+$ sudo sh -c "echo '# Increase the number of files that can be watched with inotify' > /etc/sysctl.d/nepomuk.conf"
+$ sudo sh -c "echo 'fs.inotify.max_user_watches = 524288' >> /etc/sysctl.d/nepomuk.conf"
 
 
 23/10/2014 : linux 3.17.1
