@@ -1059,7 +1059,7 @@ $ cat ~/.mozilla/firefox/profiles.ini
 
 # pacman -Syu jndqaligne5-qt4 jndqrami-qt4
 OU Versions Qt5
-# pacman -Syu jndqaligne5 jndqrami
+# pacman -Syu jndqaligne5-qt5 jndqrami-qt5
 
 # pacman -Syu jndqcbgrd
 
