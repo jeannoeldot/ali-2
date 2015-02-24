@@ -1192,9 +1192,27 @@ $ balooctl status
 =================
 Emplacements :
 Voir : /home/jnd/09-Fichiers-Conf/KDE5-Dolphin/
-/home/jnd/.local/share/user-places.xbel
+Voir : /home/jnd/.local/share/user-places.xbel.avec.mes.emplacements
+   ==> /home/jnd/.local/share/user-places.xbel
 
 
+15) Qt Creator
+===============
+
+Menu Outils -> Options -> C++ -> Qt Class Generation
+  O
+  O
+  X Multiple inheritance ( Héritaqe multiple )
+
+Menu Outils -> Options -> TODO
+  !!! Voir
+
+Menu Aide -> A propos des plug-ins...
+  Utilitaires : X Todo
+
+
+
+===================
 DANS OPEN-BOX / CK
 ===================
 
