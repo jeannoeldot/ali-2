@@ -1119,34 +1119,16 @@ Onglet Général : Dossier par défaut des machines :
 
 11) RÉGLAGES DANS FIREFOX
 ==========================================================
- 11-1) INSTALLATION DE "Dictionnaires français" DANS FIREFOX
- ===========================================================
 
-Menu Outils -> Modules Complémentaires
-Onglet Catalogue
-( A Droite ) En progression    Voir tous
-Rechercher : dictionnaires français
-
-https://addons.mozilla.org/fr/firefox/addon/dictionnaires-fran%C3%A7ais/?src=ss
-
-https://addons.mozilla.org/firefox/downloads/latest/354872/addon-354872-latest.xpi?src=ss
-
-
- 11-2) INSTALLATION DE "Bookmarks Checker - check for bad links" DANS FIREFOX
- ============================================================================
-  Extensions Bookmarks Checker - check for bad links 
-https://addons.mozilla.org/fr/firefox/addon/bookmarks-checker/?src=dp-dl-othersby
-
-
- 11-9) RÉGLAGES DANS FIREFOX
- ===========================
+ 11-1) RÉGLAGES GÉNÉRAUX
+ =======================
  
- about:config
- ------------
- network.http.pipelining  => true
- network.http.pipelining.maxrequests => 8
- network.http.proxy.pipelining => true
- 
+Sur Barre Ongets -> Clic Droit -> X Barre de Menus
+
+Menu
+----
+Affichage -> Panneau latéral -> X Marque-pages
+
 Edition -> Préférences -> Général
  v Toujours demander où enregistrer les fichiers
  
@@ -1154,14 +1136,41 @@ Edition -> Préférences -> Avancé -> Général -> Navigation
  v Utiliser le défilement automatique
  v Utiliser le défilement doux
 
+ about:config
+ ------------
+ network.http.pipelining  => true
+ network.http.pipelining.maxrequests => 8
+ network.http.proxy.pipelining => true
+ 
+ Libérer la mémoire après fermeture d'un onglet :
+ browser.sessionstore.max_tabs_undo => 0
+
+
 Marque-pages -> Importation et sauvegarde -> Importer HTML
 /home/jnd/09-Fichiers-Conf/bookmarks-2013-12-01.html
 OU
 --
 Se synchroniser pour récupérer les bookmarks
+Edition -> Préférences -> Sync -> Se connecter
 
-Libérer la mémoire après fermeture d'un onglet :
-browser.sessionstore.max_tabs_undo to 0.
+ 11-2) INSTALLATION DE "Dictionnaires français" DANS FIREFOX
+ ===========================================================
+
+Menu Outils -> Modules Complémentaires
+Onglet Catalogue
+En HAUT - A DROITE : Rechercher : dictionnaires français
+==> Dictionnaires français 5.3 -> Installer
+
+https://addons.mozilla.org/fr/firefox/addon/dictionnaires-fran%C3%A7ais/?src=ss
+
+https://addons.mozilla.org/firefox/downloads/latest/354872/addon-354872-latest.xpi?src=ss
+
+
+ 11-9) INSTALLATION DE "Bookmarks Checker - check for bad links" DANS FIREFOX
+ ============================================================================
+  Extensions Bookmarks Checker - check for bad links 
+https://addons.mozilla.org/fr/firefox/addon/bookmarks-checker/?src=dp-dl-othersby
+
 
 
 12) INSTALLATION DE WINE
@@ -1183,7 +1192,7 @@ Indexing-Enabled=true
 
 ...
 
-exclude folders[$e]=$HOME/90-BACKUP/,/0-DataLinux/
+exclude folders[$e]=$HOME/02-git/,$HOME/90-BACKUP/,/0-DataLinux/
 
 $ balooctl status
 
@@ -1310,6 +1319,9 @@ OU
 ==========================================================
 ANCIEN
 ==========================================================
+( A Droite ) En progression    Voir tous
+Rechercher : dictionnaires français
+
 
 12) KMIX KDE5
 =================================
