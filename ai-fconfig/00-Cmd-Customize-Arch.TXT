@@ -1061,13 +1061,11 @@ $ cat ~/.mozilla/firefox/profiles.ini
 OU Versions Qt5
 # pacman -Syu jndqaligne5-qt5 jndqrami-qt5
 
-# pacman -Syu jndqcbgrd
+# pacman -Syu jndqcbgrd-qt5
 
 # pacman -Syu konvertible
 # pacman -Syu pkgbrowser
 # pacman -Syu sysbench
-# pacman -Syu i7z-git
-!!! TEST # i7z
 
 # pacman -Syu amaya
 
@@ -1235,9 +1233,6 @@ SI 05-builds N'EXISTE PAS
 ==============================
 $ cd && mkdir ~/05-builds && mkdir ~/05-builds/0-chroot
 
-$ yaourt -Syua i7z-git
-!!! TEST EN ROOT : i7z
-
 $ yaourt -Syua turbostat
 !!! => ERREUR
 
@@ -1319,6 +1314,15 @@ OU
 ==========================================================
 ANCIEN
 ==========================================================
+
+!!! INUTILE : SUR community
+# pacman -Syu i7z-git
+!!! TEST # i7z
+
+$ yaourt -Syua i7z-git
+!!! TEST EN ROOT : i7z
+
+
 ( A Droite ) En progression    Voir tous
 Rechercher : dictionnaires français
 
