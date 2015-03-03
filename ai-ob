@@ -261,7 +261,7 @@
             print_title "PERSONNALISATION DE OPENBOX"
             echo " 1) $(menu_item "adwaita-x-dark-and-light-theme" "GTK Themes") $AUR"
             echo " 2) $(menu_item "faenza-icon-theme" "Icones Themes")"
-            echo " 3) $(menu_item "xcompmgr")"
+            echo " 3) $(menu_item "compton-git") $AUR"
             echo " 4) $(menu_item "scrot")"
             echo " 5) $(menu_item "xfburn")"
             echo " 6) $(menu_item "xarchiver")"
@@ -286,9 +286,10 @@
                         OPT=2
                         ;;
                     3)
-                        package_install "xcompmgr transset-df"
-                        if is_package_installed "xcompmgr" ; then
-                            sed -i "s/#xcompmgr/xcompmgr/" /home/${USERNAME}/.config/openbox/autostart
+                        aur_package_install "compton-git"
+                        if is_package_installed "compton-git" ; then
+                            sed -i "s/#compton/compton/g" /home/${USERNAME}/.config/openbox/autostart
+                            cp -v ai-fconfig/ob-user-.config-compton.conf /home/${USERNAME}/.config/compton.conf
                             chown -R ${USERNAME}:users /home/${USERNAME}/.config
                         fi
                         ;;
@@ -302,7 +303,7 @@
                         package_install "xarchiver"
                         ;;
 		    7)
-			package_install "xorg-xcalc"
+			package_install "xorg-xcalc xorg-fonts-100dpi xorg-fonts-75dpi"
 			;;
                     8)
                         package_install "pcmanfm polkit-gnome gvfs"

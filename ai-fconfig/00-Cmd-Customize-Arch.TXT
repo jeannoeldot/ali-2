@@ -1302,6 +1302,48 @@ $ rm -f 00-Conky.tar.xz
 !!! VOIR : /home/jnd/00-Conky/0-COMMANDES TEST CONKY.TXT
 
 
+INSTALLATION  DE COMPTON-GIT
+============================
+
+https://wiki.archlinux.org/index.php/Compton
+
+https://aur.archlinux.org/packages/compton/
+
+https://github.com/chjj/compton/blob/master/compton.sample.conf
+https://github.com/chjj/compton/blob/master/man/compton.1.asciidoc
+
+$ yaourt -Syua compton-git
+
+https://github.com/chjj/compton/blob/master/compton.sample.conf
+	==> Raw
+	==> Clic Droit -> Enregistrer sous
+	==> /home/jnd/Téléchargements/compton.sample.conf
+	
+	
+$ cp -v /home/jnd/Téléchargements/compton.sample.conf ~/.config/compton.conf
+
+$ cd ~/.config
+
+==> Dans ~/.config : Clic Droit sur compton.conf -> Ouvrir -> Geany
+
+==> Dans ~/.config/openbox : Clic Droit sur autostart -> Ouvrir -> Geany
+==> Rajouter :
+
+## Compositing
+compton --config ~/.config/compton.conf -b &
+
+==> Clic Droit sur Bureau (menu OpenBox) -> Reconfigure OpenBox
+
+TESTS
+======
+
+LXTerminal : semble OK
+
+SpaceFM , Firefox , Geany : semble OK
+
+
+
+
 INSTALLATION DE LINUX-CK
 =================================
 
