@@ -135,6 +135,14 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Gestion Revenu Dépenses" icon="/usr/share/pixmaps/jndqcbgrd.png">
+    <action name="Execute">
+      <command>jndqcbgrd</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
   <item label="LibreOffice Base" icon="/usr/share/icons/hicolor/48x48/apps/libreoffice-base.png">
     <action name="Execute">
       <command>loffice --base</command>
@@ -314,7 +322,7 @@
   </item>
   <item label="Aligne5" icon="/usr/share/pixmaps/jndqaligne5.png">
     <action name="Execute">
-      <command>jndqrami</command>
+      <command>jndqaligne5</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
@@ -377,6 +385,14 @@
   <item label="Qt Assistant" icon="/usr/share/icons/hicolor/32x32/apps/assistant.png">
     <action name="Execute">
       <command>assistant-qt5</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Qt Linguist" icon="/usr/share/icons/hicolor/64x64/apps/linguist.png">
+    <action name="Execute">
+      <command>linguist-qt5</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
