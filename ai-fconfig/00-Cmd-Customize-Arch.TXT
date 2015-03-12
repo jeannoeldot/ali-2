@@ -871,6 +871,8 @@ $ cd && mkdir ~/90-BACKUP && mkdir ~/90-Partage && mkdir ~/99-A-IMPRIM && mkdir 
 !!! A VOIR !!!
 VirtualBox-VMs -> /0-DataLinux/VirtualBox-VMs
 
+$ ln -sf /0-DataLinux/00-3D /home/jnd/00-3D
+
 
 2) FOND ECRAN
 =============
@@ -1228,6 +1230,13 @@ SI CURSEUR SOURIS TROP GRAND
 
 Voir : https://wiki.archlinux.org/index.php/Cursor#Using_X_resources
 
+LIENS SYMBOLIQUES
+=====================
+
+$ ln -sf /0-DataLinux/00-3D /home/jnd/00-3D
+...
+...
+
 
 SI 05-builds N'EXISTE PAS
 ==============================
@@ -1270,13 +1279,41 @@ $ profile-cleaner f
 
 $ yaourt -Syua sysbench
 
-SI 00-repolocal N'EXISTE PAS
-==============================
+REPOLOCAL
+=============
 $ mkdir /home/jnd/00-repolocal
+
+$ mkdir /home/jnd/00-repolocal/pkg-OLD
+
+ PACMAN.CONF : Edition fichier /etc/pacman.conf
+ ==============================================
+$ sudo cp /etc/pacman.conf /etc/pacman.conf.backup.moi
+
+$ sudo sed -i "/^#Server = file/a\\\n[repolocal]\nSigLevel = Optional TrustAll\nServer = file:///home/jnd/00-repolocal" /etc/pacman.conf
+
+ 00-repolocal
+ ============
 
 $ cp -v /0-DataLinux/00-ARCH_2-OB-CK/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /home/jnd/00-repolocal/
 
-$ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
+$ cd && maj-repolocal
+
+$ sudo pacman -Syyu
+
+$ sudo pacman -Syu ghnomix-icon-theme
+
+!!! VOIR Intallation de mes paquets
+-----------------------------------
+jndqaligne5-qt5 0.5.0-1
+jndqcbgrd-qt5 0.1.7-2
+jndqrami-qt5 0.2.1-1
+
+!!! VOIR Intallation de blender-git (+ dep oiio et osl)
+-------------------------------------------------------
+blender-git
+openimageio-git
+openshadinglanguage-git
+
 
 LM_SENSORS
 ===============
@@ -1356,6 +1393,8 @@ OU
 ==========================================================
 ANCIEN
 ==========================================================
+
+$ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
 
 !!! INUTILE : SUR community
 # pacman -Syu i7z-git

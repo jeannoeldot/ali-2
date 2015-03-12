@@ -57,6 +57,8 @@ $ profile-cleaner f
 
 $ maj-mirrorlist
 
+$ maj-repolocal
+
 
 MAJ PSD.SERVICE OU MAJ firefox-extension-https-everywhere
 =========================================================

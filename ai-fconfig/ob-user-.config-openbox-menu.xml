@@ -424,11 +424,14 @@
       <prompt>yes</prompt>
     </action>
   </item>
+  <item icon="/usr/share/icons/Faenza/apps/96/gnome-session-suspend.png" label="Mise en veille">
+	<action name="Execute">
+	  <command>systemctl suspend</command>
+	</action>
+  </item>
   <item icon="/usr/share/icons/Faenza/actions/96/application-exit.png" label="Quitter...">
 	<action name="Execute">
-	  <command>
-		/home/jnd/bin/ob-quitter.sh
-	  </command>
+	  <command>/home/jnd/bin/ob-quitter.sh</command>
 	</action>
   </item>
 </menu>
