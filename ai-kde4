@@ -50,7 +50,7 @@
         package_install "okteta kate kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE4 FONTS
         print_info_cyan "Installation de KDE4 Polices TTF"
-	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"
+	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen ttf-bitstream-vera"
         # LSB-RELEASE
         print_info_cyan "Installation de lsb-release"
         package_install "lsb-release"

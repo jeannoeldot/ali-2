@@ -617,8 +617,10 @@ source `pwd`/ai-commons
 #        print_info "systemd est un système d'initialisation qui remplace sysvinit. Il permet entre autre un démarrage en parallèle, à la demande, par activation D-Bus ou socket, un suivi des services, etc..."
 #        package_install "systemd systemd-sysvcompat"
         print_info "Installation des dépendances optionnelles de systemd."
-        package_install "python2-cairo python2-gobject"
-        pacman -D --asdeps python2-cairo python2-gobject
+        package_install "systemd-sysvcompat"
+        pacman -D --asdeps systemd-sysvcompat
+#         package_install "python2-cairo python2-gobject"
+#         pacman -D --asdeps python2-cairo python2-gobject
         # Modifs conf
         print_info_cyan "Ajout de ${USERNAME} au groupe systemd-journal."
         gpasswd -a ${USERNAME} systemd-journal
