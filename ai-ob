@@ -66,7 +66,7 @@
         mkdir -p /home/${USERNAME}/.local/share
         chown -R ${USERNAME}:users /home/${USERNAME}/.local
 	#create a xinitrc file in home user directory
-	cp -f /etc/skel/.xinitrc /home/${USERNAME}/
+	cp -vf /etc/skel/.xinitrc /home/${USERNAME}/
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
             echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
         fi
