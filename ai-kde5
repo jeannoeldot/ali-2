@@ -24,6 +24,8 @@
         package_install "oxygen-icons oxygen-icons-svg"
 	package_install "oxygen-gtk2 oxygen-gtk3 oxygen-kde4"
         package_install "qtcurve-gtk2 qtcurve-qt4 qtcurve-qt5 breeze-kde4"
+        # GTK theme matching Breeze
+        package_install "gtk-theme-orion"
         # KDE5 UTILS
         print_info_cyan "Installation de KDE5 Utils"
         package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"

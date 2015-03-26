@@ -65,8 +65,10 @@
         chown -R ${USERNAME}:users /home/${USERNAME}/.config
         mkdir -p /home/${USERNAME}/.local/share
         chown -R ${USERNAME}:users /home/${USERNAME}/.local
-	#create a xinitrc file in home user directory
-	cp -vf /etc/skel/.xinitrc /home/${USERNAME}/
+        #create a xinitrc file in home user directory
+#       Supprimé suite à maj xorg-xinit 1.3.4
+#       cp -vf /etc/skel/.xinitrc /home/${USERNAME}/
+        cp -vf ai-fconfig/ob-user-.xinitrc /home/${USERNAME}/.xinitrc
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
             echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
         fi
