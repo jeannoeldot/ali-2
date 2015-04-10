@@ -1192,7 +1192,7 @@ Indexing-Enabled=true
 
 ...
 
-exclude folders[$e]=$HOME/02-git/,$HOME/90-BACKUP/,/0-DataLinux/
+exclude folders[$e]=$HOME/02-git/,$HOME/90-BACKUP/,/0-DataLinux/,$HOME/05-builds/0-chroot/
 
 $ balooctl status
 
