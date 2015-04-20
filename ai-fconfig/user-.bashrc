@@ -48,5 +48,6 @@ export HISTIGNORE='&:ls:ll:la:cd:exit:clear:history'
 ### ALIAS
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-
+#
+alias maj='su -c "pacman -Syu" -'
 

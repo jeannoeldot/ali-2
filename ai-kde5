@@ -28,7 +28,7 @@
         package_install "gtk-theme-orion"
         # KDE5 UTILS
         print_info_cyan "Installation de KDE5 Utils"
-        package_install "kdeutils-ark kdeutils-filelight kdeutils-kcalc kdeutils-kcharselect kdeutils-kdf"
+        package_install "kdeutils-ark filelight kcalc kcharselect kdeutils-kdf"
 #         # KDE5 PLASMA
 #         print_info_cyan "Installation de KDE5 Plasma Addons Applets"
 # 	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
@@ -47,7 +47,7 @@
 # 	package_install "kdenetwork-kget kwebkitpart"
         # KDE5 SDK
         print_info_cyan "Installation de KDE5 Sdk"
-        package_install "okteta kate kdesdk-dolphin-plugins kdesdk-kioslaves kdesdk-kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
+        package_install "okteta kate kdesdk-dolphin-plugins kdesdk-kioslaves kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE5 FONTS
         print_info_cyan "Installation de KDE5 Polices TTF"
 	package_install "ttf-bitstream-vera ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen"
