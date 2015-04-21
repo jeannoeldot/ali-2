@@ -1205,7 +1205,23 @@ Voir : /home/jnd/.local/share/user-places.xbel.avec.mes.emplacements
    ==> /home/jnd/.local/share/user-places.xbel
 
 
-15) Qt Creator
+15) KWALLET KDE5
+=================
+$ kcmshell4 kwalletconfig
+  Décocher : Activer le sous-système de portefeuilles de KDE
+
+  Appliquer ( Mot de passe de jnd )
+  
+OU :
+
+$ kwalletmanager
+
+Menu K -> Système -> Outils de gestion de portefeuilles (KwalletManager)
+                  -> Configuration -> Configurer un portefeuille
+
+
+
+20) Qt Creator
 ===============
 
 Menu Outils -> Options -> C++ -> Qt Class Generation
