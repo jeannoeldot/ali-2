@@ -12,12 +12,6 @@
 #ARCHLINUX INSTALL
     # 15 DESKTOP ENVIRONMENT {{{
     install_desktop_environment() {
-        install_display_manager() { #{{{
-	    # SLIM
-	    package_install "slim"
-	    systemctl enable slim.service
-#	    pause_function
-        } #}}}
         # OPENBOX {{{
         print_title "OPENBOX - http://wiki.archlinux.org/index.php/Openbox"
         print_info "Openbox est un gestionnaire de fenêtres très léger, simple et configurable."
@@ -65,16 +59,6 @@
         chown -R ${USERNAME}:users /home/${USERNAME}/.config
         mkdir -p /home/${USERNAME}/.local/share
         chown -R ${USERNAME}:users /home/${USERNAME}/.local
-        #create a xinitrc file in home user directory
-#       Supprimé suite à maj xorg-xinit 1.3.4
-#       cp -vf /etc/skel/.xinitrc /home/${USERNAME}/
-        cp -vf ai-fconfig/ob-user-.xinitrc /home/${USERNAME}/.xinitrc
-        if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
-            echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
-        fi
-	echo -e "exec openbox-session" >> /home/${USERNAME}/.xinitrc
-	chmod +x /home/${USERNAME}/.xinitrc
-	chown -R ${USERNAME}:users /home/${USERNAME}/.xinitrc
         #}}}
 ##
 # TODO
@@ -128,22 +112,39 @@
                 grub-mkconfig -o /boot/grub/grub.cfg
                 echo ""
             fi
-            read_input_text "Autologin pour JND sans Slim ?"
+            read_input_text "Autologin pour JND sans Gestionnaire de Connexion ?"
             if [[ $OPTION == o ]]; then
-              # Autologin sans Slim
-              echo -e '\n# Autologin for JND' >> /home/${USERNAME}/.bash_profile
-              echo -e '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx' >> /home/${USERNAME}/.bash_profile
-              cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
-              sed -i 's/--noclear/--noclear -a '${USERNAME}'/' /etc/systemd/system/autologin@.service
-              systemctl disable getty@tty1
-              systemctl enable autologin@tty1
+                # Autologin sans Gestionnaire de Connexion
+                echo -e '\n# Autologin for JND' >> /home/${USERNAME}/.bash_profile
+                echo -e '[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx' >> /home/${USERNAME}/.bash_profile
+                cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
+                sed -i 's/--noclear/--noclear -a '${USERNAME}'/' /etc/systemd/system/autologin@.service
+                systemctl disable getty@tty1
+                systemctl enable autologin@tty1
+                #create a xinitrc file in home user directory
+                cp -vf ai-fconfig/ob-user-.xinitrc /home/${USERNAME}/.xinitrc
+                if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                    echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
+                fi
+                echo -e "exec openbox-session" >> /home/${USERNAME}/.xinitrc
+                chown -R ${USERNAME}:users /home/${USERNAME}/.xinitrc
             else
-              #install_display_manager SLIM
-              print_info_cyan "Installation de Slim."
-              install_display_manager
-              # system slim
-              cp -R ai-fconfig/ob-usr-share-slim-themes-archlinux-jnd /usr/share/slim/themes/archlinux-jnd
-              cp -v ai-fconfig/ob-etc-slim.conf /etc/slim.conf
+                #install_display_manager LightDM
+                print_info_cyan "Installation du Gestionnaire de Connexion LightDM."
+                package_install "lightdm lightdm-gtk-greeter"
+                # system LightDM
+                sed -i "/^#greeter-session=example-gtk-gnome/c\greeter-session=lightdm-gtk-greeter" /etc/lightdm/lightdm.conf
+                sed -i "/^#greeter-setup-script=/c\greeter-setup-script=/usr/bin/numlockx on" /etc/lightdm/lightdm.conf
+                cp -vf ai-fconfig/ob-lightdm-skyzl1-1920x1080.jpg /usr/share/pixmaps/skyzl1-1920x1080.jpg
+                sed -i "/^#background=/c\background=/usr/share/pixmaps/skyzl1-1920x1080.jpg" /etc/lightdm/lightdm-gtk-greeter.conf
+                
+                systemctl enable lightdm.service
+                
+                cp -vf ai-fconfig/ob-user-.xinitrc /home/${USERNAME}/.xprofile
+                if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                    echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xprofile
+                fi
+                chown -R ${USERNAME}:users /home/${USERNAME}/.xprofile
             fi
             # system sudoers
             echo -e '\n## My Cmnd alias' >> /etc/sudoers
@@ -244,6 +245,15 @@
             aur_package_install "zukitwo-themes"
             aur_package_install "awoken-icons"
 #            gtk-update-icon-cache -f /usr/share/icons/Ghnomix
+            pause_function
+        else
+            #create a xinitrc file in home user directory
+            cp -vf ai-fconfig/ob-user-.xinitrc /home/${USERNAME}/.xinitrc
+            if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
+                echo -e "/usr/bin/VBoxClient-all &" >> /home/${USERNAME}/.xinitrc
+            fi
+            echo -e "exec openbox-session" >> /home/${USERNAME}/.xinitrc
+            chown -R ${USERNAME}:users /home/${USERNAME}/.xinitrc
             pause_function
         fi
 	#}}}

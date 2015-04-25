@@ -7,7 +7,7 @@ MAJ SYSTEM ARCHLINUX
 ====================
 !!! ROOT
 $ su -
-# pacman -Syu
+# pacman -Syu   OU  # maj
 
 !!! USER
 $ yaourt -Syua
@@ -76,6 +76,21 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
 $ profile-sync-daemon preview
+
+
+MAJ GROUP/GSHADOW/PASSWD/SHADOW
+===============================
+
+# merge_pacnew_group -c
+# merge_pacnew_gshadow -c
+# merge_pacnew_passwd -c
+# merge_pacnew_shadow -c
+
+# pwck -r   ( répondre y )
+# grpck -r  ( répondre y )
+
+
+
 
 
 
