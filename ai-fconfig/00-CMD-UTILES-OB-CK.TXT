@@ -48,9 +48,11 @@ Clic Droit -> Ouvrir -> Exécuter
 
 BACKUP
 ===========
-
 $ cd && backup
 
+
+AUTRES COMMANDES UTILES
+=======================
 $ systemd-analyze && systemd-analyze blame
 
 $ profile-cleaner f

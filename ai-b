@@ -263,7 +263,7 @@ else
     # PARTIE 1 HORS CHROOT
     #
     print_title "https://wiki.archlinux.org/index.php/Arch_Install_Scripts"
-    print_info "Les Arch Install Scripts sont un ensemble de scripts Bash qui simplifie l'installation de Archlinux."
+    print_info "Les «Arch Install Scripts» sont un ensemble de scripts Bash qui simplifient l'installation de Archlinux."
     #
     print_info_cyan "INSTALLATION PARTIE 1 HORS CHROOT."
     # Editeur par défaut
