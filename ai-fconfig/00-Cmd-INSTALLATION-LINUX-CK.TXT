@@ -61,7 +61,7 @@ ck-haswell virtualbox-ck-guest-modules-haswell
 ck-haswell virtualbox-ck-host-modules-haswell
 
 
-# pacman -S linux-ck-haswell linux-ck-haswell-headers nvidia-ck-haswell
+# pacman -S linux-ck-haswell nvidia-ck-haswell
 
 Downloads interrupt regularly
 ===============================
@@ -406,7 +406,13 @@ Onglet Général : Dossier par défaut des machines :
   ==> /home/jnd/VirtualBox-VMs
   
 
+VÉRIFICATIONS
+=============
 
+# pacman -Sl repo-ck | grep install
+repo-ck linux-ck-haswell 4.0-1 [installé]
+repo-ck nvidia-ck-haswell 349.16-2 [installé]
+repo-ck virtualbox-ck-host-modules-haswell 4.3.26-4 [installé]
 
 
 

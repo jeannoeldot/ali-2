@@ -55,24 +55,42 @@ source `pwd`/ai-commons
     configure_mirrorlist() {
         print_title "MIRRORS - https://wiki.archlinux.org/index.php/Mirrors"
         print_info "Configure le fichier /etc/pacman.d/mirrorlist avec les serveurs FR."
+        local retour=9
+        local date_du_jour=$(date +%Y-%m-%d)
         local url="https://www.archlinux.org/mirrorlist/?country=FR&use_mirror_status=on"
         local tmpfile=$(mktemp --suffix=-mirrorlist)
         # Get latest mirror list and save to tmpfile
         curl -so ${tmpfile} ${url}
-        sed -i "s/^#Server/Server/g" ${tmpfile}
-        sed -i "/^## Score/d" ${tmpfile}
         # Backup and replace current mirrorlist file (if new file is non-zero)
         if [[ -s ${tmpfile} ]]; then
-            print_info_cyan "Configuration du fichier /etc/pacman.d/mirrorlist."
-            mv -i /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.original
-            mv -i ${tmpfile} /etc/pacman.d/mirrorlist
-            chmod +r /etc/pacman.d/mirrorlist
+            date_Generated=$(cat "${tmpfile}" | awk '/Generated/ {print $4}')
+            if [[ ${date_Generated} == ${date_du_jour} ]]; then
+                print_info_cyan "Configuration du fichier /etc/pacman.d/mirrorlist."
+                sed -i "s/^#Server/Server/g" ${tmpfile}
+                sed -i "/^## Score/d" ${tmpfile}
+                mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.original
+                mv ${tmpfile} /etc/pacman.d/mirrorlist
+                chmod +r /etc/pacman.d/mirrorlist
+                retour=0
+            else
+                retour=1
+            fi
         else
-            print_info_cyan "Échec de la configuration du fichier /etc/pacman.d/mirrorlist."
+            retour=1
         fi
-        echo -e  "\nEdition du fichier mirrorlist avec $EDITOR"
-        pause_function
-        $EDITOR /etc/pacman.d/mirrorlist
+        # Fin ou Erreur
+        if [[ $retour -eq 1 ]]; then
+            print_warning "Échec de la configuration du fichier /etc/pacman.d/mirrorlist."
+            mv /etc/pacman.d/mirrorlist.original /etc/pacman.d/mirrorlist
+            chmod +r /etc/pacman.d/mirrorlist
+            echo -e  "\nEdition manuelle du fichier mirrorlist avec $EDITOR"
+            pause_function
+            $EDITOR /etc/pacman.d/mirrorlist
+        else
+            echo -e  "\nVisualisation et/ou édition du fichier mirrorlist avec $EDITOR"
+            pause_function
+            $EDITOR /etc/pacman.d/mirrorlist
+        fi
     }
     #}}}
     #INSTALL BASE SYSTEM {{{
