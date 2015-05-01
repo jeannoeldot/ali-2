@@ -243,7 +243,7 @@ source `pwd`/ai-commons
 
 #ARCHLINUX INSTALL SCRIPTS - https://github.com/jeannoeldot/arch_install/ai-b2
     print_title "https://wiki.archlinux.org/index.php/Arch_Install_Scripts"
-    print_info "Les Arch Install Scripts sont un ensemble de scripts Bash qui simplifie l'installation de Archlinux."
+    print_info "Les «Arch Install Scripts» sont un ensemble de scripts Bash qui simplifient l'installation de Archlinux."
     print_info_cyan "INSTALLATION PARTIE 2 DANS CHROOT."
     #
     print_info_cyan "Mise à jour de la base de pacman"
