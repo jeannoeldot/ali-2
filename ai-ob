@@ -689,12 +689,15 @@
                     sed -i "s/chromium/midori/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 3)
-                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web"
+                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus icedtea-web"
                     aur_package_install "firefox-extension-https-everywhere"
+                    aur_package_install "freshplayerplugin"
+                    aur_package_install "chromium-pepper-flash"
                     sed -i "s/chromium/firefox/g" /home/${USERNAME}/.config/fbpanel/default
                     ;;
                 4)
-                    package_install "opera flashplugin icedtea-web"
+                    package_install "opera icedtea-web"
+                    aur_package_install "chromium-pepper-flash"
                     sed -i "s/chromium.png/opera-browser.png/" /home/${USERNAME}/.config/fbpanel/default
                     sed -i "s/chromium/opera/" /home/${USERNAME}/.config/fbpanel/default
                     ;;

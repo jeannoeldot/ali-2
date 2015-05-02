@@ -459,17 +459,6 @@ $ cat /etc/resolv.conf
 # cp -v ai/ai-fconfig/net-ip-statique/resolv.conf.head /etc/resolv.conf.head
 
 
-11) ADOBE FLASHPLUGIN : Edition fichier /etc/adobe/mms.cfg
-================================================================
-SI NVDIA
-----------
-$ sudo sed -i "/^#EnableLinuxHWVideoDecode=1/c\EnableLinuxHWVideoDecode=1" /etc/adobe/mms.cfg
-
-SI FLASH PLANTE :
------------------
-$ sudo sed -i "/^#EnableLinuxHWVideoDecode=1/c\EnableLinuxHWVideoDecode=0" /etc/adobe/mms.cfg
-
-
 12) SYSTEMD : Masquer services
 ==============================
 
@@ -1031,6 +1020,22 @@ OU
 
 # pacman -Syu firefox-https-everywhere
 
+INSTALLATION DE freshplayerplugin ET chromium-pepper-flash POUR FIREFOX
+-----------------------------------------------------------------------
+# pacman -R flashplugin
+
+$ rm -rf /home/jnd/.adobe
+$ rm -rf /home/jnd/.macromedia
+
+# pacman -Syu freshplayerplugin chromium-pepper-flash
+
+VÉRIFICATION dans firefox : about:addons
+
+Shockwave Flash 17.0.0.169
+                17.0 r0
+
+
+
 !!! VOIR https://wiki.archlinux.org/index.php/Profile-sync-daemon
 # pacman -Syu profile-sync-daemon profile-cleaner
 # nano -w /etc/psd.conf
@@ -1051,6 +1056,7 @@ USE_OVERLAYFS="yes"
 # systemctl status psd-resync.service
 $ profile-sync-daemon preview
 $ cat ~/.mozilla/firefox/profiles.ini
+
 
 
 !!! openimageio-git
@@ -1355,7 +1361,7 @@ $ rm -f 00-Conky.tar.xz
 !!! VOIR : /home/jnd/00-Conky/0-COMMANDES TEST CONKY.TXT
 
 
-INSTALLATION  DE COMPTON-GIT
+INSTALLATION DE COMPTON-GIT
 ============================
 
 https://wiki.archlinux.org/index.php/Compton
@@ -1395,6 +1401,41 @@ LXTerminal : semble OK
 SpaceFM , Firefox , Geany : semble OK
 
 
+INSTALLATION DE FRESHPLAYERPLUGIN ET CHROMIUM-PEPPER-FLASH
+==========================================================
+SI FIREFOX INSTALLÉ
+--------------------
+
+https://aur.archlinux.org/packages/freshplayerplugin/
+
+https://aur.archlinux.org/packages/chromium-pepper-flash/
+
+1) SUPPRESSION flashplugin si installé
+---------------------------------------
+$ pacman -Ss flashplugin
+extra/flashplugin 11.2.202.457-1 [installé]
+    Adobe Flash Player
+
+$ sudo pacman -R flashplugin
+
+$ rm -rf /home/jnd/.adobe
+$ rm -rf /home/jnd/.macromedia
+
+2) INSTALLATION freshplayerplugin et chromium-pepper-flash
+----------------------------------------------------------
+
+$ yaourt -Syua freshplayerplugin
+
+$ yaourt -Syua chromium-pepper-flash
+
+3) VÉRIFICATION
+----------------
+Dans firefox : about:addons
+
+Shockwave Flash 17.0.0.169
+                17.0 r0
+
+
 
 
 INSTALLATION DE LINUX-CK
@@ -1406,9 +1447,24 @@ OU
 OU
 !!! VOIR : /0-DataLinux/ARCH-OB-CK-INSTALLATION DE LINUX-CK.TXT
 
-==========================================================
+
+
+
+
+====================================================================================================
 ANCIEN
 ==========================================================
+
+11) ADOBE FLASHPLUGIN : Edition fichier /etc/adobe/mms.cfg
+================================================================
+SI NVDIA
+----------
+$ sudo sed -i "/^#EnableLinuxHWVideoDecode=1/c\EnableLinuxHWVideoDecode=1" /etc/adobe/mms.cfg
+
+SI FLASH PLANTE :
+-----------------
+$ sudo sed -i "/^#EnableLinuxHWVideoDecode=1/c\EnableLinuxHWVideoDecode=0" /etc/adobe/mms.cfg
+
 
 $ sudo pacman -U /home/jnd/00-repolocal/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
 

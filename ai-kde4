@@ -524,11 +524,14 @@
                     package_install "rekonq icedtea-web"
                     ;;
                 3)
-                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus flashplugin icedtea-web"
+                    package_install "firefox firefox-i18n-$LANGUAGE_FF firefox-adblock-plus icedtea-web"
 #                    aur_package_install "firefox-extension-https-everywhere"
+#                    aur_package_install "freshplayerplugin"
+#                    aur_package_install "chromium-pepper-flash"
                     ;;
                 4)
-                    package_install "opera flashplugin icedtea-web"
+                    package_install "opera icedtea-web"
+                    aur_package_install "chromium-pepper-flash"
                     ;;
                 5)
                     package_install "transmission-qt"
