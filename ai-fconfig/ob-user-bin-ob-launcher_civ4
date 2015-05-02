@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 case $1 in
 	civ4) env WINEPREFIX=/home/jnd/.wine wine "/home/jnd/.wine/drive_c/Program Files/2K Games/Firaxis Games/Sid Meier's Civilization 4 Complete/Civilization4.exe"
 			;;

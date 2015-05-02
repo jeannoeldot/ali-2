@@ -208,12 +208,12 @@ Plugin {
 #        button {
 #            image = /usr/share/icons/hicolor/48x48/apps/terminator.png
 #            tooltip = Terminal
-#            action = ob-terminator.sh
+#            action = ob-terminator
 #        }
         button {
             image = /usr/share/icons/hicolor/128x128/apps/lxterminal.png
             tooltip = LxTerminal
-            action = ob-lxterminal.sh
+            action = ob-lxterminal
         }
 	    button {
             image = /usr/share/icons/hicolor/48x48/apps/chromium.png

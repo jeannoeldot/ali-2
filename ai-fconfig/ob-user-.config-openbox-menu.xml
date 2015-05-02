@@ -431,7 +431,7 @@
   </item>
   <item icon="/usr/share/icons/Faenza/actions/96/application-exit.png" label="Quitter...">
 	<action name="Execute">
-	  <command>/home/jnd/bin/ob-quitter.sh</command>
+	  <command>/home/jnd/bin/ob-quitter</command>
 	</action>
   </item>
 </menu>

@@ -218,13 +218,13 @@
             print_info_cyan "Installation des dépendances de openbox-logout."
             package_install "python2-pillow"
             cp -R ai-fconfig/ob-user-bin-openbox-logout /home/${USERNAME}/bin/openbox-logout
-            cp -v ai-fconfig/ob-user-bin-ob-quitter.sh /home/${USERNAME}/bin/ob-quitter.sh
+            cp -v ai-fconfig/ob-user-bin-ob-quitter /home/${USERNAME}/bin/ob-quitter
             chmod +x /home/${USERNAME}/bin/openbox-logout/ob_logout.py
-            chmod +x /home/${USERNAME}/bin/ob-quitter.sh
-            cp -v ai-fconfig/ob-user-bin-ob-terminator.sh /home/${USERNAME}/bin/ob-terminator.sh
-            chmod +x /home/${USERNAME}/bin/ob-terminator.sh
-            cp -v ai-fconfig/ob-user-bin-ob-lxterminal.sh /home/${USERNAME}/bin/ob-lxterminal.sh
-            chmod +x /home/${USERNAME}/bin/ob-lxterminal.sh
+            chmod +x /home/${USERNAME}/bin/ob-quitter
+            cp -v ai-fconfig/ob-user-bin-ob-terminator /home/${USERNAME}/bin/ob-terminator
+            chmod +x /home/${USERNAME}/bin/ob-terminator
+            cp -v ai-fconfig/ob-user-bin-ob-lxterminal /home/${USERNAME}/bin/ob-lxterminal
+            chmod +x /home/${USERNAME}/bin/ob-lxterminal
             if [[ $IN_VIRTUAL_BOX -eq 0 ]]; then
                 cp -v ai-fconfig/ob-user-bin-ob-launcher_civ4 /home/${USERNAME}/bin/ob-launcher_civ4
                 chmod +x /home/${USERNAME}/bin/ob-launcher_civ4
