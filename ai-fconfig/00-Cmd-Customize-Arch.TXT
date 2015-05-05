@@ -1226,6 +1226,12 @@ Menu K -> Système -> Outils de gestion de portefeuilles (KwalletManager)
                   -> Configuration -> Configurer un portefeuille
 
 
+16) PLASMA-WORKSPACE
+====================
+Trop d'informations de débuggage par défaut dans le journal
+-----------------------------------------------------------
+VOIR : ARCH-KDE-DEBUG-DANS-JOURNAL.TXT
+
 
 20) Qt Creator
 ===============

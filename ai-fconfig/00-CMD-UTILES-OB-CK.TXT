@@ -98,6 +98,14 @@ MAJ GROUP/GSHADOW/PASSWD/SHADOW
 # grpck -r  ( répondre y )
 
 
+COREDUMP
+========
+https://wiki.archlinux.org/index.php/Core_dump
+
+Fichiers coredump dans /var/lib/systemd/coredump
+
+$ coredumpctl
+
 
 
 
