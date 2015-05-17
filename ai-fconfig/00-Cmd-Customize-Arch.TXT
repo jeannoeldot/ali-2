@@ -1044,12 +1044,6 @@ BROWSERS="firefox"
 !!! SI VERSION Linux kernel >= 3.18.0
 USE_OVERLAYFS="yes"
 
-# modprobe overlay
-# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
-# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
-
-# cat /etc/modules-load.d/profile_sync_daemon.conf
-
 # systemctl start psd.service psd-resync.service
 # systemctl enable psd.service psd-resync.service
 # systemctl status psd.service
@@ -1058,7 +1052,7 @@ $ profile-sync-daemon preview
 $ cat ~/.mozilla/firefox/profiles.ini
 
 
-
+!!! opencollada-git
 !!! openimageio-git
 !!! openshadinglanguage-git
 # pacman -Syu blender-git
@@ -1289,12 +1283,6 @@ USERS="jnd"
 BROWSERS="firefox"
 USE_OVERLAYFS="yes"
 
-# modprobe overlay
-# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
-# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
-
-$ cat /etc/modules-load.d/profile_sync_daemon.conf
-
 $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl enable psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
@@ -1336,11 +1324,14 @@ jndqaligne5-qt5 0.5.0-1
 jndqcbgrd-qt5 0.1.7-2
 jndqrami-qt5 0.2.1-1
 
-!!! VOIR Intallation de blender-git (+ dep oiio et osl)
--------------------------------------------------------
+!!! VOIR Intallation de blender-git (+ dep oc, oiio et osl)
+-----------------------------------------------------------
 blender-git
+opencollada-git
 openimageio-git
 openshadinglanguage-git
+
+blender-addons-yafaray-git
 
 
 LM_SENSORS
@@ -1471,6 +1462,21 @@ OU
 ====================================================================================================
 ANCIEN
 ==========================================================
+
+!!!! INUTILE DEPUIS VERSION PSD = 5.73-1
+# modprobe overlay
+# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
+# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
+
+# cat /etc/modules-load.d/profile_sync_daemon.conf
+
+!!!! INUTILE DEPUIS VERSION PSD = 5.73-1
+# modprobe overlay
+# echo '# Load overlay modules at boot.' > /etc/modules-load.d/profile_sync_daemon.conf
+# echo 'overlay' >> /etc/modules-load.d/profile_sync_daemon.conf
+
+$ cat /etc/modules-load.d/profile_sync_daemon.conf
+
 
 11) ADOBE FLASHPLUGIN : Edition fichier /etc/adobe/mms.cfg
 ================================================================
