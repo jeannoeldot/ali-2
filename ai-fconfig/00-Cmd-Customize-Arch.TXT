@@ -1387,6 +1387,17 @@ https://github.com/chjj/compton/blob/master/compton.sample.conf
 	
 $ cp -v /home/jnd/Téléchargements/compton.sample.conf ~/.config/compton.conf
 
+1) Modifier Opacity
+-------------------
+# Opacity
+menu-opacity = 0.8;		==>		menu-opacity = 1.0;
+inactive-opacity = 0.8;
+
+# Opacity
+menu-opacity = 1.0;
+inactive-opacity = 0.8;
+
+
 $ cd ~/.config
 
 ==> Dans ~/.config : Clic Droit sur compton.conf -> Ouvrir -> Geany
