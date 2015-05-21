@@ -298,6 +298,15 @@ févr. 18 17:08:22 arch1kde baloo_file[5918]: KDE Baloo Filewatch service reache
 $ sudo sh -c "echo 'fs.inotify.max_user_watches = 20000' >> /etc/sysctl.d/90-inotify.conf"
 
 
+5-3) Magic System Request Key : Création de /etc/sysctl.d/99-sysrq.conf
+=============================================================================================
+https://wiki.archlinux.fr/Sysrq
+
+$ sudo sh -c "echo '# Activation de Magic System Request Key' > /etc/sysctl.d/99-sysrq.conf"
+$ sudo sh -c "echo 'kernel.sysrq = 1' >> /etc/sysctl.d/99-sysrq.conf"
+
+$ cat /etc/sysctl.d/99-sysrq.conf
+
 
 !!! AVEC CORE 2 DUO
 !!! NE PAS FAIRE AVEC I7 HASWELL INTEL_PSTATE
@@ -700,6 +709,8 @@ SI default -> default
 ============================================
 https://bbs.archlinux.org/viewtopic.php?id=193123
 https://git.reviewboard.kde.org/r/121903/diff/1/?file=338977#1
+
+VOIR : ARCH-KDE-DEBUG-DANS-JOURNAL.TXT dans ~/09-Documentation/
 
 $ sudo nano /usr/bin/startkde
 
@@ -1224,7 +1235,9 @@ Menu K -> Système -> Outils de gestion de portefeuilles (KwalletManager)
 ====================
 Trop d'informations de débuggage par défaut dans le journal
 -----------------------------------------------------------
-VOIR : ARCH-KDE-DEBUG-DANS-JOURNAL.TXT
+VOIR : 27) KDE 5 / Plasma 5 : ENTRÉES DANS JOURNAL (Ligne 708)
+
+VOIR : ARCH-KDE-DEBUG-DANS-JOURNAL.TXT dans ~/09-Documentation/
 
 
 20) Qt Creator
