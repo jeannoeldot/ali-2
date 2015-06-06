@@ -1256,9 +1256,9 @@ Menu Aide -> A propos des plug-ins...
 
 
 
-===================
+=============================================================================
 DANS OPEN-BOX / CK
-===================
+=============================================================================
 
 SI CURSEUR SOURIS TROP GRAND
 ============================
@@ -1414,8 +1414,8 @@ compton --config ~/.config/compton.conf -b &
 
 ==> Clic Droit sur Bureau (menu OpenBox) -> Reconfigure OpenBox
 
-TESTS
-======
+2) Tests
+-------------------
 
 LXTerminal : semble OK
 
@@ -1455,6 +1455,30 @@ Dans firefox : about:addons
 
 Shockwave Flash 17.0.0.169
                 17.0 r0
+
+
+
+INSTALLATION CORBEILLE DANS SPACEFM
+===================================
+
+https://igurublog.wordpress.com/downloads/spacefm/
+
+https://github.com/IgnorantGuru/spacefm/wiki/plugins
+
+
+1) Téléchargement
+-----------------
+
+Download: French :
+http://www.jpfleury.net/site/fichiers/corbeille-spacefm/Corbeille-fr-source.spacefm-plugin.tar.gz
+
+https://github.com/jpfleury/corbeille-spacefm
+
+
+2) Installation
+---------------
+Menu Extensions -> Installer -> Fichier
+
 
 
 
