@@ -66,11 +66,18 @@ MAJ PSD.SERVICE OU MAJ firefox-extension-https-everywhere
 OU MAJ freshplayerplugin / chromium-pepper-flash
 =========================================================
 
-$ profile-cleaner f
-
+!!! VIDER CACHE
 !!! ARRETER FIREFOX
 
+$ profile-cleaner f
+
 $ sudo systemctl stop psd.service psd-resync.service
+
+SI MAJ freshplayerplugin / chromium-pepper-flash
+------------------------------------------------
+$ yaourt -Syua chromium-pepper-flash
+$ yaourt -Syua freshplayerplugin
+
 
 $ yaourt -Syua
 

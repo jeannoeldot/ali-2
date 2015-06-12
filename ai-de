@@ -384,7 +384,9 @@ source `pwd`/ai-commons
             sed -i "/^#TMPDIR=/c\TMPDIR=\"/home/${USERNAME}/yaourt_tmp\"" /etc/yaourtrc
         fi
         # Modif /etc/yaourtrc : EDITOR="nano" par défaut
-        sed -i "/^#EDITOR=/c\EDITOR=\"nano\"" /etc/yaourtrc
+        # Suite MAJ yaourt 1.6
+#        sed -i "/^#EDITOR=/c\EDITOR=\"nano\"" /etc/yaourtrc
+        sed -i "/^#VISUAL=/c\VISUAL=\"nano\"" /etc/yaourtrc
         print_info_cyan "YAOURT - Edition du fichier de configuration de yaourt."
         read_input_text "Editer le fichier de configuration de yaourt ?"
         if [[ $OPTION == o ]]; then
