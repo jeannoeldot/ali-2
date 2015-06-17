@@ -153,14 +153,19 @@
         #
         if [[ $IS_MULTI_BOOT_UEFI -eq 0 ]]; then
             print_info_cyan "Configuration du manager de Boot."
-            numpartefi=(`echo $EFI_DEVICE | sed 's/\/dev\/sd[a-z]//'`)
             # https://wiki.archlinux.org/index.php/Beginners%27_Guide#For_UEFI_motherboards 12/10/2013
             # Si /sys/firmware/efi/efivars n'est pas déjà monté.
             # Voir modifs  arch-install-scripts
             if [[ ! -d "/sys/firmware/efi/efivars" ]]; then
                 mount -t efivarfs efivarfs /sys/firmware/efi/efivars
             fi
+            # Supprime entrée rEFInd ArchLinux dans NVRAM si existe déjà
+            _num_entree=$(efibootmgr -v | awk '/rEFInd/ {print $1}' | sed -e "s/^Boot//;s/\*$//")
+            if [[ ${_num_entree} != "" ]]; then
+                efibootmgr -B -b ${_num_entree}
+            fi
             #
+            numpartefi=(`echo $EFI_DEVICE | sed 's/\/dev\/sd[a-z]//'`)
             efibootmgr -c -d ${ROOT_DEVICE} -p ${numpartefi} -l ${NAME_DIR_MGR_EFI} -L "rEFInd ArchLinux"
             print_info_cyan "Vérification des entrées dans NVRAM."
             efibootmgr -v
