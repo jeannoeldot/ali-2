@@ -12,6 +12,8 @@ $ su -
 !!! USER
 $ yaourt -Syua
 
+$ yaourt -Syua --aur-url https://aur4.archlinux.org
+
 
 SI problème avec linux-ck-haswell
 ==================================
@@ -80,6 +82,8 @@ $ yaourt -Syua freshplayerplugin
 
 
 $ yaourt -Syua
+$ yaourt -Syua --aur-url https://aur4.archlinux.org
+
 
 $ sudo mv /etc/psd.conf.pacnew /etc/psd.conf
 $ sudo nano -w /etc/psd.conf

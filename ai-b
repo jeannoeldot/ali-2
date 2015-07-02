@@ -115,7 +115,7 @@ source `pwd`/ai-commons
     }
     #}}}
     #CONFIGURE FSTAB {{{
-    configure_fstab() {
+    genere_fstab() {
         print_title "FSTAB - https://wiki.archlinux.org/index.php/Fstab"
         print_info "Le fichier /etc/fstab contient les informations des systèmes de fichiers statiques. Il définit la façon dont les périphériques de stockage et les partitions doivent être montés et intégrés dans le système. Il est lu par la commande mount pour déterminer les options à utiliser lors du montage d'un dispositif spécifique ou d'une partition."
         print_info_cyan "UUID recommandé."
@@ -141,36 +141,6 @@ source `pwd`/ai-commons
                     ;;
             esac
         done
-        #
-        if [[ ${IS_HDD_OR_SSD} == "HDD" ]]; then
-            # rotational = 1 ==> HDD
-            print_info_cyan "HDD : Options pour ext4 : defaults,relatime."
-            sed -i "s/rw,relatime,data=ordered/defaults,relatime/g" ${MOUNTPOINT}/etc/fstab
-        else
-            # rotational = 0 ==> SSD
-            print_info_cyan "SSD : Options pour ext4 : defaults,relatime,discard."
-            sed -i "s/rw,relatime,data=ordered/defaults,relatime,discard/g" ${MOUNTPOINT}/etc/fstab
-        fi
-        #
-        if [[ $TYPE_STORAGE_PARTITION == "GPT" ]]; then
-            local num_ligne_swap=$(grep -n "swap" "${MOUNTPOINT}/etc/fstab" | cut -f1 -d:)
-            if [[ "${num_ligne_swap}" != "" ]]; then
-                print_info_cyan "TYPE DE PARTITION GPT : Ligne swap commentée."
-                sed -i "${num_ligne_swap}s/^UUID/#UUID/" ${MOUNTPOINT}/etc/fstab
-            else
-                print_info_cyan "Aucune partion de swap."
-            fi
-        fi
-        #
-        if [[ $IS_UEFI -eq 1 ]]; then
-            if [[ ${IS_HDD_OR_SSD} == "SSD" ]]; then
-                local num_ligne_vfat=$(grep -n "vfat" "${MOUNTPOINT}/etc/fstab" | cut -f1 -d:)
-                if [[ "${num_ligne_vfat}" != "" ]]; then
-                    print_info_cyan "UEFI et SSD : Options pour vfat : rw,relatime,discard."
-                    sed -i "${num_ligne_vfat}s/rw,relatime/rw,relatime,discard/" ${MOUNTPOINT}/etc/fstab
-                fi
-            fi
-        fi
         #
         echo -e "\nVérification du fichier /etc/fstab avec $EDITOR"
         pause_function
@@ -314,7 +284,7 @@ else
     #
     configure_mirrorlist
     install_base_system
-    configure_fstab
+    genere_fstab
     # INUTILES :
     # VOIR https://wiki.archlinux.org/index.php/SSD#I.2FO_Scheduler
     #   et https://wiki.archlinux.org/index.php/Talk:Solid_State_Drives

@@ -47,6 +47,68 @@ source `pwd`/ai-commons
         fi
     }
     #}}}
+    #CONFIGURE FSTAB {{{
+    configure_fstab() {
+        print_title "FSTAB - https://wiki.archlinux.org/index.php/Fstab"
+        print_info "Configuration du fichier /etc/fstab : si HDD ou SSD, si GPT, si UEFI, TRIM, ..."
+        #
+        if [[ ${TYPE_STORAGE_PARTITION} == "GPT" ]]; then
+            local num_ligne_swap=$(grep -n "swap" "/etc/fstab" | cut -f1 -d:)
+            if [[ "${num_ligne_swap}" != "" ]]; then
+                print_info_cyan "TYPE DE PARTITION GPT : Ligne swap commentée."
+                sed -i "${num_ligne_swap}s/^UUID/#UUID/" /etc/fstab
+            else
+                print_info_cyan "Aucune partion de swap."
+            fi
+        fi
+        #
+        if [[ ${IS_UEFI} -eq 1 ]]; then
+            if [[ ${IS_HDD_OR_SSD} == "SSD" ]]; then
+                local num_ligne_vfat=$(grep -n "vfat" "/etc/fstab" | cut -f1 -d:)
+                if [[ "${num_ligne_vfat}" != "" ]]; then
+                    print_info_cyan "UEFI et SSD : Options pour vfat : rw,relatime,discard."
+                    sed -i "${num_ligne_vfat}s/rw,relatime/rw,relatime,discard/" /etc/fstab
+                fi
+            fi
+        fi
+        #
+        if [[ ${IS_HDD_OR_SSD} == "SSD" ]]; then
+            # rotational = 0 ==> SSD
+            # https://wiki.archlinux.org/index.php/Solid_State_Drives#TRIM
+            print_info "SSD + TRIM - https://wiki.archlinux.org/index.php/Solid_State_Drives#TRIM"
+            print_info_cyan "DISCARD : Activer TRIM par option de montage. FSTRIM : Appliquer TRIM via «fstrim» périodique."
+            trim_list=("DISCARD" "FSTRIM");
+            PS3="$prompt1"
+            echo -e "Configurer le TRIM en se basant sur :"
+            select OPT in "${trim_list[@]}"; do
+                case "$REPLY" in
+                    1)
+                        print_info_cyan "SSD + TRIM : Options pour ext4 : defaults,relatime,discard."
+                        sed -i "s/rw,relatime,data=ordered/defaults,relatime,discard/g" /etc/fstab
+                        break
+                        ;;
+                    2)
+                        print_info_cyan "SSD + TRIM : Activation de fstrim.timer."
+                        systemctl enable fstrim.timer
+                        break
+                        ;;
+                    *)
+                        invalid_option
+                        ;;
+                esac
+            done
+        else
+            # rotational = 1 ==> HDD
+            print_info_cyan "HDD : Options pour ext4 : defaults,relatime."
+            sed -i "s/rw,relatime,data=ordered/defaults,relatime/g" /etc/fstab
+        fi
+        #
+        echo -e "\nVérification du fichier /etc/fstab avec $EDITOR"
+        pause_function
+        $EDITOR /etc/fstab
+
+    }
+    #}}}
     #CONFIGURE VCONSOLE.CONF {{{
     configure_vconsole_conf() {
         print_title "KEYMAP - https://wiki.archlinux.org/index.php/KEYMAP"
@@ -234,11 +296,25 @@ source `pwd`/ai-commons
     #}}}
     #ROOT PASSWORD {{{
     set_root_password() {
+#         print_title "MOT DE PASSE ROOT"
+#         print_info "Entrer le mot de passe root"
+#         passwd
+#         pause_function
+
         print_title "MOT DE PASSE ROOT"
         print_info "Entrer le mot de passe root"
-        passwd
+        ret_passwd=9
+        until [[ $ret_passwd -eq 0 ]];
+            do
+                passwd
+                if [[ $? -ne 0 ]]; then
+                    ret_passwd=9
+                else
+                    ret_passwd=0
+                fi
+            done
         pause_function
-    }
+}
     #}}}
 
 #ARCHLINUX INSTALL SCRIPTS - https://github.com/jeannoeldot/arch_install/ai-b2
@@ -280,6 +356,7 @@ source `pwd`/ai-commons
     fi
     pause_function
     #
+    configure_fstab
     configure_vconsole_conf
     configure_pacman_conf
     configure_hostname
