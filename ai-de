@@ -302,7 +302,18 @@ source `pwd`/ai-commons
 #            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network,log -s /bin/bash ${USERNAME}
 #            useradd -m -g users -G wheel -s /bin/bash ${USERNAME}
             useradd -m -g users -G wheel,sys -s /bin/bash ${USERNAME}
-            passwd ${USERNAME}
+            print_info "Entrer le mot de passe de ${USERNAME}"
+            local ret_passwd=9
+            until [[ $ret_passwd -eq 0 ]];
+                do
+                    passwd ${USERNAME}
+                    if [[ $? -ne 0 ]]; then
+                        print_warning "Mot de passe pour ${USERNAME} erroné : Entrer de nouveau le mot de passe de ${USERNAME}"
+                        ret_passwd=9
+                    else
+                        ret_passwd=0
+                    fi
+                done
         } #}}}
         #CONFIGURE USER ACCOUNT {{{
         configure_user_account() {

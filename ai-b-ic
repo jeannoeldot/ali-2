@@ -88,6 +88,8 @@ source `pwd`/ai-commons
                         break
                         ;;
                     2)
+                        print_info_cyan "SSD : Options pour ext4 : defaults,relatime."
+                        sed -i "s/rw,relatime,data=ordered/defaults,relatime/g" /etc/fstab
                         print_info_cyan "SSD + TRIM : Activation de fstrim.timer."
                         systemctl enable fstrim.timer
                         break
@@ -296,25 +298,21 @@ source `pwd`/ai-commons
     #}}}
     #ROOT PASSWORD {{{
     set_root_password() {
-#         print_title "MOT DE PASSE ROOT"
-#         print_info "Entrer le mot de passe root"
-#         passwd
-#         pause_function
-
         print_title "MOT DE PASSE ROOT"
-        print_info "Entrer le mot de passe root"
-        ret_passwd=9
+        print_info "Entrer le mot de passe «root»"
+        local ret_passwd=9
         until [[ $ret_passwd -eq 0 ]];
             do
                 passwd
                 if [[ $? -ne 0 ]]; then
+                    print_warning "Mot de passe «root» erroné : Entrer de nouveau le mot de passe «root»"
                     ret_passwd=9
                 else
                     ret_passwd=0
                 fi
             done
         pause_function
-}
+    }
     #}}}
 
 #ARCHLINUX INSTALL SCRIPTS - https://github.com/jeannoeldot/arch_install/ai-b2
