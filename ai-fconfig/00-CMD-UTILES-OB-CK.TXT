@@ -80,6 +80,8 @@ SI MAJ freshplayerplugin / chromium-pepper-flash
 $ yaourt -Syua chromium-pepper-flash
 $ yaourt -Syua freshplayerplugin
 
+$ rm -rf /.mozilla/firefox/XXXXXX.default/pluginreg.dat
+
 
 $ yaourt -Syua
 $ yaourt -Syua --aur-url https://aur4.archlinux.org
@@ -96,6 +98,15 @@ $ sudo systemctl start psd.service psd-resync.service
 $ sudo systemctl status psd.service psd-resync.service
 $ profile-sync-daemon preview
 
+
+MAJ SUDO ET /ETC/SUDOERS.PACNEW
+===============================
+!!! EN ROOT
+# mv -v /etc/sudoers.pacnew /etc/sudoers
+# sed -i '/%wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers
+# echo -e '\n## My Defaults timestamp_timeout = 20 minutes' >> /etc/sudoers
+# echo -e 'Defaults:jnd timestamp_timeout=20' >> /etc/sudoers
+# sed '/#/d;/^$/d' /etc/sudoers
 
 MAJ GROUP/GSHADOW/PASSWD/SHADOW
 ===============================

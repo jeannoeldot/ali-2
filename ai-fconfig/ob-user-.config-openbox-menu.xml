@@ -419,7 +419,7 @@
     <action name="Reconfigure" />
   </item>
   <separator label="Ordinateur" />
-  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Log Out...">
+  <item icon="/usr/share/icons/Faenza/actions/96/down.png" label="Déconnexion...">
     <action name="Exit">
       <prompt>yes</prompt>
     </action>
