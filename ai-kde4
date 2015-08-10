@@ -106,24 +106,18 @@
         fi
         #}}}
         #KDE4 CUSTOMIZATION {{{
-        install_icon_theme() { #{{{
-            package_install "gtk-update-icon-cache"
-            print_warning "\nURL hycons-icon-theme non valide. http://dl.dropbox.com/u/153284/Hycons.tar.gz"
-            aur_package_install "hycons-icon-theme"
-            gtk-update-icon-cache -f /usr/share/icons/Hycons
-        } #}}}
         install_kdeartwork() { #{{{
             print_info_cyan "Installation de KDE4 ARTWORK (partie 1)"
             package_install "kdeartwork-colorschemes kdeartwork-desktopthemes kdeartwork-emoticons kdeartwork-iconthemes"
             print_info_cyan "Installation de KDE4 ARTWORK (partie 2)"
             # KDE4 4.12 : kdeartwork-sounds has been removed from the KDE4 SC.
             package_install "kdeartwork-kscreensaver kdeartwork-styles kdeartwork-wallpapers kdeartwork-weatherwallpapers"
+            package_install "gtk-update-icon-cache"
         } #}}}
         while true
         do
             print_title "PERSONNALISATION DE KDE4"
-            echo " 1) $(menu_item "hycons-icon-theme" "KDE4 Icones") $AUR"
-            echo " 2) $(menu_item "kdeartwork-colorschemes" "KDE4 ARTWORK")"
+            echo " 1) $(menu_item "kdeartwork-colorschemes" "KDE4 ARTWORK")"
             echo ""
             echo " f) FINI"
             echo ""
@@ -132,12 +126,8 @@
             for OPT in ${OPTIONS[@]}; do
                 case "$OPT" in
                     1)
-                        install_icon_theme
-                        OPT=1
-                        ;;
-                    2)
                         install_kdeartwork
-                        OPT=2
+                        OPT=1
                         ;;
                     "f")
                         break
@@ -539,7 +529,6 @@
                 6)
                     aur_package_install "dropbox"
                     aur_package_install "kfilebox"
-                    aur_package_install "systemd-dropbox-daemon"
                     systemctl enable dropboxd.service
                     ;;
                 7)

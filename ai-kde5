@@ -497,7 +497,6 @@
                 6)
                     aur_package_install "dropbox"
                     aur_package_install "kfilebox"
-                    aur_package_install "systemd-dropbox-daemon"
                     systemctl enable dropboxd.service
                     ;;
                 7)

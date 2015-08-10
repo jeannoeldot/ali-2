@@ -1038,7 +1038,9 @@ INSTALLATION DE freshplayerplugin ET chromium-pepper-flash POUR FIREFOX
 $ rm -rf /home/jnd/.adobe
 $ rm -rf /home/jnd/.macromedia
 
-$ rm -rf /.mozilla/firefox/XXXXXX.default/pluginreg.dat
+!!! Vérifier /home/jnd/.mozilla/firefox/profiles.ini
+$ cat ~/.mozilla/firefox/profiles.ini
+$ rm -i ~/.mozilla/firefox/mhnm9wic.default/pluginreg.dat
 
 # pacman -Syu freshplayerplugin chromium-pepper-flash
 
@@ -1340,12 +1342,13 @@ jndqaligne5-qt5 0.5.0-1
 jndqcbgrd-qt5 0.1.7-2
 jndqrami-qt5 0.2.1-1
 
-!!! VOIR Intallation de blender-git (+ dep oc, oiio et osl)
------------------------------------------------------------
+!!! VOIR Intallation de blender-git (+ dep osd, oc, oiio et osl)
+----------------------------------------------------------------
 blender-git
 opencollada-git
 openimageio-git
 openshadinglanguage-git
+opensubdiv
 
 blender-addons-yafaray-git
 
@@ -1444,6 +1447,9 @@ $ sudo pacman -R flashplugin
 
 $ rm -rf /home/jnd/.adobe
 $ rm -rf /home/jnd/.macromedia
+!!! Vérifier /home/jnd/.mozilla/firefox/profiles.ini
+$ cat ~/.mozilla/firefox/profiles.ini
+$ rm -i ~/.mozilla/firefox/ljs58rbs.default/pluginreg.dat
 
 2) INSTALLATION freshplayerplugin et chromium-pepper-flash
 ----------------------------------------------------------

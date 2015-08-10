@@ -80,7 +80,9 @@ SI MAJ freshplayerplugin / chromium-pepper-flash
 $ yaourt -Syua chromium-pepper-flash
 $ yaourt -Syua freshplayerplugin
 
-$ rm -rf /.mozilla/firefox/XXXXXX.default/pluginreg.dat
+!!! Vérifier /home/jnd/.mozilla/firefox/profiles.ini
+$ cat ~/.mozilla/firefox/profiles.ini
+$ rm -i ~/.mozilla/firefox/ljs58rbs.default/pluginreg.dat
 
 
 $ yaourt -Syua
@@ -107,6 +109,7 @@ MAJ SUDO ET /ETC/SUDOERS.PACNEW
 # echo -e '\n## My Defaults timestamp_timeout = 20 minutes' >> /etc/sudoers
 # echo -e 'Defaults:jnd timestamp_timeout=20' >> /etc/sudoers
 # sed '/#/d;/^$/d' /etc/sudoers
+
 
 MAJ GROUP/GSHADOW/PASSWD/SHADOW
 ===============================

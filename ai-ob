@@ -243,7 +243,7 @@
             print_info_cyan "Installation des thèmes GTK 3/2 et Icones."
             package_install "gtk-update-icon-cache"
             aur_package_install "zukitwo-themes"
-            aur_package_install "awoken-icons"
+            aur_package_install "flatwoken-icons-git"
 #            gtk-update-icon-cache -f /usr/share/icons/Ghnomix
             pause_function
         else
@@ -281,7 +281,7 @@
             echo " 8) $(menu_item "pcmanfm" "PCManFM")"
             echo " 9) $(menu_item "rxvt-unicode")"
             echo "10) $(menu_item "thunar")"
-            echo "11) $(menu_item "tint2-svn") $AUR"
+            echo "11) $(menu_item "tint2-git") $AUR"
             echo ""
             echo " f) FINI"
             echo ""
@@ -327,7 +327,7 @@
                         package_install "thunar tumbler polkit-gnome gvfs"
                         ;;
                     11)
-                        aur_package_install "tint2-svn"
+                        aur_package_install "tint2-git"
                         package_install "orage"
                         ;;
                     "f")
@@ -707,7 +707,6 @@
                 6)
                     aur_package_install "dropbox"
                     aur_package_install "dropbox-cli"
-                    aur_package_install "systemd-dropbox-daemon"
                     systemctl enable dropboxd.service
                     ;;
                 7)
