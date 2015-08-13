@@ -1132,6 +1132,8 @@ Onglet Général : Dossier par défaut des machines :
 
 !!! VOIR : /home/jnd/00-Conky/0-COMMANDES TEST CONKY.TXT
 
+!!! ATTENTION SI VERSION CONKY = 1.10 : FORMAT FICHIER RC A CHANGÉ !!!
+
 
 11) RÉGLAGES DANS FIREFOX
 ==========================================================
@@ -1270,6 +1272,16 @@ SI CURSEUR SOURIS TROP GRAND
 
 Voir : https://wiki.archlinux.org/index.php/Cursor#Using_X_resources
 
+
+SI PROBLÈME AFFICHAGE DANS CIVILIZATION 4 ET BTS
+================================================
+
+https://wiki.archlinux.org/index.php/NVIDIA#Avoid_tearing_with_GeForce_500.2F600.2F700.2F900_series_cards
+
+Rajouter ligne dans 20-nvidia.conf
+Option  "metamodes" "nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
+
+
 LIENS SYMBOLIQUES
 =====================
 
@@ -1313,6 +1325,7 @@ $ profile-cleaner f
 
 $ yaourt -Syua sysbench
 
+
 REPOLOCAL
 =============
 $ mkdir /home/jnd/00-repolocal
@@ -1327,14 +1340,24 @@ $ sudo sed -i "/^#Server = file/a\\\n[repolocal]\nSigLevel = Optional TrustAll\n
 
  00-repolocal
  ============
+SUR HUBIC
+---------
+https://hubic.com/home/browser/#default/00-SAVE-ARCH-OB-CK/PAQUETS-AUR
+- ghnomix-icon-theme-1.3-1-any.pkg.tar.xz
+- awoken-icons-2.5.2-1-any.pkg.tar.xz
 
-$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /home/jnd/00-repolocal/
+
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/0-Fichiers-importants/ghnomix-icon-theme-1.3-1-any.pkg.tar.xz /home/jnd/00-repolocal/
+
+$ cp -v /0-DataLinux/00-ARCH_2-OB-CK/0-Fichiers-importants/awoken-icons-2.5.2-1-any.pkg.tar.xz /home/jnd/00-repolocal/
 
 $ cd && maj-repolocal
 
 $ sudo pacman -Syyu
 
 $ sudo pacman -Syu ghnomix-icon-theme
+
+$ sudo pacman -Syu awoken-icons
 
 !!! VOIR Intallation de mes paquets
 -----------------------------------
@@ -1365,6 +1388,7 @@ LM_SENSORS
 # systemctl status lm_sensors.service
 !!! TEST EN USER : sensors
 
+
 INSTALLATION DE CONKY
 =================================
 
@@ -1375,6 +1399,8 @@ $ rm -f 00-Conky.tar.xz
 
 !!! VOIR : /home/jnd/00-Conky/Install-Conky.TXT
 !!! VOIR : /home/jnd/00-Conky/0-COMMANDES TEST CONKY.TXT
+
+!!! ATTENTION SI VERSION CONKY = 1.10 : FORMAT FICHIER RC A CHANGÉ !!!
 
 
 INSTALLATION DE COMPTON-GIT
