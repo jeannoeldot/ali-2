@@ -111,6 +111,18 @@ MAJ SUDO ET /ETC/SUDOERS.PACNEW
 # sed '/#/d;/^$/d' /etc/sudoers
 
 
+MAJ GLIBC ET /etc/locale.gen.pacnew
+===================================
+!!! EN ROOT
+# mv -v /etc/locale.gen.pacnew /etc/locale.gen
+# nano /etc/locale.gen
+!!! Décommenter :
+fr_FR.UTF-8 UTF-8
+fr_FR ISO-8859-1
+fr_FR@euro ISO-8859-15
+# locale-gen
+
+
 MAJ GROUP/GSHADOW/PASSWD/SHADOW
 ===============================
 
