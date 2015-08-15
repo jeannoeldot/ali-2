@@ -90,8 +90,8 @@
                 done
                 mkdir -p /home/${USERNAME}/vbox-shared-folder
                 chown -R ${USERNAME}:users /home/${USERNAME}/vbox-shared-folder
-                user_uid=`id -u ${USERNAME}`
-                user_gid=`id -g ${USERNAME}`
+                user_uid=$(id -u ${USERNAME})
+                user_gid=$(id -g ${USERNAME})
                 echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
                 echo -e "$name_rep_partage"'     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
                 pause_function
@@ -187,8 +187,7 @@
             mkdir -p /home/${USERNAME}/.config/fbpanel
             if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
                 cp -v ai-fconfig/ob-user-.config-fbpanel-default-vbox /home/${USERNAME}/.config/fbpanel/default
-#               local id_net_name=(`ip link show | awk '/2: / {print $2}' | sed -e "s/://"`)
-                local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
+                local name_net_wired=$(ip link | awk '/enp/ {print $2}' | sed -e "s/://")
                 sed -i "s/interface = eth0/interface = ${name_net_wired}/g" /home/${USERNAME}/.config/fbpanel/default
             else
                 cp -v ai-fconfig/ob-user-.config-fbpanel-default-reel /home/${USERNAME}/.config/fbpanel/default
@@ -283,7 +282,7 @@
             echo "10) $(menu_item "thunar")"
             echo "11) $(menu_item "tint2-git") $AUR"
             echo ""
-            echo " f) FINI"
+            echo " F) FINI"
             echo ""
             AWESOMEOB_OPTIONS+=" f"
             read_input_options "$AWESOMEOB_OPTIONS"
@@ -420,7 +419,7 @@
         echo " 3) $(menu_item "wbar" "Wbar-Dock")"
         echo " 4) $(menu_item "plank" "Plank-Dock")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         ACCESSORIES_OPTIONS+=" f"
         read_input_options "$ACCESSORIES_OPTIONS"
@@ -471,7 +470,7 @@
         echo "10) $(menu_item "mesa-demos")"
         echo "11) $(menu_item "syslog-ng")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         SYSTEMTOOLS_OPTIONS+=" f"
         read_input_options "$SYSTEMTOOLS_OPTIONS"
@@ -547,7 +546,7 @@
         echo " 5) $(menu_item "clang")"
         echo " 6) $(menu_item "geany")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         DEVELOPMENT_OPTIONS+=" f"
         read_input_options "$DEVELOPMENT_OPTIONS"
@@ -591,7 +590,7 @@
         echo " 1) $(menu_item "libreoffice-still" "LibreOffice Still")"
         echo " 2) $(menu_item "goffice" "Abiword + Gnumeric")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         OFFICE_OPTIONS+=" f"
         read_input_options "$OFFICE_OPTIONS"
@@ -627,7 +626,7 @@
         echo " 2) $(menu_item "gimp")"
         echo " 3) $(menu_item "inkscape")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         GRAPHICS_OPTIONS+=" f"
         read_input_options "$GRAPHICS_OPTIONS"
@@ -674,7 +673,7 @@
         echo " 9) $(menu_item "emesene")"
         echo "10) $(menu_item "xchat")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         BROWSERS_OPTIONS+=" f"
         read_input_options "$BROWSERS_OPTIONS"
@@ -743,7 +742,7 @@
         echo " 3) $(menu_item "audacity")"
         echo " 4) $(menu_item "gst-plugins-base" "Gstreamer")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         AUDIO_OPTIONS+=" f"
         read_input_options "$AUDIO_OPTIONS"
@@ -785,7 +784,7 @@
         echo " 2) $(menu_item "openshot")"
         echo " 3) $(menu_item "libbluray libquicktime libdvdread libdvdnav libdvdcss libaacs cdrdao" "DVD Libs")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         VIDEO_OPTIONS+=" f"
         read_input_options "$VIDEO_OPTIONS"
@@ -829,7 +828,7 @@
         print_title "JEUX"
         echo " 1) $(menu_item "pokerth" "Poker TH")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         GAME_OPTIONS+=" f"
         read_input_options "$GAME_OPTIONS"

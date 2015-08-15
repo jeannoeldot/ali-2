@@ -22,7 +22,7 @@
         #
         # Détermine le nom du rep d'installation de arch
         if [[ -d /boot/efi/EFI ]]; then
-            number_of_arch_first=(`ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<7' | wc -l`)
+            number_of_arch_first=$(ls "/boot/efi/EFI/" | grep -E "arch" | awk 'length($0)<7' | wc -l)
             if [[ $number_of_arch_first -eq 0 ]]; then
                 NAME_DIR_ARCHLINUX=${NAME_ARCH_FIRST}
                 NUMBER_OF_ARCH=1
@@ -138,8 +138,8 @@
         fi
         #
         print_info_cyan "Configuration de refind_linux.conf."
-        partroot=(`echo $ROOT | sed 's/\/dev\///'`)
-        partuuid=(`ls -l /dev/disk/by-partuuid | awk '/'$partroot'/ {print $9}'`)
+        partroot=$(echo $ROOT | sed 's/\/dev\///')
+        partuuid=$(ls -l /dev/disk/by-partuuid | awk '/'$partroot'/ {print $9}')
         sed -i "/^\"Boot/d;/^$/d" ${DIR_EFI_ARCHLINUX}/refind_linux.conf
         # ROOT_FS_TYPE=ext4
         if [[ $IN_VIRTUAL_BOX -eq 1 ]]; then
@@ -172,7 +172,7 @@
                 efibootmgr -B -b ${_num_entree}
             fi
             #
-            numpartefi=(`echo $EFI_DEVICE | sed 's/\/dev\/sd[a-z]//'`)
+            numpartefi=$(echo $EFI_DEVICE | sed 's/\/dev\/sd[a-z]//')
             efibootmgr -c -d ${ROOT_DEVICE} -p ${numpartefi} -l ${NAME_DIR_MGR_EFI} -L "rEFInd ArchLinux"
             print_info_cyan "Vérification des entrées dans NVRAM."
             efibootmgr -v

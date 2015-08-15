@@ -86,8 +86,8 @@
                     cp -v ai-fconfig/boot-syslinux-syslinux.cfg /boot/syslinux/syslinux.cfg
                 fi
                 cp -v ai-fconfig/boot-syslinux-splash.png /boot/syslinux/splash.png
-                partroot=(`echo $ROOT | sed 's/\/dev\///'`)
-                partuuid=(`ls -l /dev/disk/by-uuid | awk '/'$partroot'/ {print $9}'`)
+                partroot=$(echo $ROOT | sed 's/\/dev\///')
+                partuuid=$(ls -l /dev/disk/by-uuid | awk '/'$partroot'/ {print $9}')
                 sed -i "s/root=PART_ROOT/root=UUID=$partuuid/g" /boot/syslinux/syslinux.cfg
                 #
                 echo -e "\nVérification du fichier syslinux.cfg avec $EDITOR"

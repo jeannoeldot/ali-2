@@ -75,7 +75,7 @@
             done
         }
         select_hdd_devices() {
-            liste_hdd_devices=(`parted -sl 2> /dev/null | awk '{print $2}' | grep "/dev/sd[a-z]" | sed -e "s/://"`)
+            liste_hdd_devices=($(parted -sl 2> /dev/null | awk '{print $2}' | grep "/dev/sd[a-z]" | sed -e "s/://"))
             echo -e "${BWhite}Liste des Disques présents dans le PC :${White}"
 #            parted -sl 2> /dev/null | grep -E 'Mod|/dev/sd[a-z]' | sed -e "s/\(^Disk.*\)/\1\n/" | sed -e "s/Model/Modèle/" | sed -e "s/Disk/Disque/"
             parted -sl 2> /dev/null | grep -E 'Mod|/dev/sd[a-z]' | sed -e "s/\(^Disk.*\)/\1\n/;s/Model/Modèle/;s/Disk/Disque/"
@@ -121,10 +121,10 @@
         print_info "Cette étape permet de sélectionner et formater les partitions sélectionnées où Archlinux sera installé."
         print_warning "\tToutes les données sur les partitions sélectionnées seront perdues."
         i=0
-        partitions=(`cat /proc/partitions | awk 'length($3)>1' | awk '{print "/dev/" $4}' | awk 'length($0)>8' | grep 'sd\|hd'`)
-# SI EN GPT : /dev/sda1 = EF02 BIOS_BOOT_PARTITION ou BOOT_PAR_NUM
+        partitions=($(fdisk -l $HDD_DEVICE | awk '{print $1}' | grep /dev/))
+# SI EN GPT : 1ère partition  = EF02 BIOS_BOOT_PARTITION ou BOOT_PAR_NUM
         if [[ $TYPE_STORAGE_PARTITION == "GPT" ]]; then
-            print_info_cyan "En GPT : /dev/sda1 est réservé ( BIOS_BOOT_PARTITION ou BOOT_PAR_NUM )"
+            print_info_cyan "En GPT : la 1ère partition est réservée ( BIOS_BOOT_PARTITION ou BOOT_PAR_NUM )"
             unset partitions[0]
             partitions=(${partitions[@]})
         fi
@@ -225,28 +225,28 @@
                       case ${device_name[i]} in
                           root)
                               ROOT=$DEVICE
-                              ROOT_DEVICE=`echo $ROOT | sed 's/[0-9]//'`
+                              ROOT_DEVICE=$(echo $ROOT | sed 's/[0-9]//')
                               format_partition "$DEVICE" "${MOUNTPOINT}"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /root  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /root  "
                               echo
                               ;;
                           swap)
                               format_swap_partition "$DEVICE"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /swap\n==> "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /swap\n==> "
                               echo
                               ;;
                           home)
                               DIR="/home"
                               select_filesystem "${DIR}"
                               format_partition "$DEVICE" "${MOUNTPOINT}${DIR}" "$TYPE"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /home  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /home  "
                               echo
                               ;;
                           boot)
                               DIR="/boot"
                               select_filesystem "${DIR}"
                               format_partition "$DEVICE" "${MOUNTPOINT}${DIR}" "$TYPE"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /boot  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /boot  "
                               echo
                               ;;
                           var)
@@ -254,7 +254,7 @@
                               select_filesystem "${DIR}"
                               format_partition "$DEVICE" "${MOUNTPOINT}${DIR}" "$TYPE"
                               IS_VAR_SEPARATE=1
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /var  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /var  "
                               echo
                               ;;
                           autre)
@@ -272,7 +272,7 @@
                                       check_mountpoint "$DEVICE" "${MOUNTPOINT}${DIR}"
                                   fi
                               fi
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = "`echo $DIR`"  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = "$(echo $DIR)"  "
                               echo
                               ;;
                       esac

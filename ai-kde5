@@ -88,8 +88,8 @@
                 done
                 mkdir -p /home/${USERNAME}/vbox-shared-folder
                 chown -R ${USERNAME}:users /home/${USERNAME}/vbox-shared-folder
-                user_uid=`id -u ${USERNAME}`
-                user_gid=`id -g ${USERNAME}`
+                user_uid=$(id -u ${USERNAME})
+                user_gid=$(id -g ${USERNAME})
                 echo -e '\n# Shared Folders as Arch Linux Guest' >> /etc/fstab
                 echo -e "$name_rep_partage"'     /home/jnd/vbox-shared-folder    vboxsf  uid='"$user_uid"',gid='"$user_gid"',rw,dmode=700,fmode=600,comment=systemd.automount       0 0' >> /etc/fstab
                 pause_function
@@ -210,7 +210,7 @@
         echo " 1) $(menu_item "conky" "Conky")"
         echo " 2) $(menu_item "docky" "Docky-Dock")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         ACCESSORIES_OPTIONS+=" f"
         read_input_options "$ACCESSORIES_OPTIONS"
@@ -255,7 +255,7 @@
         echo "10) $(menu_item "mesa-demos")"
         echo "11) $(menu_item "syslog-ng")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         SYSTEMTOOLS_OPTIONS+=" f"
         read_input_options "$SYSTEMTOOLS_OPTIONS"
@@ -338,7 +338,7 @@
         echo " 6) $(menu_item "cmake")"
         echo " 7) $(menu_item "clang")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         DEVELOPMENT_OPTIONS+=" f"
         read_input_options "$DEVELOPMENT_OPTIONS"
@@ -385,7 +385,7 @@
         echo " 1) $(menu_item "libreoffice-still" "LibreOffice Still")"
         echo " 2) $(menu_item "calligra" "Calligra office suite")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         OFFICE_OPTIONS+=" f"
         read_input_options "$OFFICE_OPTIONS"
@@ -421,7 +421,7 @@
         echo " 2) $(menu_item "gimp")"
         echo " 3) $(menu_item "inkscape")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         GRAPHICS_OPTIONS+=" f"
         read_input_options "$GRAPHICS_OPTIONS"
@@ -468,7 +468,7 @@
         echo " 9) $(menu_item "quassel")"
         echo "10) $(menu_item "konversation")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         BROWSERS_OPTIONS+=" f"
         read_input_options "$BROWSERS_OPTIONS"
@@ -534,7 +534,7 @@
         echo " 4) $(menu_item "audacity")"
         echo " 5) $(menu_item "gst-plugins-base" "Gstreamer")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         AUDIO_OPTIONS+=" f"
         read_input_options "$AUDIO_OPTIONS"
@@ -580,7 +580,7 @@
         echo " 2) $(menu_item "kdenlive")"
         echo " 3) $(menu_item "libbluray libquicktime libdvdread libdvdnav libdvdcss libaacs cdrdao" "DVD Libs")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         VIDEO_OPTIONS+=" f"
         read_input_options "$VIDEO_OPTIONS"
@@ -615,7 +615,7 @@
             echo " 1) $(menu_item "digikam")"
             echo " 2) $(menu_item "k3b")"
             echo ""
-            echo " f) FINI"
+            echo " F) FINI"
             echo ""
             AUDIO_VIDEO_OPTIONS+=" f"
             read_input_options "$AUDIO_VIDEO_OPTIONS"
@@ -650,7 +650,7 @@
         print_title "JEUX"
         echo " 1) $(menu_item "pokerth" "Poker TH")"
         echo ""
-        echo " f) FINI"
+        echo " F) FINI"
         echo ""
         GAME_OPTIONS+=" f"
         read_input_options "$GAME_OPTIONS"

@@ -57,7 +57,7 @@
             TYPE_STORAGE_PARTITION="GPT"
          }
         select_hdd_devices() {
-            liste_hdd_devices=(`parted -sl 2> /dev/null | awk '{print $2}' | grep "/dev/sd[a-z]" | sed -e "s/://"`)
+            liste_hdd_devices=($(parted -sl 2> /dev/null | awk '{print $2}' | grep "/dev/sd[a-z]" | sed -e "s/://"))
             echo -e "${BWhite}Liste des Disques présents dans le PC :${White}"
             parted -sl 2> /dev/null | grep -E 'Mod|/dev/sd[a-z]' | sed -e "s/\(^Disk.*\)/\1\n/;s/Model/Modèle/;s/Disk/Disque/"
             PS3="$prompt1"
@@ -82,7 +82,7 @@
         fi
         #
         select_storage_partitions
-# EN UEFI : /dev/sda1 = EF00 UEFI SYSTEM_PARTITION
+# EN UEFI : 1ère partition = EF00 UEFI SYSTEM_PARTITION
         print_info_cyan "Le programme cgdisk va être lancé afin de créer les partitions sur $HDD_DEVICE."
         print_info_cyan "Une partition EFI ( ESP ) de 512 Mio de type EF00 doit être créée en 1er sur $HDD_DEVICE."
         print_info_cyan "Si un Multi Boot en UEFI est prévu, la taille de la partition EFI ( ESP ) devrait être de 1024 Mio."
@@ -96,8 +96,8 @@
         print_info "Cette étape permet de sélectionner et formater les partitions sélectionnées où Archlinux sera installé."
         print_warning "\tToutes les données sur les partitions sélectionnées seront perdues."
         i=0
-        partitions=(`cat /proc/partitions | awk 'length($3)>1' | awk '{print "/dev/" $4}' | awk 'length($0)>8' | grep 'sd\|hd'`)
-# EN UEFI : /dev/sda1 = EF00 UEFI SYSTEM_PARTITION
+        partitions=($(fdisk -l $HDD_DEVICE | awk '{print $1}' | grep /dev/))
+# EN UEFI : 1ère partition = EF00 UEFI SYSTEM_PARTITION
         device_name=("root" "efi" "swap" "home" "var" "autre")
         select_filesystem() {
             MY_DIR=${device_name[i]}
@@ -215,28 +215,28 @@
                       case ${device_name[i]} in
                           root)
                               ROOT=$DEVICE
-                              ROOT_DEVICE=`echo $ROOT | sed 's/[0-9]//'`
+                              ROOT_DEVICE=$(echo $ROOT | sed 's/[0-9]//')
                               format_partition "$DEVICE" "${MOUNTPOINT}"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /root  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /root  "
                               echo
                               ;;
                           efi)
                               EFI_DEVICE=$DEVICE
                               DIR="/boot/efi"
                               format_efi_partition "$DEVICE" "${MOUNTPOINT}${DIR}"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /boot/efi  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /boot/efi  "
                               echo
                               ;;
                           swap)
                               format_swap_partition "$DEVICE"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /swap\n==> "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /swap\n==> "
                               echo
                               ;;
                           home)
                               DIR="/home"
                               select_filesystem "${DIR}"
                               format_partition "$DEVICE" "${MOUNTPOINT}${DIR}" "$TYPE"
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /home  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /home  "
                               echo
                               ;;
                           var)
@@ -244,7 +244,7 @@
                               select_filesystem "${DIR}"
                               format_partition "$DEVICE" "${MOUNTPOINT}${DIR}" "$TYPE"
                               IS_VAR_SEPARATE=1
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = /var  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = /var  "
                               echo
                               ;;
                           autre)
@@ -262,7 +262,7 @@
                                       check_mountpoint "$DEVICE" "${MOUNTPOINT}${DIR}"
                                   fi
                               fi
-                              CHOIX_PARTITIONS+=`echo $DEVICE`" = "`echo $DIR`"  "
+                              CHOIX_PARTITIONS+=$(echo $DEVICE)" = "$(echo $DIR)"  "
                               echo
                               ;;
                       esac

@@ -14,7 +14,7 @@
 #
 # Run this script after your first boot with archlinux-AAAA.MM.JJ-dual.iso (as root)
 
-source `pwd`/ai-commons
+source $(pwd)/ai-commons
 
     #CONFIGURE KEYMAP {{{
     configure_keymap() {
@@ -107,7 +107,7 @@ source `pwd`/ai-commons
             pacstrap ${MOUNTPOINT} base lz4 elinks wget
         fi
         # Si WiFi : installe les outils nécessaires
-        local name_net_wireless=(`ip link | awk '/wlp/ {print $2}' | sed -e "s/://"`)
+        local name_net_wireless=$(ip link | awk '/wlp/ {print $2}' | sed -e "s/://")
         if [[ -n ${name_net_wireless} ]]; then
             print_info "Installe les outils nécessaires pour le WiFi"
             pacstrap ${MOUNTPOINT} iw wireless_tools wpa_actiond wpa_supplicant dialog
@@ -162,8 +162,7 @@ source `pwd`/ai-commons
     write_variables_ali() {
         touch ${MOUNTPOINT}/root/variables.ali
         echo "TYPE_KEYBOARD=${TYPE_KEYBOARD}" >> ${MOUNTPOINT}/root/variables.ali
-#        local name_net_wired=(`ip link | awk '/2: / {print $2}' | sed -e "s/://"`)
-        local name_net_wired=(`ip link | awk '/enp/ {print $2}' | sed -e "s/://"`)
+        local name_net_wired=$(ip link | awk '/enp/ {print $2}' | sed -e "s/://")
         echo "NAME_NET_WIRED=${name_net_wired}" >> ${MOUNTPOINT}/root/variables.ali
         echo "IS_UEFI=${IS_UEFI}" >> ${MOUNTPOINT}/root/variables.ali
         echo "IN_VIRTUAL_BOX=${IN_VIRTUAL_BOX}" >> ${MOUNTPOINT}/root/variables.ali
@@ -182,7 +181,7 @@ source `pwd`/ai-commons
     #}}}
     #UMOUNT PARTITIONS {{{
     umount_partitions(){
-        mounted_partitions=(`lsblk | grep ${MOUNTPOINT} | awk '{print $7}' | sort -r`)
+        mounted_partitions=($(lsblk | grep ${MOUNTPOINT} | awk '{print $7}' | sort -r))
         swapoff -a
         for i in ${mounted_partitions[@]}; do
             umount $i
@@ -195,7 +194,7 @@ source `pwd`/ai-commons
         print_title "PARTIE 3 : INSTALLATION TERMINÉE"
         #COPY AUI TO ROOT FOLDER IN THE NEW SYSTEM
         print_info_finish "\n==> INFO : Une copie de l'AUI sera placé dans le répertoire /root du nouveau système."
-        cp -R `pwd` ${MOUNTPOINT}/root
+        cp -R $(pwd) ${MOUNTPOINT}/root
         #COPY ROOT FILES TO ROOT FOLDER IN THE NEW SYSTEM
         print_info_finish "\n==> INFO : Copie des fichiers de configuration dans le répertoire /root du nouveau système."
 #         if [[ -f "/root/name_dir_archlinux.uefi" ]]; then
@@ -261,10 +260,10 @@ else
     check_is_uefi_or_bios
     if [[ $IS_UEFI -eq 1 ]]; then
         print_info_cyan "Installation en mode UEFI."
-        source `pwd`/ai-b-uefi-hc
+        source $(pwd)/ai-b-uefi-hc
     else
         print_info_cyan "Installation en mode BIOS."
-        source `pwd`/ai-b-bios-hc
+        source $(pwd)/ai-b-bios-hc
     fi
     # Installation dans VirtualBox ou réelle
     check_is_in_virtualbox
@@ -292,7 +291,7 @@ else
     #
     print_title "FIN INSTALLATION PARTIE 1 HORS CHROOT."
     # COPIE AI TO ROOT FOLDER IN THE NEW SYSTEM
-    cp -R `pwd` ${MOUNTPOINT}/root
+    cp -R $(pwd) ${MOUNTPOINT}/root
     cp -f ${MOUNTPOINT}/root/ai/ai-b-ic ${MOUNTPOINT}/root/ai/ai-b
     #
     print_info_cyan "Commandes à éxécuter dans l'ordre pour poursuivre l'installation :"

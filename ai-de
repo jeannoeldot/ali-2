@@ -13,7 +13,7 @@
 #
 # Run this script after your first boot with archlinux (as root)
 
-source `pwd`/ai-commons
+source $(pwd)/ai-commons
 
     # 0 WELCOME {{{
     welcome() {
@@ -121,13 +121,11 @@ source `pwd`/ai-commons
         print_title "REPOS PERSONNELS - Ajout de multilib ( si en x86_64 ), archlinuxfr et Xyne."
         # this option will avoid any problem with packages install
         if [[ $ARCHI == x86_64 ]]; then
-            multilib=`grep -n "\[multilib\]" /etc/pacman.conf | cut -f1 -d:`
+            multilib=$(grep -n "\[multilib\]" /etc/pacman.conf | cut -f1 -d:)
             if $multilib &> /dev/null; then
                 echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
                 echo -e '\nMultilib repository added into pacman.conf file'
             else
-                sed -i "${multilib}s/^#//" /etc/pacman.conf
-                multilib=$(( $multilib + 1 ))
                 sed -i "${multilib}s/^#//" /etc/pacman.conf
                 multilib=$(( $multilib + 1 ))
                 sed -i "${multilib}s/^#//" /etc/pacman.conf
@@ -153,93 +151,6 @@ source `pwd`/ai-commons
         #
         echo -e "\n${BGreen}Repos personnels ajoutés.${White}"
         pause_function
-    }
-    #}}}
-    # INUTILE : appel supprimé
-    # 4 REFLECTOR {{{
-    sorting_mirror_by_speed() {
-        print_title "MIRROIRS - https://wiki.archlinux.org/index.php/Mirrors#Sorting_mirrors"
-        print_info "Filtre les miroirs les plus à jour, les trie par vitesse et configure le fichier /etc/pacman.d/mirrorlist."
-        read_input_text "Filtrer les mirroirs (dure une dizaine de minutes) ?"
-        if [[ $OPTION == o ]]; then
-            # Récupération du fichier mirrorlist de pacman-mirrorlist-*-any.pkg.tar.xz
-            mkdir /tmp/mirrorlist
-            cp -v /var/cache/pacman/pkg/pacman-mirrorlist-*-any.pkg.tar.xz /tmp/mirrorlist/
-            tar -xJf /tmp/mirrorlist/pacman-mirrorlist-*-any.pkg.tar.xz -C /tmp/mirrorlist/
-            cp -v /tmp/mirrorlist/etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.pacnew
-            # Sauvegarde des fichiers existants
-            cp -v /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup.`date +%Y-%m-%d`
-            cp -v /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist.pacnew.backup.`date +%Y-%m-%d`
-            #
-            echo -e "\n${BGreen}Filtre des miroirs en cours ...${White}"
-            # Calcule Numéros des lignes ds mirrorlist.pacnew
-            num_ligne_belgique=$(grep -n "## Belgium" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
-            num_ligne_france=$(grep -n "## France" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
-            num_ligne_germany=$(grep -n "## Germany" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
-            num_ligne_luxembourg=$(grep -n "## Luxembourg" /etc/pacman.d/mirrorlist.pacnew | cut -f1 -d:)
-            # Modifications fichier mirrorlist.pacnew
-            # Belgium
-            numLigneEnCours=0
-            incNumeroLigne=1
-            while true; do
-                numLigneEnCours=$(( $num_ligne_belgique + $incNumeroLigne ))
-                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
-                if [[ "${nomServer}" == "#Server" ]]; then
-                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
-                else
-                    break
-                fi
-                incNumeroLigne=$(( $incNumeroLigne + 1 ))
-            done
-            # France
-            numLigneEnCours=0
-            incNumeroLigne=1
-            while true; do
-                numLigneEnCours=$(( $num_ligne_france + $incNumeroLigne ))
-                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
-                if [[ "${nomServer}" == "#Server" ]]; then
-                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
-                else
-                    break
-                fi
-                incNumeroLigne=$(( $incNumeroLigne + 1 ))
-            done
-            # Germany
-            numLigneEnCours=0
-            incNumeroLigne=1
-            while true; do
-                numLigneEnCours=$(( $num_ligne_germany + $incNumeroLigne ))
-                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
-                if [[ "${nomServer}" == "#Server" ]]; then
-                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
-                else
-                    break
-                fi
-                incNumeroLigne=$(( $incNumeroLigne + 1 ))
-            done
-            # Luxembourg
-            numLigneEnCours=0
-            incNumeroLigne=1
-            while true; do
-                numLigneEnCours=$(( $num_ligne_luxembourg + $incNumeroLigne ))
-                nomServer="$(sed -n "${numLigneEnCours}p" /etc/pacman.d/mirrorlist.pacnew | awk '{print $1}')"
-                if [[ "${nomServer}" == "#Server" ]]; then
-                    sed -i "${numLigneEnCours}s/^#//" /etc/pacman.d/mirrorlist.pacnew
-                else
-                    break
-                fi
-                incNumeroLigne=$(( $incNumeroLigne + 1 ))
-            done
-            # Filtre les miroirs les plus à jour, les trie par vitesse et configure le fichier /etc/pacman.d/mirrorlist.
-            rankmirrors -n 9 /etc/pacman.d/mirrorlist.pacnew > /etc/pacman.d/mirrorlist
-            sed '/^##/d' -i /etc/pacman.d/mirrorlist
-            sed '/^#Server/d' -i /etc/pacman.d/mirrorlist
-            rm -rf /tmp/mirrorlist
-            #
-            echo -e "\n${BGreen}Synchronisation ...${White}"
-            pacman -Syyu
-            pause_function
-        fi
     }
     #}}}
     # 6 SYSTEM UPDATE {{{
@@ -297,7 +208,7 @@ source `pwd`/ai-commons
         create_new_user() {
             print_warning "AVERTISSEMENT: Le nom de l'utilisateur doit être en minuscule."
             read -p "Utilisateur : " USERNAME
-            USERNAME=`echo ${USERNAME} | tr '[:upper:]' '[:lower:]'`
+            USERNAME=$(echo ${USERNAME} | tr '[:upper:]' '[:lower:]')
 #            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network -s /bin/bash ${USERNAME}
 #            useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,scanner,network,log -s /bin/bash ${USERNAME}
 #            useradd -m -g users -G wheel -s /bin/bash ${USERNAME}
@@ -346,9 +257,9 @@ source `pwd`/ai-commons
             chown -R ${USERNAME}:users /home/${USERNAME}
         } #}}}
         print_title "SÉLECTION/CRÉATION DU COMPTE UTILISATEUR - https://wiki.archlinux.org/index.php/Users_and_Groups"
-        users_list=(`cat /etc/passwd | grep "/home" | cut -d: -f1`);
+        users_list=($(cat /etc/passwd | grep "/home" | cut -d: -f1));
         PS3="$prompt1"
-        echo "Utilisateurs disponibles:"
+        echo -e "\n${BWhite}Utilisateurs disponibles :${White}"
         if [[ $(( ${#users_list[@]} )) -gt 0 ]]; then
             print_warning "AVERTISSEMENT: L'utilisateur sélectionné doit avoir les privilèges sudo."
         else
@@ -388,7 +299,7 @@ source `pwd`/ai-commons
           fi
         fi
         # Modif /etc/yaourtrc si taille /tmp < 2000M
-        taille_tmp_en_ram=(`df -h -BM | grep -E "/tmp" | awk '{print $2}' | sed -e "s/M//"`)
+        taille_tmp_en_ram=$(df -h -BM | awk '/\/tmp/ {print $2}' | sed -e "s/M//")
         if [[ $taille_tmp_en_ram -lt 2000 ]]; then
             mkdir -p /home/${USERNAME}/yaourt_tmp
             chown -R ${USERNAME}:users /home/${USERNAME}/yaourt_tmp
@@ -683,7 +594,7 @@ source `pwd`/ai-commons
           echo " 1) $(menu_item "ttf-google-fonts-git") $AUR"
           echo " 2) $(menu_item "ttf-inconsolata")"
           echo ""
-          echo " f) FINI"
+          echo " F) FINI"
           echo ""
           FONTS_OPTIONS+=" f"
           read_input_options "$FONTS_OPTIONS"
@@ -789,7 +700,6 @@ source `pwd`/ai-commons
     check_already_launched
     add_custom_repositories
     set_launched
-#    sorting_mirror_by_speed
     system_upgrade
     language_selector
     configure_sudo
@@ -807,7 +717,6 @@ source `pwd`/ai-commons
 
 # Début install DE OU WM {{{
         print_title "CHOIX DE L'ENVIRONNEMENT DE BUREAU ( KDE4, KDE5 ) OU DU GESTIONNAIRE DE FENETRES ( OPENBOX )"
-#        print_warning "AU 27/10/2014 : KDE5 NON MIS EN OEUVRE => INSTALLE KDE4"
         liste_env_des_wm=("KDE4" "KDE5" "OPENBOX");
         PS3="$prompt1"
         echo -e "${BWhite}"
@@ -815,16 +724,15 @@ source `pwd`/ai-commons
         select OPT in "${liste_env_des_wm[@]}"; do
             case "$REPLY" in
                 1)
-                    source `pwd`/ai-kde4
+                    source $(pwd)/ai-kde4
                     break
                     ;;
                 2)
-#                    print_warning "AU 27/10/2014 : NON MIS EN OEUVRE => INSTALLE KDE4"
-                    source `pwd`/ai-kde5
+                    source $(pwd)/ai-kde5
                     break
                     ;;
                 3)
-                    source `pwd`/ai-ob
+                    source $(pwd)/ai-ob
                     break
                     ;;
                 *)

@@ -90,12 +90,12 @@ XFCE=0
 EDITOR=nano
 #}}}
 # ARCHITECTURE {{{
-ARCHI=`uname -m`
+ARCHI=$(uname -m)
 #}}}
 # AUR PACKAGE
-AUR=`echo -e "(${BPurple}AUR${White})"`
+AUR=$(echo -e "(${BPurple}AUR${White})")
 # CURRENT DIRECTORY
-AUI_DIR=`pwd`
+AUI_DIR=$(pwd)
 MOUNTPOINT="/mnt"
 #}}}
 # MES FONCTIONS EN PLUS {{{
@@ -139,7 +139,7 @@ read_name_type_keyboard() { #{{{
 } #}}}
 # # TEST SI CM = ASUS All Series/Z87-C
 # check_is_cm_asus_z87c() { #{{{
-#     local z87c=`journalctl -b | grep -E "DMI:"`
+#     local z87c=$(journalctl -b | grep -E "DMI:")
 #     echo ${z87c} | tr "[:upper:]" "[:lower:]" | grep -q z87-c
 #     if [[ $? -eq 0 ]]; then
 #         IS_Z87C=1
@@ -149,7 +149,7 @@ read_name_type_keyboard() { #{{{
 # } #}}}
 # DANS VIRTUALBOX OU NON
 check_is_in_virtualbox() { #{{{
-    local vbox=`journalctl -b | grep -E "DMI:"`
+    local vbox=$(journalctl -b | grep -E "DMI:")
     echo ${vbox} | tr "[:upper:]" "[:lower:]" | grep -q virtualbox
     if [[ $? -eq 0 ]]; then
         IN_VIRTUAL_BOX=1
@@ -168,8 +168,8 @@ check_is_uefi_or_bios() { #{{{
 # IS HDD OR SSD
 # $1 = HDD_DEVICE
 check_is_hdd_or_ssd() { #{{{
-    local name_device=(`echo $1 | sed 's/\/dev\///'`)
-    local type_device=(`cat /sys/block/$name_device/queue/rotational`)
+    local name_device=$(echo $1 | sed 's/\/dev\///')
+    local type_device=$(cat /sys/block/$name_device/queue/rotational)
     if [[ $type_device -eq 1 ]]; then
         # rotational = 1 ==> HDD
         IS_HDD_OR_SSD="HDD"
@@ -191,7 +191,7 @@ read_input_text() { #{{{
     # Par défaut : Oui
     read -p "$1 [O/n]: " OPTION
     echo ""
-    OPTION=`echo "$OPTION" | tr '[:upper:]' '[:lower:]'`
+    OPTION=$(echo "$OPTION" | tr '[:upper:]' '[:lower:]')
     if [[ $OPTION != o && $OPTION != n ]]; then
         OPTION=o
     fi
@@ -232,27 +232,27 @@ print_info_cyan() { #{{{
 } #}}}
 print_info() { #{{{
     #Console width number
-    T_COLS=`tput cols`
+    T_COLS=$(tput cols)
     echo -e "${BWhite}$1${White}\n" | fold -sw $(( $T_COLS - 18 )) | sed 's/^/\t/'
 } #}}}
 print_warning() { #{{{
     #Console width number
-    T_COLS=`tput cols`
+    T_COLS=$(tput cols)
     echo -e "${BRed}$1${White}\n" | fold -sw $(( $T_COLS - 1 ))
 } #}}}
 print_help_setting() { #{{{
     #Console width number
-    T_COLS=`tput cols`
+    T_COLS=$(tput cols)
     echo -e "${BWhite}$1${White}\n" | fold -sw $(( $T_COLS - 1 ))
 } #}}}
 print_info_finish() { #{{{
     #Console width number
-    T_COLS=`tput cols`
+    T_COLS=$(tput cols)
     echo -e "${BGreen}$1${White}\n" | fold -sw $(( $T_COLS - 1 ))
 } #}}}
 print_run_command() { #{{{
     #Console width number
-    T_COLS=`tput cols`
+    T_COLS=$(tput cols)
     echo -e "${BYellow}$1${White}\n" | fold -sw $(( $T_COLS - 1 ))
 } #}}}
 start_module() { #{{{
@@ -344,7 +344,7 @@ menu_item() { #{{{
     #list of chars to remove from the package name
     CHARS_TO_REMOVE=("Ttf-" "-bzr" "-hg" "-svn" "-git" "-stable" "-icon-theme" "Gnome-shell-theme-" "Gnome-shell-extension-");
     #remove chars from package name
-    for CHARS in ${CHARS_TO_REMOVE[@]}; do PACKAGE_NAME=`echo ${PACKAGE_NAME^} | sed 's/'$CHARS'//'`; done
+    for CHARS in ${CHARS_TO_REMOVE[@]}; do PACKAGE_NAME=$(echo ${PACKAGE_NAME^} | sed 's/'$CHARS'//'); done
     #display checkbox and package name
     echo -e "$(checkbox_package "$1") ${BWhite}$PACKAGE_NAME${White}"
 } #}}}
