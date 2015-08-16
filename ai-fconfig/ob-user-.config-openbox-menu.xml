@@ -301,6 +301,12 @@
       </startupnotify>
     </action>
   </item>
+  <item label="NVIDIA X Server Settings" icon="/usr/share/pixmaps/nvidia-settings.png">
+    <action name="Execute">
+      <command>nvidia-settings</command>
+      <startupnotify><enabled>yes</enabled></startupnotify>
+    </action>
+  </item>
 </menu>
 
 <menu id="apps-games-menu" label="Jeux">
