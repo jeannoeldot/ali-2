@@ -62,13 +62,6 @@
         # Installation de rEFInd
         print_info_cyan "Installation de rEFInd."
         pacman -Syu refind-efi
-        # VOIR BUG 45472 : [efibootmgr] Could not set variable: Invalid argument
-        print_warning "Si version de efibootmgr = 0.12-1 et version de efivar = 0.20-1 :"
-        print_warning "==>  BUG 45472 : efibootmgr: Could not set variable: Invalid argument"
-        print_warning "==>  BUG 45472 : efibootmgr: Could not prepare boot variable: Invalid argument"
-        print_warning "==>  Monter clé USB avec efibootmgr-0.11.0-1 et efivar-0.15-1"
-        print_warning "==>  Exécuter pacman -U /chemin/efibootmgr-0.11.0-1-x86_64.pkg.tar.xz /chemin/efivar-0.15-1-x86_64.pkg.tar.xz"
-        pause_function
         # Kernels
         print_info_cyan "Copie des fichiers du kernel (EFISTUB)."
         # CREATION arch_x
