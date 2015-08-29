@@ -331,7 +331,7 @@
     do
         print_title "APPLICATIONS DE DÉVELOPPEMENT"
         echo " 1) $(menu_item "kdevelop")"
-        echo " 2) $(menu_item "qtcreator")"
+        echo " 2) $(menu_item "qtcreator" "QtCreator Qt(5)")"
         echo " 3) $(menu_item "devtools")"
         echo " 4) $(menu_item "gdb" "Debugger Tools")"
         echo " 5) $(menu_item "git subversion")"
@@ -348,7 +348,7 @@
                     package_install "kdevelop"
                     ;;
                 2)
-                    package_install "qtcreator qt qt5-doc libxkbcommon-x11"
+                    package_install "qtcreator qt qt5-doc libxkbcommon-x11 qt5ct"
                     ;;
                 3)
                     package_install "devtools"
