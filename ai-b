@@ -100,10 +100,10 @@ source $(pwd)/ai-commons
 #        pacstrap ${MOUNTPOINT} base reiserfsprogs links wget
 #        pacstrap ${MOUNTPOINT} base lz4 elinks wget
         if [[ $IS_UEFI -eq 1 ]]; then
-            print_info "En utilisant le script pacstrap le système de base, gptfdisk, wget et elinks seront installés."
+            print_info "En utilisant le script pacstrap, le système de base, gptfdisk, wget et elinks seront installés."
             pacstrap ${MOUNTPOINT} base lz4 gptfdisk elinks wget
         else
-            print_info "En utilisant le script pacstrap le système de base, wget et elinks seront installés."
+            print_info "En utilisant le script pacstrap, le système de base, wget et elinks seront installés."
             pacstrap ${MOUNTPOINT} base lz4 elinks wget
         fi
         # Si WiFi : installe les outils nécessaires
@@ -121,7 +121,7 @@ source $(pwd)/ai-commons
         print_info_cyan "UUID recommandé."
         fstab_list=("UUID" "LABEL" "DEV");
         PS3="$prompt1"
-        echo -e "Configurer le fichier /etc/fstab en se basant sur :"
+        echo -e "Générer le fichier /etc/fstab en se basant sur :"
         select OPT in "${fstab_list[@]}"; do
             case "$REPLY" in
                 1)
@@ -193,7 +193,7 @@ source $(pwd)/ai-commons
     finish() {
         print_title "PARTIE 3 : INSTALLATION TERMINÉE"
         #COPY AUI TO ROOT FOLDER IN THE NEW SYSTEM
-        print_info_finish "\n==> INFO : Une copie de l'AUI sera placé dans le répertoire /root du nouveau système."
+        print_info_finish "\n==> INFO : Une copie de «AI» sera placé dans le répertoire /root du nouveau système."
         cp -R $(pwd) ${MOUNTPOINT}/root
         #COPY ROOT FILES TO ROOT FOLDER IN THE NEW SYSTEM
         print_info_finish "\n==> INFO : Copie des fichiers de configuration dans le répertoire /root du nouveau système."
