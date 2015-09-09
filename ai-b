@@ -22,7 +22,7 @@ source $(pwd)/ai-commons
         print_info "La variable KEYMAP est spécifiée dans le fichier /etc/vconsole.conf. Elle définit le type de clavier dans les consoles virtuelles. Les fichiers de type de clavier sont fournis par le paquet kbd."
         type_keyboard=("AZERTY" "BÉPO")
         PS3="$prompt1"
-        echo -e "Choisir le type de clavier ( AZERTY ou BÉPO )"
+        echo -e "${BGreen}Choisir le type de clavier ( AZERTY ou BÉPO ) :${White}${BWhite}"
         select OPT in "${type_keyboard[@]}"; do
             case "$REPLY" in
                 1)
@@ -37,6 +37,7 @@ source $(pwd)/ai-commons
                     ;;
                 *)
                     invalid_option
+                    echo -e "${BGreen}Choisir le type de clavier ( AZERTY ou BÉPO ) :${White}${BWhite}"
                     ;;
             esac
         done
@@ -121,7 +122,7 @@ source $(pwd)/ai-commons
         print_info_cyan "UUID recommandé."
         fstab_list=("UUID" "LABEL" "DEV");
         PS3="$prompt1"
-        echo -e "Générer le fichier /etc/fstab en se basant sur :"
+        echo -e "${BGreen}Générer le fichier /etc/fstab en se basant sur :${White}${BWhite}"
         select OPT in "${fstab_list[@]}"; do
             case "$REPLY" in
                 1)
@@ -138,6 +139,7 @@ source $(pwd)/ai-commons
                     ;;
                 *)
                     invalid_option
+                    echo -e "${BGreen}Générer le fichier /etc/fstab en se basant sur :${White}${BWhite}"
                     ;;
             esac
         done
@@ -215,7 +217,7 @@ source $(pwd)/ai-commons
         fi
 	type_fins=("Redémarrer" "Éteindre");
 	PS3="$prompt1"
-	echo -e "Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :"
+	echo -e "${BGreen}Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :${White}${BWhite}"
 	select OPT in "${type_fins[@]}"; do
 	    case "$REPLY" in
 		1)
@@ -228,6 +230,7 @@ source $(pwd)/ai-commons
 		    ;;
 		*)
 		    invalid_option
+                    echo -e "${BGreen}Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :${White}${BWhite}"
 		    ;;
 	    esac
 	done

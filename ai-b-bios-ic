@@ -15,7 +15,7 @@
         print_info "Le chargeur de démarrage est responsable du chargement du noyau et du disque virtuel initial avant de lancer le processus de démarrage."
         bootloader=("Grub" "Syslinux" "Passer")
         PS3="$prompt1"
-        echo -e "Installation du Chargeur de démarrage :\n"
+        echo -e "${BGreen}Choix et Installation du Chargeur de démarrage :${White}${BWhite}"
         select BOOTLOADER in "${bootloader[@]}"; do
             case "$REPLY" in
                 1)
@@ -36,6 +36,7 @@
                     ;;
                 *)
                     invalid_option
+                    echo -e "${BGreen}Choix et Installation du Chargeur de démarrage :${White}${BWhite}"
                     ;;
             esac
         done

@@ -57,7 +57,7 @@
             type_storage_partitions=("MSDOS" "GPT");
             PS3="$prompt1"
             print_warning "\nEn mode BIOS (PAS UEFI), si dual boot avec Windows : NE PAS CHOISIR GPT."
-            echo -e "\n${BWhite}Sélectionner le type de stockage des informations des partitions ( MSDOS ou GPT ) :${White}"
+            echo -e "\n${BGreen}Sélectionner le type de stockage des informations des partitions ( MSDOS ou GPT ) :${White}${BWhite}"
             select OPT in "${type_storage_partitions[@]}"; do
                 case "$REPLY" in
                     1)
@@ -70,22 +70,25 @@
                         ;;
                     *)
                         invalid_option
+                        echo -e "\n${BGreen}Sélectionner le type de stockage des informations des partitions ( MSDOS ou GPT ) :${White}${BWhite}"
                         ;;
                 esac
             done
         }
         select_hdd_devices() {
             liste_hdd_devices=($(parted -sl 2> /dev/null | awk '{print $2}' | grep "/dev/sd[a-z]" | sed -e "s/://"))
-            echo -e "${BWhite}Liste des Disques présents dans le PC :${White}"
+            echo -e "${BGreen}Liste des Disques présents dans le PC :${White}"
 #            parted -sl 2> /dev/null | grep -E 'Mod|/dev/sd[a-z]' | sed -e "s/\(^Disk.*\)/\1\n/" | sed -e "s/Model/Modèle/" | sed -e "s/Disk/Disque/"
+            echo -e "${BWhite}"
             parted -sl 2> /dev/null | grep -E 'Mod|/dev/sd[a-z]' | sed -e "s/\(^Disk.*\)/\1\n/;s/Model/Modèle/;s/Disk/Disque/"
             PS3="$prompt1"
-            echo -e "\n${BWhite}Sélectionner le Disque à partitionner :${White}"
+            echo -e "\n${BGreen}Sélectionner le Disque à partitionner :${White}${BWhite}"
             select HDD_DEVICE in "${liste_hdd_devices[@]}"; do
                 if contains_element "$HDD_DEVICE" "${liste_hdd_devices[@]}"; then
                     break
                 else
                     invalid_option
+                    echo -e "\n${BGreen}Sélectionner le Disque à partitionner :${White}${BWhite}"
                 fi
             done
         }
@@ -134,12 +137,13 @@
             [[ -n $1 ]] && MY_DIR=$1
             filesystem=("ext4" "reiserfs" "ntfs" "vfat" "ext2" "ext3" "jfs" "xfs");
             PS3="$prompt1"
-            echo -e "Sélectionner le système de fichiers pour ${BYellow}${MY_DIR}${White} :\n"
+            echo -e "${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
             select TYPE in "${filesystem[@]}"; do
                 if contains_element "$TYPE" "${filesystem[@]}"; then
                     break
                 else
                     invalid_option
+                    echo -e "${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
                 fi
             done
         }
@@ -157,7 +161,7 @@
             [[ ${device_name[i]} != autre ]] && i=$(( i + 1 ))
         }
         format_partition() {
-            echo -e "\n${BWhite}Formatage de la partition $1...${White}"
+            echo -e "\n${BGreen}Formatage de la partition ${BYellow}$1${BGreen}...${White}"
 #            echo -e "\n"
 #            read_input_text "Confirmer le formatage de la partition $1"
 #            if [[ $OPTION == o ]]; then
@@ -175,7 +179,7 @@
 #            fi
         }
         format_swap_partition() {
-            echo -e "\n${BWhite}Formatage de la partition $1...${White}"
+            echo -e "\n${BGreen}Formatage de la partition SWAP ${BYellow}$1${BGreen}...${White}"
             echo -e "\n${BWhite}Si Multi Boot, NE PAS FORMATER la partition SWAP.${White}"
             read_input_text "Confirmer le formatage de la partition $1"
             if [[ $OPTION == o ]]; then
@@ -213,7 +217,7 @@
             fi
             [[ -n ${CHOIX_PARTITIONS} ]] && echo -e "${BWhite}==> ${CHOIX_PARTITIONS}${White}\n"
             PS3="$prompt1"
-            echo -e "Sélectionner une partition pour ${BYellow}${device_name[i]}${White} :\n"
+            echo -e "${BGreen}Sélectionner une partition pour ${White}${BYellow}${device_name[i]}${White}${BGreen} :${White}${BWhite}"
             select DEVICE in "${partitions[@]}" "Fini"; do
                 if [[ "$DEVICE" == "Fini" ]]; then
                     QUIT_FORMAT=$DEVICE
@@ -279,6 +283,7 @@
                       break
                   else
                       invalid_option
+                      echo -e "${BGreen}Sélectionner une partition pour ${White}${BYellow}${device_name[i]}${White}${BGreen} :${White}${BWhite}"
                   fi
                 fi
             done

@@ -79,7 +79,7 @@ source $(pwd)/ai-commons
             print_info_cyan "DISCARD : Activer TRIM par option de montage. FSTRIM : Appliquer TRIM via «fstrim» périodique."
             trim_list=("DISCARD" "FSTRIM");
             PS3="$prompt1"
-            echo -e "Configurer le TRIM en se basant sur :"
+            echo -e "${BGreen}Configurer le TRIM en se basant sur :${White}${BWhite}"
             select OPT in "${trim_list[@]}"; do
                 case "$REPLY" in
                     1)
@@ -96,6 +96,7 @@ source $(pwd)/ai-commons
                         ;;
                     *)
                         invalid_option
+                        echo -e "${BGreen}Configurer le TRIM en se basant sur :${White}${BWhite}"
                         ;;
                 esac
             done
