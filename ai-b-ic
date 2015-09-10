@@ -120,7 +120,7 @@ source $(pwd)/ai-commons
 #        echo "FONT=Lat2-Terminus16" >> /etc/vconsole.conf
         echo "FONT=lat9w-16" >> /etc/vconsole.conf
 #        echo "FONT_MAP=8859-15_to_uni" >> /etc/vconsole.conf
-        echo "${BGreen}Vérification et/ou modification du fichier /etc/vconsole.conf avec $EDITOR...${White}"
+        echo -e "${BGreen}Vérification et/ou modification du fichier /etc/vconsole.conf avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/vconsole.conf
     }
@@ -139,7 +139,7 @@ source $(pwd)/ai-commons
         print_info "Par défaut le nom d'hôte est : "$MON_HN
         HN=$MON_HN
         echo "$HN" > /etc/hostname
-        echo "${BGreen}Vérification et/ou modification du fichier /etc/hostname avec $EDITOR...${White}"
+        echo -e "${BGreen}Vérification et/ou modification du fichier /etc/hostname avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/hostname
         # Lire valeur hostname ds HN

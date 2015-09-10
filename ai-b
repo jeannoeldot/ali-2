@@ -144,7 +144,7 @@ source $(pwd)/ai-commons
             esac
         done
         #
-        echo -e "\nVérification du fichier /etc/fstab avec $EDITOR"
+        echo -e "\n${BGreen}Vérification du fichier /etc/fstab avec $EDITOR...${White}"
         pause_function
         $EDITOR ${MOUNTPOINT}/etc/fstab
     }
