@@ -137,7 +137,7 @@
             [[ -n $1 ]] && MY_DIR=$1
             filesystem=("ext4" "reiserfs" "ntfs" "vfat" "ext2" "ext3" "jfs" "xfs");
             PS3="$prompt1"
-            echo -e "${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
+            echo -e "\n${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
             select TYPE in "${filesystem[@]}"; do
                 if contains_element "$TYPE" "${filesystem[@]}"; then
                     break

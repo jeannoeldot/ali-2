@@ -70,7 +70,7 @@
 #                     print_info_cyan "Modifier les lignes << initrd >>"
 #                     print_info_cyan "initrd /boot/intel-ucode.img /boot/initramfs-linux.img"
 #                 fi
-                echo -e "\nVérification du fichier grub.cfg avec $EDITOR"
+                echo -e "\n${BGreen}Vérification du fichier grub.cfg avec $EDITOR...${White}"
                 pause_function
                 $EDITOR /boot/grub/grub.cfg
                 ;;
@@ -91,7 +91,7 @@
                 partuuid=$(ls -l /dev/disk/by-uuid | awk '/'$partroot'/ {print $9}')
                 sed -i "s/root=PART_ROOT/root=UUID=$partuuid/g" /boot/syslinux/syslinux.cfg
                 #
-                echo -e "\nVérification du fichier syslinux.cfg avec $EDITOR"
+                echo -e "\n${BGreen}Vérification du fichier syslinux.cfg avec $EDITOR...${White}"
                 pause_function
                 $EDITOR /boot/syslinux/syslinux.cfg
                 ;;

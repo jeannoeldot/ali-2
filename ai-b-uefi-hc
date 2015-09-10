@@ -106,7 +106,7 @@
 #            filesystem=("ext4" "ext2" "ext3" "reiserfs" "btrfs" "vfat" "ntfs" "jfs" "xfs");
             filesystem=("ext4" "vfat" "reiserfs" "ntfs" "ext2" "ext3" "jfs" "xfs");
             PS3="$prompt1"
-            echo -e "${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
+            echo -e "\n${BGreen}Sélectionner le système de fichiers pour ${White}${BYellow}${MY_DIR}${White}${BGreen} :${White}${BWhite}"
             select TYPE in "${filesystem[@]}"; do
                 if contains_element "$TYPE" "${filesystem[@]}"; then
                     break

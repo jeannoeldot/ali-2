@@ -106,7 +106,7 @@ source $(pwd)/ai-commons
             sed -i "s/rw,relatime,data=ordered/defaults,relatime/g" /etc/fstab
         fi
         #
-        echo -e "\nVérification du fichier /etc/fstab avec $EDITOR"
+        echo -e "\n${BGreen}Vérification du fichier /etc/fstab avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/fstab
 
@@ -120,7 +120,7 @@ source $(pwd)/ai-commons
 #        echo "FONT=Lat2-Terminus16" >> /etc/vconsole.conf
         echo "FONT=lat9w-16" >> /etc/vconsole.conf
 #        echo "FONT_MAP=8859-15_to_uni" >> /etc/vconsole.conf
-        echo "Vérification et/ou modification du fichier /etc/vconsole.conf avec $EDITOR"
+        echo "${BGreen}Vérification et/ou modification du fichier /etc/vconsole.conf avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/vconsole.conf
     }
@@ -139,7 +139,7 @@ source $(pwd)/ai-commons
         print_info "Par défaut le nom d'hôte est : "$MON_HN
         HN=$MON_HN
         echo "$HN" > /etc/hostname
-        echo "Vérification et/ou modification du fichier /etc/hostname avec $EDITOR"
+        echo "${BGreen}Vérification et/ou modification du fichier /etc/hostname avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/hostname
         # Lire valeur hostname ds HN
@@ -225,7 +225,7 @@ source $(pwd)/ai-commons
         sed -i "/^#COMPRESSION=\"gzip\"/i\COMPRESSION=\"cat\"" /etc/mkinitcpio.conf
         echo -e "Exemple: COMPRESSION=\"cat\""
         #
-        echo -e "\nVérification du fichier mkinitcpio.conf avec $EDITOR"
+        echo -e "\n${BGreen}Vérification du fichier mkinitcpio.conf avec $EDITOR...${White}"
         pause_function
         $EDITOR /etc/mkinitcpio.conf
         mkinitcpio -p linux
@@ -288,7 +288,9 @@ source $(pwd)/ai-commons
         print_info_cyan "Le nom de l'interface réseau est : "$NAME_NET_WIRED
         print_info_cyan "noarp ajouté à etc/dhcpcd.conf"
         echo "noarp" >> /etc/dhcpcd.conf
+        print_info_cyan "Configuration de /etc/resolv.conf :"
         cp -v ai-fconfig/net-ip-statique/resolv.conf.head /etc/resolv.conf.head
+        print_info_cyan "Activation de dhcpcd.service :"
 #       echo -e "\n"
 #       systemctl enable dhcpcd@${NAME_NET_WIRED}.service
         # Enable toutes les interfaces réseaux par défaut
