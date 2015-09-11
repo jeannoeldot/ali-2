@@ -244,6 +244,7 @@
             package_install "gtk-update-icon-cache"
             aur_package_install "zukitwo-themes"
             aur_package_install "flatwoken-icons-git"
+            aur_package_install "awoken-icons"
 #            gtk-update-icon-cache -f /usr/share/icons/Ghnomix
             pause_function
         else
