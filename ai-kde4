@@ -470,7 +470,8 @@
                     fi
                     ;;
                 2)
-                    package_install "gimp"
+                    package_install "gimp libopenraw"
+                    pacman -D --asdeps libopenraw
                     package_install "webkitgtk2 potrace gimp-ufraw gimp-plugin-fblur gimp-plugin-gmic gimp-plugin-lqr gimp-plugin-mathmap gimp-plugin-wavelet-decompose gimp-plugin-wavelet-denoise gimp-refocus"
                     ;;
                 3)
