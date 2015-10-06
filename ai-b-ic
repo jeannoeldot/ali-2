@@ -133,17 +133,26 @@ source $(pwd)/ai-commons
     #}}}
     #CONFIGURE HOSTNAME {{{
     configure_hostname() {
-        print_title "NOM D'HÔTE - https://wiki.archlinux.org/index.php/HOSTNAME"
-        print_info "Un nom d'hôte est un nom unique créé pour identifier une machine sur un réseau. Les noms d'hôtes sont limités aux caractères alphanumériques.\nLe trait d'union (-) peut être utilisé, mais un nom d'hôte ne peut pas commencer ou se terminer par lui. La longueur est limitée à 63 caractères."
-        MON_HN=myarch
-        print_info "Par défaut le nom d'hôte est : "$MON_HN
-        HN=$MON_HN
-        echo "$HN" > /etc/hostname
-        echo -e "${BGreen}Vérification et/ou modification du fichier /etc/hostname avec $EDITOR...${White}"
-        pause_function
-        $EDITOR /etc/hostname
-        # Lire valeur hostname ds HN
-        HN=$(cat /etc/hostname | awk '{print $1}')
+        local retour=9
+        until [[ $retour = 0 ]];
+            do                
+				print_title "NOM D'HÔTE - https://wiki.archlinux.org/index.php/HOSTNAME"
+				print_info "Un nom d'hôte est un nom unique créé pour identifier une machine sur un réseau. Les noms d'hôtes sont limités aux caractères alphanumériques.\nLe trait d'union (-) peut être utilisé, mais un nom d'hôte ne peut pas commencer ou se terminer par lui. La longueur est limitée à 63 caractères."
+				MON_HN=myarch
+				print_info "Par défaut le nom d'hôte est : "$MON_HN
+				HN=$MON_HN
+				echo "$HN" > /etc/hostname
+				echo -e "${BGreen}Vérification et/ou modification du fichier /etc/hostname avec $EDITOR...${White}"
+				pause_function
+				$EDITOR /etc/hostname
+				# Lire valeur hostname ds HN
+				HN=$(cat /etc/hostname | awk '{print $1}')
+				if [[ ${HN} == "" ]]; then
+                    retour=9
+                else
+                    retour=0
+                fi
+            done
         # Ecrire la valeur hostname dans /etc/hosts
         sed -i "/127.0.0.1/s/$/ ${HN}/" /etc/hosts
         sed -i "/::1/s/$/ ${HN}/" /etc/hosts
