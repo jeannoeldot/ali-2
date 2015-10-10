@@ -215,25 +215,25 @@ source $(pwd)/ai-commons
         else
             echo -e "\n"
         fi
-	type_fins=("Redémarrer" "Éteindre");
-	PS3="$prompt1"
-	echo -e "${BGreen}Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :${White}${BWhite}"
-	select OPT in "${type_fins[@]}"; do
-	    case "$REPLY" in
-		1)
-		    reboot
-		    break
-		    ;;
-		2)
-		    poweroff
-		    break
-		    ;;
-		*)
-		    invalid_option
+        type_fins=("Redémarrer" "Éteindre");
+        PS3="$prompt1"
+        echo -e "${BGreen}Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :${White}${BWhite}"
+        select OPT in "${type_fins[@]}"; do
+            case "$REPLY" in
+                1)
+                    reboot
+                    break
+                    ;;
+                2)
+                    poweroff
+                    break
+                    ;;
+                *)
+                    invalid_option
                     echo -e "${BGreen}Sélectionner l'arrêt ( Redémarrer ou Éteindre ) :${White}${BWhite}"
-		    ;;
-	    esac
-	done
+                    ;;
+            esac
+        done
     }
     #}}}
 

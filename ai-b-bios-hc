@@ -142,11 +142,11 @@
         partitions=($(fdisk -l $HDD_DEVICE | awk '{print $1}' | grep /dev/))
 # SI EN GPT et GRUB : 1ère partition  = EF02 BIOS_BOOT_PARTITION ou BOOT_PAR_NUM
         if [[ $TYPE_STORAGE_PARTITION == "GPT" ]]; then
-			if [[ ${NUM_LINE_BIOS_BOOT_PART} = 1 ]]; then
-				print_info_cyan "En GPT : si GRUB est prévu, la 1ère partition est réservée ( BIOS_BOOT_PARTITION ou BOOT_PAR_NUM )"
-				unset partitions[0]
-				partitions=(${partitions[@]})
-			fi
+            if [[ ${NUM_LINE_BIOS_BOOT_PART} = 1 ]]; then
+                print_info_cyan "En GPT : si GRUB est prévu, la 1ère partition est réservée ( BIOS_BOOT_PARTITION ou BOOT_PAR_NUM )"
+                unset partitions[0]
+                partitions=(${partitions[@]})
+            fi
         fi
         device_name=("root" "swap" "home" "boot" "var" "autre")
         select_filesystem() {
