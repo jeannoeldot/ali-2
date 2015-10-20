@@ -113,6 +113,7 @@ source $(pwd)/ai-commons
             print_info "Installe les outils nécessaires pour le WiFi"
             pacstrap ${MOUNTPOINT} iw wireless_tools wpa_actiond wpa_supplicant dialog
         fi
+        pause_function
     }
     #}}}
     #CONFIGURE FSTAB {{{
@@ -144,9 +145,9 @@ source $(pwd)/ai-commons
             esac
         done
         #
-        echo -e "\n${BGreen}Vérification du fichier /etc/fstab avec $EDITOR...${White}"
+        echo -e "\n${BGreen}Visualisation du fichier /etc/fstab...${White}"
+        cat ${MOUNTPOINT}/etc/fstab
         pause_function
-        $EDITOR ${MOUNTPOINT}/etc/fstab
     }
     #}}}
     #CONFIGURE RULES IF SSD AND HDD {{{
