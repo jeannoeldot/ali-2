@@ -417,19 +417,6 @@ source $(pwd)/ai-commons
         #}}}
     }
     #}}}
-    # SUPPRIMÉ suite à maj systemd 217-6
-#     # 12 READAHEAD {{{
-#     enable_readahead() {
-#         print_title "READAHEAD - https://wiki.archlinux.org/index.php/Improve_Boot_Performance"
-#         print_info "Systemd comes with its own readahead implementation, this should in principle improve boot time. However, depending on your kernel version and the type of your hard drive, your mileage may vary (i.e. it might be slower)."
-#         read_input_text "Activer Readahead" $READAHEAD
-#         if [[ $OPTION == o ]]; then
-#             systemctl enable systemd-readahead-collect.service
-#             systemctl enable systemd-readahead-replay.service
-#             pause_function
-#         fi
-#     }
-#     #}}}
     # 13 XORG {{{
     install_xorg() {
         print_title "XORG - https://wiki.archlinux.org/index.php/Xorg"
@@ -707,9 +694,6 @@ source $(pwd)/ai-commons
     select_user
     choose_aurhelper
     install_basic_setup
-#    install_preload
-    # SUPPRIMÉ suite à maj systemd 217-6
-#    enable_readahead
     install_xorg
     configure_font_presets
     install_video_cards
@@ -747,8 +731,6 @@ source $(pwd)/ai-commons
         #}}}
 
     install_desktop_environment
-# APPEL SUPPRIMÉ LE 18/09/2014
-#    install_nm_wicd
     install_accessories_apps
     install_system_apps
     install_development_apps

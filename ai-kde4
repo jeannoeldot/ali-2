@@ -25,24 +25,24 @@
         package_install "ark filelight kcalc kcharselect kdeutils-kdf kwalletmanager"
         # KDE4 LOOK
         print_info_cyan "Installation de KDE4 Look"
-	package_install "oxygen-gtk2"
+        package_install "oxygen-gtk2"
         package_install "qtcurve-gtk2 qtcurve-kde4 qtcurve-qt4 qtcurve-qt5"
         # KDE4 PLASMA
         print_info_cyan "Installation de KDE4 Plasma Addons Applets"
-	package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
+        package_install "kdeplasma-addons-applets-notes kdeplasma-addons-applets-showdesktop"
         # KDE4 MULTIMEDIA
         print_info_cyan "Installation de KDE4 Multimedia"
-	package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp"
-	package_install "libdvdcss libdvdread libdvdnav"
+        package_install "kdemultimedia-kmix kdemultimedia-kscd kdemultimedia-audiocd-kio kio-mtp"
+        package_install "libdvdcss libdvdread libdvdnav"
         # KDE4 GRAPHICS
         print_info_cyan "Installation de KDE4 Graphiques"
         # MAJ KDE + Qt4 => KDE + Qt5
-#	package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
-	package_install "gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
-	package_install "kipi-plugins"
+#         package_install "kdegraphics-gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
+        package_install "gwenview kdegraphics-kcolorchooser kdegraphics-kolourpaint kdegraphics-ksnapshot kdegraphics-okular kdegraphics-svgpart kdegraphics-thumbnailers kdegraphics-mobipocket"
+        package_install "kipi-plugins"
         # KDE4 NETWORK
         print_info_cyan "Installation de KDE4 Réseau"
-	package_install "kdenetwork-kget kwebkitpart"
+        package_install "kdenetwork-kget kwebkitpart"
         # KDE4 SDK
         print_info_cyan "Installation de KDE4 Sdk"
         # MAJ KDE + Qt4 => KDE + Qt5
@@ -50,11 +50,11 @@
         package_install "okteta kate dolphin-plugins kdesdk-kioslaves kompare kdesdk-poxml kdebindings-python2 kdebindings-python"
         # KDE4 FONTS
         print_info_cyan "Installation de KDE4 Polices TTF"
-	package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen ttf-bitstream-vera"
+        package_install "ttf-dejavu ttf-freefont ttf-liberation ttf-linux-libertine ttf-droid ttf-ubuntu-font-family ttf-oxygen ttf-bitstream-vera"
         # LSB-RELEASE
         print_info_cyan "Installation de lsb-release"
         package_install "lsb-release"
-	#
+        #
         is_package_installed "cups" && package_install "print-manager xdg-user-dirs"
 #package_install "kde-telepathy telepathy"
         #}}}
@@ -141,17 +141,17 @@
         elihw
         done
         #}}}
-	echo "LANG=$LANGUAGE.utf8" >> /etc/environment
+        echo "LANG=$LANGUAGE.utf8" >> /etc/environment
         echo "FT2_SUBPIXEL_HINTING=1" >> /etc/environment
-	mkdir -p /home/${USERNAME}/.compose-cache
-	chown -R ${USERNAME}:users /home/${USERNAME}/.compose-cache
+        mkdir -p /home/${USERNAME}/.compose-cache
+        chown -R ${USERNAME}:users /home/${USERNAME}/.compose-cache
         echo -e "\n"
         # Enable kdm.service
         print_info_cyan "Installation de kdm.service"
         systemctl enable kdm.service
         echo -e "\n"
 #        # Application development toolkit for controlling system-wide privileges
-#	systemctl enable polkit.service
+#         systemctl enable polkit.service
         echo -e "\n"
         # Abstraction for enumerating power devices, listening to device events and querying history and statistics
         print_info_cyan "Installation de upower.service"
@@ -175,64 +175,6 @@
         #
         KDE4=1
         pause_function
-    }
-    #}}}
-    # INUTILE : appel supprimé
-    # 16 CONNMAN/NETWORKMANAGER/WICD {{{
-    install_nm_wicd() {
-        print_title "GESTIONNAIRE DE RÉSEAU"
-        echo " 1) networkmanager"
-        echo " 2) wicd"
-        echo " 3) ConnMan"
-        echo ""
-        echo " a) AUCUN"
-        echo ""
-        read_input $NETWORKMANAGER
-        case "$OPTION" in
-            1)
-                print_title "NETWORKMANAGER - https://wiki.archlinux.org/index.php/Networkmanager"
-                print_info "NetworkManager est un outil de gestion du réseau. Il est aussi utile pour les liaisons filaires que sans fils, il supporte les modems et certains type de VPN."
-                package_install "networkmanager kdeplasma-applets-plasma-nm"
-                is_package_installed "ntp" && package_install "networkmanager-dispatcher-ntpd"
-#                groupadd networkmanager
-#                gpasswd -a ${USERNAME} networkmanager
-                #Network Management daemon
-		systemctl disable dhcpcd.service
-                systemctl disable network_ip_statique.service
-                systemctl disable netcfg
-                systemctl enable NetworkManager.service
-                pause_function
-                ;;
-            2)
-                print_title "WICD - https://wiki.archlinux.org/index.php/Wicd"
-                print_info "Wicd est un gestionnaire de connexions réseau (sans fil et filaire) similaire à NetworkManager."
-                package_install "wicd"
-##
-# A REVOIR wicd-kde sur un repo perso
-# TODO
-##
-		echo -e  "Pour installer wicd-kde, ouvrir une console en USER et taper les commandes suivantes"
-		echo -e  "yaourt --noconfirm -S wicd-kde"
-		pause_function
-                #wicd daemon
-		systemctl disable dhcpcd.service
-                systemctl disable network_ip_statique.service
-                systemctl disable netcfg
-                systemctl enable wicd.service
-                pause_function
-                ;;
-            3)
-                print_title "CONNMAN - https://wiki.archlinux.org/index.php/Connman"
-                print_info "ConnMan est une alternative à NetworkManager et Wicd. Il a été créé par Intel et le projet Moblin."
-                package_install "connman "
-                #ConnMan daemon
-                systemctl disable dhcpcd.service
-                systemctl disable network_ip_statique.service
-                systemctl disable netcfg
-                systemctl enable connman.service
-                pause_function
-              ;;
-        esac
     }
     #}}}
     # 17 ACCESSORIES {{{
@@ -297,9 +239,9 @@
             case "$OPT" in
                 1)
                     package_install "gparted gptfdisk"
-		    mkdir -p /home/${USERNAME}/.local/share/applications
-		    cp -v ai-fconfig/kde-user-gparted.desktop /home/${USERNAME}/.local/share/applications/gparted.desktop
-		    chown -R ${USERNAME}:users /home/${USERNAME}/.local
+                    mkdir -p /home/${USERNAME}/.local/share/applications
+                    cp -v ai-fconfig/kde-user-gparted.desktop /home/${USERNAME}/.local/share/applications/gparted.desktop
+                    chown -R ${USERNAME}:users /home/${USERNAME}/.local
                     ;;
                 2)
                     package_install "grsync"
@@ -320,7 +262,7 @@
                     ;;
                 5)
                     package_install "hddtemp gnu-netcat"
-		    systemctl enable hddtemp.service
+                    systemctl enable hddtemp.service
                     ;;
                 6)
                     package_install "gsmartcontrol"
