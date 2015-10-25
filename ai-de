@@ -252,8 +252,8 @@ source $(pwd)/ai-commons
                 cp -v /boot/efi/EFI/${NAME_DIR_ARCHLINUX}/refind_linux.conf /home/${USERNAME}/09-Fichiers-Conf/Refind-Fichiers-Conf/refind_linux.conf
                 echo -e "\n"
             fi
-            cp -v ai-fconfig/00-Cmd-Customize-Arch.TXT /home/${USERNAME}/00-Cmd-Customize-Arch.TXT
-            cp -v ai-fconfig/00-Cmd-INSTALLATION-LINUX-CK.TXT /home/${USERNAME}/00-Cmd-INSTALLATION-LINUX-CK.TXT
+            cp -v ai-fconfig/00-CMD-CUSTOMIZE-ARCH.TXT /home/${USERNAME}/00-CMD-CUSTOMIZE-ARCH.TXT
+            cp -v ai-fconfig/00-CMD-INSTALLATION-LINUX-CK.TXT /home/${USERNAME}/00-CMD-INSTALLATION-LINUX-CK.TXT
             echo -e "\n"
             chown -R ${USERNAME}:users /home/${USERNAME}
         } #}}}
