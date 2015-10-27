@@ -383,7 +383,7 @@ source $(pwd)/ai-commons
         read_input_text "Activer avahi ( Recommandé pour CUPS ) ?"
         if [[ $OPTION == o ]]; then
             is_package_installed "avahi" && systemctl enable avahi-daemon.service
-#            is_package_installed "avahi" && systemctl enable avahi-dnsconfd.service
+            is_package_installed "avahi" && systemctl enable avahi-dnsconfd.service
         fi
         pause_function
         print_title "ACPI - https://wiki.archlinux.org/index.php/ACPI_modules"
@@ -527,10 +527,10 @@ source $(pwd)/ai-commons
     install_dep_opt_systemd() {
         print_title "SYSTEMD - https://wiki.archlinux.org/index.php/Systemd"
 #        print_info "systemd est un système d'initialisation qui remplace sysvinit. Il permet entre autre un démarrage en parallèle, à la demande, par activation D-Bus ou socket, un suivi des services, etc..."
-#        package_install "systemd systemd-sysvcompat"
-        print_info "Installation des dépendances optionnelles de systemd."
-        package_install "systemd-sysvcompat"
-        pacman -D --asdeps systemd-sysvcompat
+        # Inutile : systemd-sysvcompat dans base"
+#         print_info "Installation des dépendances optionnelles de systemd."
+#         package_install "systemd-sysvcompat"
+#         pacman -D --asdeps systemd-sysvcompat
 #         package_install "python2-cairo python2-gobject"
 #         pacman -D --asdeps python2-cairo python2-gobject
         # Modifs conf
