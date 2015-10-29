@@ -469,7 +469,7 @@ source $(pwd)/ai-commons
                 XF86_DRIVERS=$(pacman -Qe | grep xf86-video | awk '{print $1}')
                 [[ -n $XF86_DRIVERS ]] && pacman -Rcsn $XF86_DRIVERS
                 package_install "xf86-video-intel bumblebee nvidia"
-                gpasswd -a ${username} bumblebee
+                gpasswd -a ${USERNAME} bumblebee
             # test si NVIDIA
             elif [[ -n $(echo ${_vga} | grep "nvidia") || -f /sys/kernel/debug/dri/0/vbios.rom ]]; then
                 print_info_cyan "Carte NVIDIA détectée.\n"
